@@ -8,7 +8,15 @@
       "Bash(findstr /C:\".git\")",
       "Read(//c/Users/PC/**)",
       "Bash(git init)",
-      "Bash(git add .)"
+      "Bash(git add .)",
+      "Bash(git commit -m \"Initial commit - SNKHOUSE Store Homepage\n\n✨ Features:\n- Homepage com design moderno e animações\n- Integração com WooCommerce\n- Carrosséis de produtos (Air Jordan, Yeezy, Dunk Low)\n- Seção Travis Scott\n- Feedback de clientes\n- Header com busca funcional\n- Badge de inauguração no menu Showroom\n- Layout mobile otimizado (2 produtos por linha)\n- Responsive design completo\")",
+      "Bash(git config user.email \"contact@snkhouse.com\")",
+      "Bash(git config user.name \"SNKHOUSE\")",
+      "Bash(git remote add origin https://github.com/oldmoneygit/store-snkhouse.git)",
+      "Bash(git branch -M main)",
+      "Bash(git push -u origin main)",
+      "Bash(git commit -m \"Configure homepage e rewrites para WordPress\n\n✨ Mudanças:\n- Moveu página de /store para / (homepage na raiz)\n- Configurou rewrites no vercel.json para proxy do WordPress\n- Preparado para domínio customizado snkhouse.com\n- Todas rotas WooCommerce (product, cart, checkout) fazem proxy para WordPress\")",
+      "Bash(git push)"
     ],
     "deny": [],
     "ask": []
