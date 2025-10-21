@@ -1,9 +1,9 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, Suspense } from 'react'
 import { usePathname, useSearchParams } from 'next/navigation'
 
-export default function MetaPixel() {
+function MetaPixelTracker() {
   const pathname = usePathname()
   const searchParams = useSearchParams()
 
@@ -18,4 +18,12 @@ export default function MetaPixel() {
   }, [pathname, searchParams])
 
   return null
+}
+
+export default function MetaPixel() {
+  return (
+    <Suspense fallback={null}>
+      <MetaPixelTracker />
+    </Suspense>
+  )
 }

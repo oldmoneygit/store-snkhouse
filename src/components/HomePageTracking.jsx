@@ -14,6 +14,7 @@ export default function HomePageTracking() {
       0,
       'ARS'
     )
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return null
