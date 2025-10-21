@@ -1,6 +1,8 @@
 import { Inter, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
 import { SEO_DATA } from '@/utils/constants'
+import MetaPixelScript from '@/components/MetaPixelScript'
+import MetaPixel from '@/components/MetaPixel'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -68,12 +70,16 @@ export const metadata = {
 }
 
 export default function RootLayout({ children }) {
+  const metaPixelId = process.env.NEXT_PUBLIC_META_PIXEL_ID
+
   return (
     <html lang="es" className={`${inter.variable} ${jetbrainsMono.variable}`}>
       <head>
         <link rel="canonical" href={SEO_DATA.url} />
       </head>
       <body className="font-sans antialiased">
+        {metaPixelId && <MetaPixelScript pixelId={metaPixelId} />}
+        {metaPixelId && <MetaPixel />}
         {children}
       </body>
     </html>
