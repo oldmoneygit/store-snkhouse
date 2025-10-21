@@ -15,7 +15,8 @@ const StoreHero = () => {
         fill
         className="object-cover"
         priority
-        quality={95}
+        quality={70}
+        sizes="100vw"
       />
 
       {/* Subtle Bottom Gradient only (for readability) */}

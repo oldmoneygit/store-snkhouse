@@ -7,6 +7,7 @@ import Image from '@/components/OptimizedImage'
 import Link from 'next/link'
 import productsData from '../../../data/products.json'
 import SectionTitle from './SectionTitle'
+import { getImageConfig } from '@/utils/performance'
 
 // Get products by their IDs
 const getProductsByIds = (ids) => {
@@ -77,10 +78,10 @@ const BestSellers = () => {
                           alt={product.name}
                           fill
                           className="object-contain group-hover:scale-105 transition-transform duration-300"
-                          loading={index < 8 ? "eager" : "lazy"}
-                          priority={index < 8}
-                          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                          quality={85}
+                          loading={getImageConfig(index, bestSellersProducts.length).loading}
+                          priority={getImageConfig(index, bestSellersProducts.length).priority}
+                          sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                          quality={getImageConfig(index, bestSellersProducts.length).quality}
                         />
                       </div>
 

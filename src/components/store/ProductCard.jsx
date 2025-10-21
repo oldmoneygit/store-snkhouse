@@ -43,7 +43,7 @@ const ProductCard = ({ product, index = 0 }) => {
               alt={name}
               fill
               className="object-cover group-hover:scale-105 transition-transform duration-500"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+              sizes="(max-width: 768px) 95vw, (max-width: 1200px) 45vw, 23vw"
               loading={imageConfig.loading}
               priority={imageConfig.priority}
               quality={imageConfig.quality}

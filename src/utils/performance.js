@@ -48,12 +48,13 @@ export const getAnimationConfig = () => {
 
 // Configurações de imagem baseadas em posição
 export const getImageConfig = (index, total) => {
-  // Primeiros 6 itens carregam com prioridade
-  const isPriority = index < 6
+  // Only first 4 images get priority to avoid overloading browser
+  // This improves LCP (Largest Contentful Paint) metric
+  const isPriority = index < 4
 
   return {
     loading: isPriority ? 'eager' : 'lazy',
     priority: isPriority,
-    quality: isPriority ? 85 : 75
+    quality: isPriority ? 75 : 65 // Reduced quality for better performance
   }
 }
