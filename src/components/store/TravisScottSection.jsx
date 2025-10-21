@@ -8,6 +8,7 @@ import useEmblaCarousel from 'embla-carousel-react'
 import Autoplay from 'embla-carousel-autoplay'
 import { ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react'
 import productsData from '../../../data/products.json'
+import { getImageConfig } from '@/utils/performance'
 
 const TravisScottSection = () => {
   // Filter Travis Scott products - ONLY original images (exclude seedream versions)
@@ -68,63 +69,67 @@ const TravisScottSection = () => {
         <div className="relative">
           <div className="overflow-hidden" ref={emblaRef}>
             <div className="flex gap-4">
-              {travisProducts.map((product) => (
-                <motion.div
-                  key={product.id}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  className="flex-[0_0_calc(50%-8px)] md:flex-[0_0_calc(33.333%-11px)] lg:flex-[0_0_calc(20%-13px)] min-w-0"
-                >
-                  <Link href={`https://www.snkhouse.com/product/${product.slug}/`} className="block group">
-                    <div className="bg-black rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-brand-yellow/20">
-                      {/* Image Container */}
-                      <div className="relative aspect-[4/3] bg-black">
-                        {/* Featured Badge */}
-                        {product.featured && (
-                          <div className="absolute top-2 left-2 z-10 px-2 py-1 bg-brand-yellow text-black text-[10px] font-black rounded-md">
-                            DESTACADO
-                          </div>
-                        )}
-                        <Image
-                          src={product.image}
-                          alt={product.name}
-                          fill
-                          className="object-cover group-hover:scale-105 transition-transform duration-500"
-                          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 33vw, 20vw"
-                        />
-                      </div>
+              {travisProducts.map((product, index) => {
+                const imageConfig = getImageConfig(index, travisProducts.length)
 
-                      {/* Product Info - Black Background */}
-                      <div className="bg-black p-3 space-y-2">
-                        <h3 className="text-white text-xs font-bold leading-tight group-hover:text-brand-yellow transition-colors min-h-[2.5rem]">
-                          {product.name}
-                        </h3>
-
-                        <div className="space-y-1.5">
-                          {/* Regular Price (riscado) */}
-                          {product.regularPrice && product.regularPrice > product.price && (
-                            <p className="text-gray-400 text-sm line-through">
-                              {product.currency === 'USD' ? '$' : 'AR$'} {product.regularPrice.toLocaleString()}
-                            </p>
-                          )}
-
-                          {/* Sale Price */}
-                          <p className="text-brand-yellow font-bold text-sm md:text-lg whitespace-nowrap">
-                            {product.currency === 'USD' ? '$' : 'AR$'} {product.price.toLocaleString()}
-                          </p>
-
-                          {product.stock === 'available' && (
-                            <div className="inline-flex items-center gap-1 px-2 py-1 md:px-3 md:py-1.5 bg-gradient-to-r from-brand-yellow to-yellow-500 rounded-full">
-                              <span className="text-black text-[9px] md:text-[10px] font-black uppercase tracking-tight md:tracking-wide whitespace-nowrap">COMPRA 1 LLEVA 2</span>
+                return (
+                  <div
+                    key={product.id}
+                    className="flex-[0_0_calc(50%-8px)] md:flex-[0_0_calc(33.333%-11px)] lg:flex-[0_0_calc(20%-13px)] min-w-0"
+                  >
+                    <Link href={`https://www.snkhouse.com/product/${product.slug}/`} className="block group">
+                      <div className="bg-black rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-brand-yellow/20">
+                        {/* Image Container */}
+                        <div className="relative aspect-[4/3] bg-black">
+                          {/* Featured Badge */}
+                          {product.featured && (
+                            <div className="absolute top-2 left-2 z-10 px-2 py-1 bg-brand-yellow text-black text-[10px] font-black rounded-md">
+                              DESTACADO
                             </div>
                           )}
+                          <Image
+                            src={product.image}
+                            alt={product.name}
+                            fill
+                            className="object-cover group-hover:scale-105 transition-transform duration-500"
+                            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 33vw, 20vw"
+                            loading={imageConfig.loading}
+                            priority={imageConfig.priority}
+                            quality={imageConfig.quality}
+                          />
+                        </div>
+
+                        {/* Product Info - Black Background */}
+                        <div className="bg-black p-3 space-y-2">
+                          <h3 className="text-white text-xs font-bold leading-tight group-hover:text-brand-yellow transition-colors min-h-[2.5rem]">
+                            {product.name}
+                          </h3>
+
+                          <div className="space-y-1.5">
+                            {/* Regular Price (riscado) */}
+                            {product.regularPrice && product.regularPrice > product.price && (
+                              <p className="text-gray-400 text-sm line-through">
+                                {product.currency === 'USD' ? '$' : 'AR$'} {product.regularPrice.toLocaleString()}
+                              </p>
+                            )}
+
+                            {/* Sale Price */}
+                            <p className="text-brand-yellow font-bold text-sm md:text-lg whitespace-nowrap">
+                              {product.currency === 'USD' ? '$' : 'AR$'} {product.price.toLocaleString()}
+                            </p>
+
+                            {product.stock === 'available' && (
+                              <div className="inline-flex items-center gap-1 px-2 py-1 md:px-3 md:py-1.5 bg-gradient-to-r from-brand-yellow to-yellow-500 rounded-full">
+                                <span className="text-black text-[9px] md:text-[10px] font-black uppercase tracking-tight md:tracking-wide whitespace-nowrap overflow-hidden text-ellipsis">COMPRA 1 LLEVA 2</span>
+                              </div>
+                            )}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </Link>
-                </motion.div>
-              ))}
+                    </Link>
+                  </div>
+                )
+              })}
             </div>
           </div>
 

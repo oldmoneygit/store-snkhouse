@@ -76,6 +76,13 @@ export default function RootLayout({ children }) {
     <html lang="es" className={`${inter.variable} ${jetbrainsMono.variable}`}>
       <head>
         <link rel="canonical" href={SEO_DATA.url} />
+        {/* Preconnect to external domains for faster loading */}
+        <link rel="preconnect" href="https://www.snkhouse.com" />
+        <link rel="dns-prefetch" href="https://www.snkhouse.com" />
+        <link rel="preconnect" href="https://connect.facebook.net" />
+        <link rel="dns-prefetch" href="https://connect.facebook.net" />
+        {/* Preload critical images */}
+        <link rel="preload" as="image" href="/images/hero/interior-symmetric-fisheye.jpg" />
       </head>
       <body className="font-sans antialiased">
         {metaPixelId && <MetaPixelScript pixelId={metaPixelId} />}

@@ -7,6 +7,7 @@ import { motion } from 'framer-motion'
 import useEmblaCarousel from 'embla-carousel-react'
 import Autoplay from 'embla-carousel-autoplay'
 import { ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react'
+import { getImageConfig } from '@/utils/performance'
 
 const CollectionCarousel = ({
   title,
@@ -91,110 +92,111 @@ const CollectionCarousel = ({
         <div className={titleImage ? "relative max-w-5xl mx-auto px-4 md:px-8 py-8 bg-zinc-950/30 rounded-2xl border-l-4 border-brand-yellow/30" : "relative"}>
           <div className="overflow-hidden" ref={emblaRef}>
             <div className="flex gap-6">
-              {products.map((product) => (
-                <motion.div
-                  key={product.id}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  className={titleImage
-                    ? "flex-[0_0_calc(50%-12px)] md:flex-[0_0_calc(50%-12px)] lg:flex-[0_0_calc(25%-18px)] min-w-0"
-                    : "flex-[0_0_calc(50%-12px)] md:flex-[0_0_calc(50%-12px)] lg:flex-[0_0_calc(33.333%-16px)] min-w-0"
-                  }
-                >
-                  {titleImage ? (
-                    <Link href={`https://www.snkhouse.com/product/${product.slug}/`} className="block h-full group">
-                      <motion.div
-                        whileHover={{ y: -8 }}
-                        className="bg-gradient-to-br from-zinc-900 to-black rounded-2xl overflow-hidden border border-zinc-800 hover:border-brand-yellow/50 transition-all duration-300 h-full cursor-pointer"
-                      >
-                        {/* Product Image */}
-                        <div className="relative aspect-square bg-white p-6">
-                          <Image
-                            src={product.image}
-                            alt={product.name}
-                            fill
-                            className="object-contain group-hover:scale-105 transition-transform duration-500"
-                            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                          />
-                        </div>
+              {products.map((product, index) => {
+                const imageConfig = getImageConfig(index, products.length)
 
-                        {/* Product Info */}
-                        <div className="p-6">
-                          <h3 className="text-white font-semibold text-base mb-4 min-h-[3rem] line-clamp-2 group-hover:text-brand-yellow transition-colors">
-                            {product.name}
-                          </h3>
+                return (
+                  <div
+                    key={product.id}
+                    className={titleImage
+                      ? "flex-[0_0_calc(50%-12px)] md:flex-[0_0_calc(50%-12px)] lg:flex-[0_0_calc(25%-18px)] min-w-0"
+                      : "flex-[0_0_calc(50%-12px)] md:flex-[0_0_calc(50%-12px)] lg:flex-[0_0_calc(33.333%-16px)] min-w-0"
+                    }
+                  >
+                    {titleImage ? (
+                      <Link href={`https://www.snkhouse.com/product/${product.slug}/`} className="block h-full group">
+                        <div className="bg-gradient-to-br from-zinc-900 to-black rounded-2xl overflow-hidden border border-zinc-800 hover:border-brand-yellow/50 transition-all duration-300 h-full cursor-pointer hover:-translate-y-2">
+                          {/* Product Image */}
+                          <div className="relative aspect-square bg-white p-6">
+                            <Image
+                              src={product.image}
+                              alt={product.name}
+                              fill
+                              className="object-contain group-hover:scale-105 transition-transform duration-500"
+                              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                              loading={imageConfig.loading}
+                              priority={imageConfig.priority}
+                              quality={imageConfig.quality}
+                            />
+                          </div>
 
-                          {/* Price */}
-                          <div className="mb-4">
-                            {/* Regular Price (riscado) */}
-                            {product.regularPrice && product.regularPrice > product.price && (
-                              <p className="text-gray-400 text-sm line-through mb-1">
-                                {product.currency === 'USD' ? '$' : 'AR$'} {product.regularPrice.toLocaleString()}
+                          {/* Product Info */}
+                          <div className="p-6">
+                            <h3 className="text-white font-semibold text-base mb-4 min-h-[3rem] line-clamp-2 group-hover:text-brand-yellow transition-colors">
+                              {product.name}
+                            </h3>
+
+                            {/* Price */}
+                            <div className="mb-4">
+                              {/* Regular Price (riscado) */}
+                              {product.regularPrice && product.regularPrice > product.price && (
+                                <p className="text-gray-400 text-sm line-through mb-1">
+                                  {product.currency === 'USD' ? '$' : 'AR$'} {product.regularPrice.toLocaleString()}
+                                </p>
+                              )}
+
+                              {/* Sale Price */}
+                              <p className="text-brand-yellow font-bold text-base md:text-xl whitespace-nowrap">
+                                {product.currency === 'USD' ? '$' : 'AR$'} {product.price.toLocaleString()}
                               </p>
-                            )}
+                            </div>
 
-                            {/* Sale Price */}
-                            <p className="text-brand-yellow font-bold text-base md:text-xl whitespace-nowrap">
-                              {product.currency === 'USD' ? '$' : 'AR$'} {product.price.toLocaleString()}
-                            </p>
-                          </div>
-
-                          {/* CTA Button */}
-                          <div className="w-full bg-brand-yellow text-black font-bold py-1.5 px-2 md:py-2 md:px-4 rounded-full group-hover:bg-yellow-500 transition-all duration-300 transform group-hover:scale-105 uppercase text-[10px] md:text-xs text-center whitespace-nowrap">
-                            🔥 COMPRA 1 LLEVA 2
+                            {/* CTA Button */}
+                            <div className="w-full bg-brand-yellow text-black font-bold py-1.5 px-2 md:py-2 md:px-4 rounded-full group-hover:bg-yellow-500 transition-all duration-300 transform group-hover:scale-105 uppercase text-[9px] md:text-[10px] text-center overflow-hidden text-ellipsis">
+                              🔥 COMPRA 1 LLEVA 2
+                            </div>
                           </div>
                         </div>
-                      </motion.div>
-                    </Link>
-                  ) : (
-                    <Link href={`https://www.snkhouse.com/product/${product.slug}/`} className="block h-full group">
-                      <motion.div
-                        whileHover={{ y: -8 }}
-                        className="bg-gradient-to-br from-zinc-900 to-black rounded-2xl overflow-hidden border border-zinc-800 hover:border-brand-yellow/50 transition-all duration-300 h-full cursor-pointer"
-                      >
-                        {/* Product Image */}
-                        <div className="relative aspect-square bg-white p-6">
-                          <Image
-                            src={product.image}
-                            alt={product.name}
-                            fill
-                            className="object-contain group-hover:scale-105 transition-transform duration-500"
-                            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                          />
-                        </div>
+                      </Link>
+                    ) : (
+                      <Link href={`https://www.snkhouse.com/product/${product.slug}/`} className="block h-full group">
+                        <div className="bg-gradient-to-br from-zinc-900 to-black rounded-2xl overflow-hidden border border-zinc-800 hover:border-brand-yellow/50 transition-all duration-300 h-full cursor-pointer hover:-translate-y-2">
+                          {/* Product Image */}
+                          <div className="relative aspect-square bg-white p-6">
+                            <Image
+                              src={product.image}
+                              alt={product.name}
+                              fill
+                              className="object-contain group-hover:scale-105 transition-transform duration-500"
+                              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                              loading={imageConfig.loading}
+                              priority={imageConfig.priority}
+                              quality={imageConfig.quality}
+                            />
+                          </div>
 
-                        {/* Product Info */}
-                        <div className="p-6">
-                          <h3 className="text-white font-semibold text-base mb-4 min-h-[3rem] line-clamp-2 group-hover:text-brand-yellow transition-colors">
-                            {product.name}
-                          </h3>
+                          {/* Product Info */}
+                          <div className="p-6">
+                            <h3 className="text-white font-semibold text-base mb-4 min-h-[3rem] line-clamp-2 group-hover:text-brand-yellow transition-colors">
+                              {product.name}
+                            </h3>
 
-                          {/* Price */}
-                          <div className="mb-4">
-                            {/* Regular Price (riscado) */}
-                            {product.regularPrice && product.regularPrice > product.price && (
-                              <p className="text-gray-400 text-sm line-through mb-1">
-                                {product.currency === 'USD' ? '$' : 'AR$'} {product.regularPrice.toLocaleString()}
+                            {/* Price */}
+                            <div className="mb-4">
+                              {/* Regular Price (riscado) */}
+                              {product.regularPrice && product.regularPrice > product.price && (
+                                <p className="text-gray-400 text-sm line-through mb-1">
+                                  {product.currency === 'USD' ? '$' : 'AR$'} {product.regularPrice.toLocaleString()}
+                                </p>
+                              )}
+
+                              {/* Sale Price */}
+                              <p className="text-brand-yellow font-bold text-base md:text-xl whitespace-nowrap">
+                                {product.currency === 'USD' ? '$' : 'AR$'} {product.price.toLocaleString()}
                               </p>
-                            )}
+                            </div>
 
-                            {/* Sale Price */}
-                            <p className="text-brand-yellow font-bold text-base md:text-xl whitespace-nowrap">
-                              {product.currency === 'USD' ? '$' : 'AR$'} {product.price.toLocaleString()}
-                            </p>
-                          </div>
-
-                          {/* CTA Button */}
-                          <div className="w-full bg-brand-yellow text-black font-bold py-1.5 px-2 md:py-2 md:px-4 rounded-full group-hover:bg-yellow-500 transition-all duration-300 transform group-hover:scale-105 uppercase text-[10px] md:text-xs text-center whitespace-nowrap">
-                            🔥 COMPRA 1 LLEVA 2
+                            {/* CTA Button */}
+                            <div className="w-full bg-brand-yellow text-black font-bold py-1.5 px-2 md:py-2 md:px-4 rounded-full group-hover:bg-yellow-500 transition-all duration-300 transform group-hover:scale-105 uppercase text-[9px] md:text-[10px] text-center overflow-hidden text-ellipsis">
+                              🔥 COMPRA 1 LLEVA 2
+                            </div>
                           </div>
                         </div>
-                      </motion.div>
-                    </Link>
-                  )}
-                </motion.div>
-              ))}
+                      </Link>
+                    )}
+                  </div>
+                )
+              })}
             </div>
           </div>
 

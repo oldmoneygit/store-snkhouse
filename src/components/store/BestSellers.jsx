@@ -5,7 +5,6 @@ import useEmblaCarousel from 'embla-carousel-react'
 import Autoplay from 'embla-carousel-autoplay'
 import Image from '@/components/OptimizedImage'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
 import productsData from '../../../data/products.json'
 import SectionTitle from './SectionTitle'
 
@@ -64,26 +63,24 @@ const BestSellers = () => {
         <div className="relative">
           <div className="overflow-hidden" ref={emblaRef}>
             <div className="flex gap-6">
-              {bestSellersProducts.map((product) => (
+              {bestSellersProducts.map((product, index) => (
                 <div
                   key={product.id}
                   className="flex-[0_0_calc(50%-12px)] min-w-0 md:flex-[0_0_48%] lg:flex-[0_0_31%] xl:flex-[0_0_23%]"
                 >
                   <Link href={`https://www.snkhouse.com/product/${product.slug}/`} className="block h-full group">
-                    <motion.div
-                      whileHover={{ y: -8 }}
-                      className="bg-gradient-to-br from-zinc-900 to-black rounded-2xl overflow-hidden border border-zinc-800 hover:border-brand-yellow/50 transition-all duration-300 h-full cursor-pointer"
-                    >
+                    <div className="bg-gradient-to-br from-zinc-900 to-black rounded-2xl overflow-hidden border border-zinc-800 hover:border-brand-yellow/50 transition-all duration-300 h-full cursor-pointer">
                       {/* Product Image */}
                       <div className="relative aspect-square bg-white p-6">
                         <Image
                           src={product.image}
                           alt={product.name}
                           fill
-                          className="object-contain group-hover:scale-105 transition-transform duration-500"
-                          loading="lazy"
+                          className="object-contain group-hover:scale-105 transition-transform duration-300"
+                          loading={index < 8 ? "eager" : "lazy"}
+                          priority={index < 8}
                           sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                          quality={75}
+                          quality={85}
                         />
                       </div>
 
@@ -113,7 +110,7 @@ const BestSellers = () => {
                           🔥 COMPRA 1 LLEVA 2
                         </div>
                       </div>
-                    </motion.div>
+                    </div>
                   </Link>
                 </div>
               ))}

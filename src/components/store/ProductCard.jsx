@@ -1,9 +1,9 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import Image from '@/components/OptimizedImage'
 import Link from 'next/link'
 import { ShoppingCart, Eye } from 'lucide-react'
+import { getImageConfig } from '@/utils/performance'
 
 const ProductCard = ({ product, index = 0 }) => {
   const {
@@ -24,15 +24,10 @@ const ProductCard = ({ product, index = 0 }) => {
   }
 
   const woocommerceUrl = `https://www.snkhouse.com/product/${slug}/`
+  const imageConfig = getImageConfig(index, 20) // Assume 20 total products max
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.3 }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      whileHover={{ y: -6 }}
-    >
+    <div className="hover:-translate-y-2 transition-all duration-300">
       <Link href={woocommerceUrl} className="block group">
         <div className="bg-black rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-brand-yellow/20">
           {/* Image Container */}
@@ -49,6 +44,9 @@ const ProductCard = ({ product, index = 0 }) => {
               fill
               className="object-cover group-hover:scale-105 transition-transform duration-500"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+              loading={imageConfig.loading}
+              priority={imageConfig.priority}
+              quality={imageConfig.quality}
             />
           </div>
 
@@ -89,14 +87,14 @@ const ProductCard = ({ product, index = 0 }) => {
 
               {stock === 'available' && (
                 <div className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-brand-yellow to-yellow-500 rounded-full">
-                  <span className="text-black text-[10px] font-black uppercase tracking-wide">COMPRA 1 LLEVA 2</span>
+                  <span className="text-black text-[9px] md:text-[10px] font-black uppercase tracking-tight md:tracking-wide whitespace-nowrap overflow-hidden text-ellipsis">COMPRA 1 LLEVA 2</span>
                 </div>
               )}
             </div>
           </div>
         </div>
       </Link>
-    </motion.div>
+    </div>
   )
 }
 
