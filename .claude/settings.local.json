@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run build)",
+      "Bash(where git)",
+      "Read(//c/Users/PC/Desktop/**)",
+      "Bash(dir /a c:UsersPCDesktop)",
+      "Bash(findstr /C:\".git\")",
+      "Read(//c/Users/PC/**)",
+      "Bash(git init)",
+      "Bash(git add .)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

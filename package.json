@@ -1,0 +1,39 @@
+{
+  "name": "snkhouse-showroom",
+  "version": "1.0.0",
+  "description": "SNKHOUSE Showroom - Palermo, Buenos Aires - Landing Page",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "export-wp": "cross-env EXPORT_WP=true NEXT_PUBLIC_WP_EXPORT=true next build && next-image-export-optimizer",
+    "export": "cross-env EXPORT_WP=true NEXT_PUBLIC_WP_EXPORT=true next build && next-image-export-optimizer",
+    "optimize-images": "next-image-export-optimizer"
+  },
+  "dependencies": {
+    "@woocommerce/woocommerce-rest-api": "^1.0.2",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "dotenv": "^17.2.3",
+    "embla-carousel-autoplay": "^8.6.0",
+    "embla-carousel-react": "^8.6.0",
+    "framer-motion": "^11.0.0",
+    "lucide-react": "^0.378.0",
+    "next": "^14.2.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwind-merge": "^3.3.1"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.0",
+    "cross-env": "^10.1.0",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "^14.2.0",
+    "next-image-export-optimizer": "^1.19.0",
+    "postcss": "^8.4.0",
+    "sharp": "^0.34.4",
+    "tailwindcss": "^3.4.0"
+  }
+}

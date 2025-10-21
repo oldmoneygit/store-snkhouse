@@ -1,0 +1,111 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom scrollbar */
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply bg-black text-white antialiased font-sans;
+  }
+
+  /* Typography Hierarchy - Inter Font */
+  /* Text font - Inter normal 400 13px */
+  p, span, li, td {
+    @apply font-normal text-[13px];
+  }
+
+  /* Title font - Inter semi bold 600 */
+  h1, h2, h3 {
+    @apply font-semibold;
+  }
+
+  /* Header font - Inter bold 700 uppercase */
+  h1 {
+    @apply font-bold uppercase;
+  }
+
+  /* Entities names font - Inter medium 500 */
+  .entity-name {
+    @apply font-medium;
+  }
+
+  /* Widget titles font - Inter semi bold 600 */
+  .widget-title {
+    @apply font-semibold;
+  }
+
+  /* Secondary font - normal 400 */
+  .text-secondary {
+    @apply font-normal;
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-black;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-brand-yellow/30 hover:bg-brand-yellow/50;
+    border-radius: 5px;
+  }
+
+  /* Selection */
+  ::selection {
+    @apply bg-brand-yellow text-black;
+  }
+}
+
+/* Glassmorphism utilities */
+@layer utilities {
+  .glass {
+    @apply bg-white/5 backdrop-blur-xl border border-white/10;
+  }
+
+  .glass-yellow {
+    @apply bg-brand-yellow/5 backdrop-blur-xl border border-brand-yellow/20;
+  }
+
+  .text-shadow-glow {
+    text-shadow: 0 0 40px rgba(250, 184, 0, 0.8);
+  }
+
+  .shadow-glow-yellow {
+    box-shadow: 0 0 20px rgba(250, 184, 0, 0.3);
+  }
+
+  .shadow-glow-yellow-strong {
+    box-shadow: 0 0 40px rgba(250, 184, 0, 0.5);
+  }
+}
+
+/* Animation utilities */
+@layer utilities {
+  @keyframes gradient-shift {
+    0%, 100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+
+  .animate-gradient {
+    background-size: 200% 200%;
+    animation: gradient-shift 8s ease infinite;
+  }
+}
+
+/* Loading animation */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
