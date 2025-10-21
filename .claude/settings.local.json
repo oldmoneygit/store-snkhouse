@@ -17,7 +17,8 @@
       "Bash(git push -u origin main)",
       "Bash(git commit -m \"Configure homepage e rewrites para WordPress\n\n✨ Mudanças:\n- Moveu página de /store para / (homepage na raiz)\n- Configurou rewrites no vercel.json para proxy do WordPress\n- Preparado para domínio customizado snkhouse.com\n- Todas rotas WooCommerce (product, cart, checkout) fazem proxy para WordPress\")",
       "Bash(git push)",
-      "Bash(git commit -m \"Add Meta Pixel (Facebook Pixel) tracking\n\n✨ Features:\n- Meta Pixel script integrado no layout\n- PageView tracking automático em todas as páginas\n- ViewContent tracking na homepage\n- Hook useMetaPixel com eventos: ViewContent, AddToCart, InitiateCheckout, Purchase, Search\n- Componentes client-side para tracking\n- Variável de ambiente NEXT_PUBLIC_META_PIXEL_ID\n- Documentação completa em META_PIXEL_SETUP.md\n\n📊 Eventos implementados:\n- PageView (automático)\n- ViewContent (homepage)\n- AddToCart (disponível via hook)\n- InitiateCheckout (disponível via hook)\n- Purchase (disponível via hook)\n- Search (disponível via hook)\")"
+      "Bash(git commit -m \"Add Meta Pixel (Facebook Pixel) tracking\n\n✨ Features:\n- Meta Pixel script integrado no layout\n- PageView tracking automático em todas as páginas\n- ViewContent tracking na homepage\n- Hook useMetaPixel com eventos: ViewContent, AddToCart, InitiateCheckout, Purchase, Search\n- Componentes client-side para tracking\n- Variável de ambiente NEXT_PUBLIC_META_PIXEL_ID\n- Documentação completa em META_PIXEL_SETUP.md\n\n📊 Eventos implementados:\n- PageView (automático)\n- ViewContent (homepage)\n- AddToCart (disponível via hook)\n- InitiateCheckout (disponível via hook)\n- Purchase (disponível via hook)\n- Search (disponível via hook)\")",
+      "Bash(git commit -m \"Update page title to ''SNKHOUSE - Sneakers Exclusivos''\")"
     ],
     "deny": [],
     "ask": []

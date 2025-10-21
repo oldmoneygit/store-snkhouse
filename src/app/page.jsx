@@ -17,7 +17,7 @@ import StoreFooter from '@/components/store/StoreFooter'
 import HomePageTracking from '@/components/HomePageTracking'
 
 export const metadata = {
-  title: 'SNKHOUSE - Sneakers Exclusivos y Auténticos',
+  title: 'SNKHOUSE - Sneakers Exclusivos',
   description: 'Descubre los sneakers más exclusivos del mercado. Air Jordan, Nike Dunk, Yeezy y más. Autenticidad garantizada.',
   keywords: 'sneakers, jordan, nike, yeezy, tenis exclusivos, snkhouse, argentina',
   openGraph: {
