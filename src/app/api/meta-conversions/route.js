@@ -19,6 +19,7 @@ export async function POST(request) {
       eventId,
       fbc,
       fbp,
+      userData = {}, // NOVO: Dados do usuário hasheados do client
       eventTime,
       sourceUrl,
       userAgent,
@@ -38,6 +39,47 @@ export async function POST(request) {
       return NextResponse.json({ success: true, skipped: true })
     }
 
+    // Preparar user_data conforme documentação do Facebook
+    // Formato: em, ph, etc devem ser ARRAYS de valores hasheados
+    const user_data = {
+      // Dados do servidor (NÃO hasheados - string simples)
+      client_ip_address: request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip'),
+      client_user_agent: userAgent,
+      // Facebook IDs (NÃO hasheados - string simples)
+      ...(fbc && { fbc }), // Facebook Click ID
+      ...(fbp && { fbp }), // Facebook Browser ID
+    }
+
+    // Adicionar dados hasheados do client (em, ph, fn, ln devem ser ARRAYS)
+    // Converter string para array conforme documentação do Facebook
+    if (userData.em) {
+      user_data.em = Array.isArray(userData.em) ? userData.em : [userData.em]
+    }
+    if (userData.ph) {
+      user_data.ph = Array.isArray(userData.ph) ? userData.ph : [userData.ph]
+    }
+    if (userData.fn) {
+      user_data.fn = Array.isArray(userData.fn) ? userData.fn : [userData.fn]
+    }
+    if (userData.ln) {
+      user_data.ln = Array.isArray(userData.ln) ? userData.ln : [userData.ln]
+    }
+    if (userData.ct) {
+      user_data.ct = Array.isArray(userData.ct) ? userData.ct : [userData.ct]
+    }
+    if (userData.st) {
+      user_data.st = Array.isArray(userData.st) ? userData.st : [userData.st]
+    }
+    if (userData.zp) {
+      user_data.zp = Array.isArray(userData.zp) ? userData.zp : [userData.zp]
+    }
+    if (userData.country) {
+      user_data.country = Array.isArray(userData.country) ? userData.country : [userData.country]
+    }
+    if (userData.external_id) {
+      user_data.external_id = Array.isArray(userData.external_id) ? userData.external_id : [userData.external_id]
+    }
+
     // Preparar dados do evento para Conversions API
     const eventPayload = {
       event_name: eventName,
@@ -45,12 +87,7 @@ export async function POST(request) {
       event_id: eventId, // CRÍTICO: mesmo event_id do Pixel para deduplicação
       event_source_url: sourceUrl,
       action_source: 'website',
-      user_data: {
-        client_ip_address: request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip'),
-        client_user_agent: userAgent,
-        ...(fbc && { fbc }), // Facebook Click ID
-        ...(fbp && { fbp }), // Facebook Browser ID
-      },
+      user_data,
       custom_data: {
         ...eventData,
       },

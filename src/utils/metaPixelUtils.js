@@ -204,7 +204,7 @@ export async function trackPixelEvent(eventName, eventData = {}, userData = {}) 
 
     // Enviar também para Conversions API (server-side) para deduplicação
     // Não aguardar resposta (fire-and-forget) para não bloquear
-    sendToConversionsAPI(eventName, fullEventData, eventId, { fbc, fbp }).catch(err => {
+    sendToConversionsAPI(eventName, fullEventData, eventId, { fbc, fbp }, hashedUserData).catch(err => {
       console.warn('Conversions API failed (non-blocking):', err)
     })
 
@@ -218,11 +218,12 @@ export async function trackPixelEvent(eventName, eventData = {}, userData = {}) 
 /**
  * Envia evento para Conversions API (server-side)
  * @param {string} eventName - Nome do evento
- * @param {Object} eventData - Dados do evento
+ * @param {Object} eventData - Dados do evento (custom_data)
  * @param {string} eventId - Event ID para deduplicação
  * @param {Object} fbParams - Parâmetros do Facebook (fbc, fbp)
+ * @param {Object} userData - Dados do usuário hasheados (em, ph, fn, ln, etc)
  */
-async function sendToConversionsAPI(eventName, eventData, eventId, fbParams) {
+async function sendToConversionsAPI(eventName, eventData, eventId, fbParams, userData = {}) {
   try {
     // Enviar para nossa API route que fará o envio server-side
     await fetch('/api/meta-conversions', {
@@ -236,6 +237,7 @@ async function sendToConversionsAPI(eventName, eventData, eventId, fbParams) {
         eventId,
         fbc: fbParams.fbc,
         fbp: fbParams.fbp,
+        userData, // NOVO: Dados do usuário hasheados (em, ph, fn, ln, etc)
         eventTime: Math.floor(Date.now() / 1000), // Unix timestamp em segundos
         sourceUrl: window.location.href,
         userAgent: navigator.userAgent,
