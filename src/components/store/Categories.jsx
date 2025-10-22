@@ -30,7 +30,7 @@ const Categories = () => {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className="group"
             >
-              <Link href={category.woocommerceUrl}>
+              <Link href={`/collection/${category.slug}`}>
                 <div className="relative overflow-hidden rounded-xl aspect-[5/7]">
                   {/* Apenas a Imagem - SEM texto, SEM overlay - TAMANHO COMPLETO */}
                   <Image

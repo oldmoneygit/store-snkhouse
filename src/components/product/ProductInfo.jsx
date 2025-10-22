@@ -7,6 +7,7 @@ import SizeSelector from './SizeSelector'
 import SizeGuideModal from './SizeGuideModal'
 import AddToCartToast from './AddToCartToast'
 import QuantitySelector from './QuantitySelector'
+import WishlistButton from '@/components/wishlist/WishlistButton'
 import { ShoppingCart, Package, Shield, Truck, Check } from 'lucide-react'
 import { useCart } from '@/context/CartContext'
 
@@ -132,35 +133,43 @@ const ProductInfo = ({ product }) => {
         max={10}
       />
 
-      {/* Add to Cart Button */}
-      <button
-        onClick={handleAddToCart}
-        disabled={stock === 'soldout' || addedToCart}
-        className={`
-          w-full py-3 md:py-4 rounded-lg font-bold text-base md:text-lg uppercase tracking-wide
-          flex items-center justify-center gap-2 md:gap-3
-          transition-all duration-300
-          ${
-            stock === 'soldout'
-              ? 'bg-white/10 text-white/40 cursor-not-allowed'
-              : addedToCart
-              ? 'bg-green-500 text-white'
-              : 'bg-brand-yellow text-black hover:bg-yellow-400 active:scale-95 md:hover:scale-105 shadow-lg shadow-brand-yellow/20'
-          }
-        `}
-      >
-        {addedToCart ? (
-          <>
-            <Check className="w-5 h-5 md:w-6 md:h-6" />
-            ¡Agregado al Carrito!
-          </>
-        ) : (
-          <>
-            <ShoppingCart className="w-5 h-5 md:w-6 md:h-6" />
-            {stock === 'soldout' ? 'Agotado' : 'Agregar al Carrito'}
-          </>
-        )}
-      </button>
+      {/* Action Buttons - Add to Cart & Wishlist */}
+      <div className="flex gap-3">
+        {/* Add to Cart Button - Takes most space */}
+        <button
+          onClick={handleAddToCart}
+          disabled={stock === 'soldout' || addedToCart}
+          className={`
+            flex-1 py-3 md:py-4 rounded-lg font-bold text-base md:text-lg uppercase tracking-wide
+            flex items-center justify-center gap-2 md:gap-3
+            transition-all duration-300
+            ${
+              stock === 'soldout'
+                ? 'bg-white/10 text-white/40 cursor-not-allowed'
+                : addedToCart
+                ? 'bg-green-500 text-white'
+                : 'bg-brand-yellow text-black hover:bg-yellow-400 active:scale-95 md:hover:scale-105 shadow-lg shadow-brand-yellow/20'
+            }
+          `}
+        >
+          {addedToCart ? (
+            <>
+              <Check className="w-5 h-5 md:w-6 md:h-6" />
+              ¡Agregado!
+            </>
+          ) : (
+            <>
+              <ShoppingCart className="w-5 h-5 md:w-6 md:h-6" />
+              {stock === 'soldout' ? 'Agotado' : 'Agregar al Carrito'}
+            </>
+          )}
+        </button>
+
+        {/* Wishlist Button - Smaller */}
+        <div className="flex-shrink-0">
+          <WishlistButton product={product} variant="full" size="lg" className="h-full px-4" />
+        </div>
+      </div>
 
       {/* Product Features */}
       <div className="space-y-3 pt-4 border-t border-white/10">

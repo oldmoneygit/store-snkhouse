@@ -11,7 +11,7 @@ const DualBannerSection = () => {
       title: 'SB Dunk Low',
       subtitle: 'Strange Love',
       image: '/images/banners/strange-love-banner.webp',
-      link: 'https://www.snkhouse.com/product/nike-sb-dunk-low-strange-love-skateboards/',
+      link: '/product/nike-sb-dunk-low-strange-love-skateboards',
       bgColor: 'from-pink-200/20 to-red-200/20'
     },
     {
@@ -19,7 +19,7 @@ const DualBannerSection = () => {
       title: 'SB Dunk Low x Travis Scott',
       subtitle: 'Cactus Jack',
       image: '/images/banners/cactus-jack-banner.webp',
-      link: 'https://www.snkhouse.com/product/nike-sb-dunk-low-x-travis-scott/',
+      link: '/product/nike-sb-dunk-low-x-travis-scott',
       bgColor: 'from-amber-200/20 to-yellow-200/20'
     }
   ]

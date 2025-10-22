@@ -6,14 +6,14 @@ import { Mail } from 'lucide-react'
 
 const StoreFooter = () => {
   const quickAccessLinks = [
-    { name: 'Inicio', href: 'https://www.snkhouse.com' },
-    { name: 'Seguimiento de Pedido', href: 'https://www.snkhouse.com/seguimiento-de-pedido/' },
-    { name: 'Guía de Tallas', href: 'https://www.snkhouse.com/guia-de-tallas/' },
-    { name: 'Preguntas Frecuentes', href: 'https://www.snkhouse.com/preguntas-frecuentes/' },
-    { name: 'Política de Cambios y Devoluciones', href: 'https://www.snkhouse.com/politica-de-cambios-y-devoluciones/' },
-    { name: 'Contáctanos', href: 'https://www.snkhouse.com/contactanos/' },
-    { name: 'Plazo de Entrega', href: 'https://www.snkhouse.com/plazo-de-entrega/' },
-    { name: 'Política de Seguridad y Privacidad', href: 'https://www.snkhouse.com/politica-de-seguridad-y-privacidad/' },
+    { name: 'Inicio', href: '/' },
+    { name: 'Seguimiento de Pedido', href: '/seguimiento-de-pedido' },
+    { name: 'Guía de Tallas', href: '/guia-de-tallas' },
+    { name: 'Preguntas Frecuentes', href: '/preguntas-frecuentes' },
+    { name: 'Política de Cambios y Devoluciones', href: '/politica-de-cambios-y-devoluciones' },
+    { name: 'Contáctanos', href: '/contactanos' },
+    { name: 'Plazo de Entrega', href: '/plazo-de-entrega' },
+    { name: 'Política de Seguridad y Privacidad', href: '/politica-de-seguridad-y-privacidad' },
   ]
 
   return (
@@ -25,7 +25,7 @@ const StoreFooter = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-8">
           {/* Column 1 - Brand Info */}
           <div className="text-center md:text-left flex flex-col items-center md:items-start">
-            <Link href="https://www.snkhouse.com/" className="block relative w-48 h-12 mb-6 group">
+            <Link href="/" className="block relative w-48 h-12 mb-6 group">
               <Image
                 src="/images/logo/snkhouse-logo-white.png"
                 alt="SNKHOUSE"
@@ -67,12 +67,12 @@ const StoreFooter = () => {
             <ul className="space-y-2.5">
               {quickAccessLinks.map((link) => (
                 <li key={link.name}>
-                  <a
+                  <Link
                     href={link.href}
                     className="text-white/70 hover:text-brand-yellow transition-colors text-sm block"
                   >
                     {link.name}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>

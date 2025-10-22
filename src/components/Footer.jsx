@@ -1,22 +1,23 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import Link from 'next/link'
 import { LOCATION_DATA } from '@/utils/constants'
 import Logo from './Logo'
 
 const footerLinks = {
   ayuda: [
-    { label: 'Seguimiento de Pedido', url: 'https://www.snkhouse.com/seguimiento-de-pedido/' },
-    { label: 'Preguntas Frecuentes', url: 'https://www.snkhouse.com/preguntas-frecuentes/' },
-    { label: 'Contáctanos', url: 'https://www.snkhouse.com/contactanos/' }
+    { label: 'Seguimiento de Pedido', url: '/seguimiento-de-pedido' },
+    { label: 'Preguntas Frecuentes', url: '/preguntas-frecuentes' },
+    { label: 'Contáctanos', url: '/contactanos' }
   ],
   informacion: [
-    { label: 'Guía de Tallas', url: 'https://www.snkhouse.com/guia-de-tallas/' },
-    { label: 'Plazo de Entrega', url: 'https://www.snkhouse.com/plazo-de-entrega/' }
+    { label: 'Guía de Tallas', url: '/guia-de-tallas' },
+    { label: 'Plazo de Entrega', url: '/plazo-de-entrega' }
   ],
   legal: [
-    { label: 'Política de Cambios y Devoluciones', url: 'https://www.snkhouse.com/politica-de-cambios-y-devoluciones/' },
-    { label: 'Política de Seguridad y Privacidad', url: 'https://www.snkhouse.com/politica-de-seguridad-y-privacidad/' }
+    { label: 'Política de Cambios y Devoluciones', url: '/politica-de-cambios-y-devoluciones' },
+    { label: 'Política de Seguridad y Privacidad', url: '/politica-de-seguridad-y-privacidad' }
   ]
 }
 
@@ -56,14 +57,12 @@ export default function Footer() {
             <ul className="space-y-2">
               {footerLinks.ayuda.map((link, index) => (
                 <li key={index}>
-                  <a
+                  <Link
                     href={link.url}
                     className="text-gray-600 hover:text-brand-yellow transition-colors text-xs font-mono"
-                    target="_blank"
-                    rel="noopener noreferrer"
                   >
                     {link.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -75,14 +74,12 @@ export default function Footer() {
             <ul className="space-y-2">
               {footerLinks.informacion.map((link, index) => (
                 <li key={index}>
-                  <a
+                  <Link
                     href={link.url}
                     className="text-gray-600 hover:text-brand-yellow transition-colors text-xs font-mono"
-                    target="_blank"
-                    rel="noopener noreferrer"
                   >
                     {link.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -94,14 +91,12 @@ export default function Footer() {
             <ul className="space-y-2">
               {footerLinks.legal.map((link, index) => (
                 <li key={index}>
-                  <a
+                  <Link
                     href={link.url}
                     className="text-gray-600 hover:text-brand-yellow transition-colors text-xs font-mono"
-                    target="_blank"
-                    rel="noopener noreferrer"
                   >
                     {link.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>

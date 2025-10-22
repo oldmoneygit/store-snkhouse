@@ -1,14 +1,18 @@
 'use client'
 
 import { motion, AnimatePresence } from 'framer-motion'
-import { ShoppingCart, Search, Menu, X, ChevronDown, Clock } from 'lucide-react'
+import { ShoppingCart, Search, Menu, X, ChevronDown, Heart } from 'lucide-react'
 import Image from '@/components/OptimizedImage'
 import Link from 'next/link'
 import { useState, useEffect, useRef } from 'react'
 import PromotionalBanner from './PromotionalBanner'
 import productsData from '../../../data/products.json'
+import { useCart } from '@/context/CartContext'
+import { useWishlist } from '@/context/WishlistContext'
 
 const Header = () => {
+  const { getItemCount } = useCart()
+  const { getItemCount: getWishlistCount } = useWishlist()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [airJordanOpen, setAirJordanOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
@@ -16,26 +20,29 @@ const Header = () => {
   const [showSearchResults, setShowSearchResults] = useState(false)
   const searchRef = useRef(null)
 
+  const cartItemCount = getItemCount()
+  const wishlistItemCount = getWishlistCount()
+
   const airJordanSubMenu = [
-    { name: 'Air Jordan 1 Low', href: 'https://www.snkhouse.com/product-category/air-jordan-1-low/' },
-    { name: 'Air Jordan 1 Mid', href: 'https://www.snkhouse.com/product-category/air-jordan-1-mid/' },
-    { name: 'Air Jordan 1 High', href: 'https://www.snkhouse.com/product-category/air-jordan-1-high/' },
-    { name: 'Air Jordan 3', href: 'https://www.snkhouse.com/product-category/air-jordan-3/' },
-    { name: 'Air Jordan 4', href: 'https://www.snkhouse.com/product-category/air-jordan-4/' },
-    { name: 'Air Jordan 5', href: 'https://www.snkhouse.com/product-category/air-jordan-5/' },
-    { name: 'Air Jordan 6', href: 'https://www.snkhouse.com/product-category/air-jordan-6/' },
-    { name: 'Air Jordan 11', href: 'https://www.snkhouse.com/product-category/air-jordan-11/' },
+    { name: 'Air Jordan 1 Low', href: '/collection/jordan-low' },
+    { name: 'Air Jordan 1 Mid', href: '/collection/jordan-high' },
+    { name: 'Air Jordan 1 High', href: '/collection/jordan-high' },
+    { name: 'Air Jordan 3', href: '/collection/air-jordan-3' },
+    { name: 'Air Jordan 4', href: '/collection/air-jordan-4' },
+    { name: 'Air Jordan 5', href: '/collection/air-jordan-5' },
+    { name: 'Air Jordan 6', href: '/collection/air-jordan-6' },
+    { name: 'Air Jordan 11', href: '/collection/air-jordan-11' },
   ]
 
   const menuItems = [
-    { name: 'TRAVIS SCOTT', href: 'https://www.snkhouse.com/product-category/travis-scott/' },
-    { name: 'MÁS VENDIDOS', href: 'https://www.snkhouse.com/product-category/mas-vendidos/' },
-    { name: 'AIR JORDAN', href: 'https://www.snkhouse.com/product-category/air-jordan-1-low/', hasSubmenu: true },
-    { name: 'NIKE DUNK', href: 'https://www.snkhouse.com/product-category/nike-dunk-sb/' },
-    { name: 'AIR FORCE', href: 'https://www.snkhouse.com/product-category/air-force/' },
-    { name: 'YEEZY', href: 'https://www.snkhouse.com/product-category/yeezy/' },
-    { name: 'SEGUIMIENTO DE PEDIDO', href: 'https://www.snkhouse.com/seguimiento-de-pedido/' },
-    { name: 'SHOWROOM', href: 'https://www.snkhouse.com/showroom/' },
+    { name: 'TRAVIS SCOTT', href: '/collection/travis-scott' },
+    { name: 'MÁS VENDIDOS', href: '/#bestsellers' },
+    { name: 'AIR JORDAN', href: '/collection/air-jordan-1', hasSubmenu: true },
+    { name: 'NIKE DUNK', href: '/collection/dunk-low' },
+    { name: 'AIR FORCE', href: '/collection/air-force-1' },
+    { name: 'YEEZY', href: '/collection/yeezy' },
+    { name: 'SEGUIMIENTO DE PEDIDO', href: '/seguimiento-de-pedido' },
+    { name: 'CONTACTO', href: '/contactanos' },
   ]
 
   // Pesquisa dinâmica
@@ -71,7 +78,7 @@ const Header = () => {
     e?.preventDefault()
     if (searchQuery.trim()) {
       const encodedQuery = encodeURIComponent(searchQuery.trim())
-      window.location.href = `https://www.snkhouse.com/?s=${encodedQuery}&post_type=product`
+      window.location.href = `/search?q=${encodedQuery}`
     }
   }
 
@@ -88,8 +95,7 @@ const Header = () => {
       <motion.header
         initial={{ y: -100 }}
         animate={{ y: 0 }}
-        className="fixed left-0 right-0 z-50 bg-black backdrop-blur-xl border-b-2 border-brand-yellow/30 shadow-lg shadow-brand-yellow/5"
-        style={{ top: 'calc(100vw / 19.2 - 2px)' }}
+        className="relative z-50 bg-black backdrop-blur-xl border-b-2 border-brand-yellow/30 shadow-lg shadow-brand-yellow/5"
       >
         {/* Top Bar - Logo, Search Bar, Cart - All Centered */}
         <div className="container mx-auto px-6 py-3">
@@ -104,7 +110,7 @@ const Header = () => {
             </button>
 
             {/* Logo - Center on mobile, left on desktop */}
-            <Link href="https://www.snkhouse.com/" className="flex items-center group flex-shrink-0 order-2 lg:order-1">
+            <Link href="/" className="flex items-center group flex-shrink-0 order-2 lg:order-1">
               <div className="relative w-40 h-12 md:w-48 md:h-13 transition-all duration-300 group-hover:scale-105 group-hover:brightness-110">
                 <Image
                   src="/images/logo/snkhouse-logo-white.png"
@@ -148,7 +154,7 @@ const Header = () => {
                       {searchResults.map((product) => (
                         <Link
                           key={product.id}
-                          href={product.permalink}
+                          href={`/product/${product.slug}`}
                           onClick={() => {
                             setShowSearchResults(false)
                             setSearchQuery('')
@@ -183,17 +189,34 @@ const Header = () => {
               </div>
             </div>
 
-            {/* Cart Icon - Right */}
-            <div className="flex items-center gap-4 flex-shrink-0 order-3 lg:order-3">
+            {/* Wishlist & Cart Icons - Right */}
+            <div className="flex items-center gap-3 flex-shrink-0 order-3 lg:order-3">
+              {/* Wishlist Icon */}
               <Link
-                href="https://www.snkhouse.com/cart/"
+                href="/favoritos"
+                className="relative p-2 text-white hover:text-red-500 transition-colors duration-200 group"
+                aria-label="Favoritos"
+              >
+                <Heart size={24} className={wishlistItemCount > 0 ? 'fill-red-500 text-red-500' : ''} />
+                {wishlistItemCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-black w-5 h-5 flex items-center justify-center rounded-full">
+                    {wishlistItemCount}
+                  </span>
+                )}
+              </Link>
+
+              {/* Cart Icon */}
+              <Link
+                href="/carrito"
                 className="relative p-2 text-white hover:text-brand-yellow transition-colors duration-200"
                 aria-label="Shopping Cart"
               >
                 <ShoppingCart size={24} />
-                <span className="absolute -top-1 -right-1 bg-brand-yellow text-black text-[10px] font-black w-5 h-5 flex items-center justify-center rounded-full">
-                  0
-                </span>
+                {cartItemCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-brand-yellow text-black text-[10px] font-black w-5 h-5 flex items-center justify-center rounded-full">
+                    {cartItemCount}
+                  </span>
+                )}
               </Link>
             </div>
           </div>
@@ -245,12 +268,6 @@ const Header = () => {
                     className="flex items-center gap-1.5 px-4 py-2 text-white font-black text-[13px] tracking-wider uppercase hover:text-brand-yellow transition-colors duration-200"
                   >
                     {item.name}
-                    {item.name === 'SHOWROOM' && (
-                      <span className="flex items-center gap-0.5 px-1.5 py-0.5 bg-brand-yellow text-black rounded-full text-[7px] font-black uppercase shadow-lg shadow-brand-yellow/30">
-                        <Clock size={8} className="animate-pulse" />
-                        Inauguración
-                      </span>
-                    )}
                   </Link>
                 )}
               </li>
@@ -265,8 +282,7 @@ const Header = () => {
           initial={{ opacity: 0, x: '100%' }}
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: '100%' }}
-          className="fixed inset-x-0 bottom-0 z-40 bg-black lg:hidden overflow-y-auto"
-          style={{ top: 'calc(100vw / 19.2 + 76px)' }}
+          className="absolute inset-x-0 z-40 bg-black lg:hidden overflow-y-auto max-h-screen"
         >
           <div className="flex flex-col items-center justify-start h-full space-y-4 px-6 py-8">
             {menuItems.map((item, index) => (
@@ -316,12 +332,6 @@ const Header = () => {
                     className="flex items-center justify-center gap-1.5 text-white hover:text-brand-yellow text-xl font-bold tracking-[0.15em] transition-colors duration-200"
                   >
                     {item.name}
-                    {item.name === 'SHOWROOM' && (
-                      <span className="flex items-center gap-0.5 px-1.5 py-0.5 bg-brand-yellow text-black rounded-full text-[7px] font-black uppercase shadow-lg shadow-brand-yellow/30">
-                        <Clock size={8} className="animate-pulse" />
-                        Inauguración
-                      </span>
-                    )}
                   </Link>
                 )}
               </motion.div>
@@ -353,7 +363,7 @@ const Header = () => {
                   {searchResults.map((product) => (
                     <Link
                       key={product.id}
-                      href={product.permalink}
+                      href={`/product/${product.slug}`}
                       onClick={() => {
                         setShowSearchResults(false)
                         setSearchQuery('')
@@ -383,14 +393,28 @@ const Header = () => {
 
             <div className="flex items-center gap-6 pt-4">
               <Link
-                href="https://www.snkhouse.com/cart/"
+                href="/favoritos"
+                className="relative p-3 text-white hover:text-red-500 transition-colors duration-200"
+                aria-label="Favoritos"
+              >
+                <Heart size={24} className={wishlistItemCount > 0 ? 'fill-red-500 text-red-500' : ''} />
+                {wishlistItemCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-black w-4 h-4 flex items-center justify-center rounded-full">
+                    {wishlistItemCount}
+                  </span>
+                )}
+              </Link>
+              <Link
+                href="/carrito"
                 className="relative p-3 text-white hover:text-brand-yellow transition-colors duration-200"
                 aria-label="Shopping Cart"
               >
                 <ShoppingCart size={24} />
-                <span className="absolute -top-1 -right-1 bg-brand-yellow text-black text-[10px] font-black w-4 h-4 flex items-center justify-center rounded-full">
-                  0
-                </span>
+                {cartItemCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-brand-yellow text-black text-[10px] font-black w-4 h-4 flex items-center justify-center rounded-full">
+                    {cartItemCount}
+                  </span>
+                )}
               </Link>
             </div>
           </div>

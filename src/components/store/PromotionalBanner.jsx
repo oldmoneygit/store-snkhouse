@@ -9,21 +9,18 @@ const PromotionalBanner = () => {
     <motion.div
       initial={{ y: -50, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      className="fixed top-0 left-0 right-0 z-[60] overflow-hidden bg-black leading-none"
+      className="w-full z-[60] bg-black pb-2 md:pb-3"
     >
       <Link
-        href="https://snkhouse.com/promociones"
-        className="block relative w-full"
-        style={{ aspectRatio: '19.2 / 1' }}
+        href="/#products"
+        className="block w-full h-14 md:h-16 bg-center bg-no-repeat"
+        style={{
+          backgroundImage: 'url(/images/banners/promotional-bar.webp)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center center'
+        }}
+        aria-label="Compra 1 Lleva 2 - Promoción SNKHOUSE"
       >
-        <Image
-          src="/images/banners/promotional-bar.webp"
-          alt="Compra 1 Lleva 2 - Promoción SNKHOUSE"
-          fill
-          className="object-cover object-center"
-          priority
-          quality={100}
-        />
       </Link>
     </motion.div>
   )

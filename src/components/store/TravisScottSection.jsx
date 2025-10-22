@@ -11,9 +11,9 @@ import productsData from '../../../data/products.json'
 import { getImageConfig } from '@/utils/performance'
 
 const TravisScottSection = () => {
-  // Filter Travis Scott products - ONLY original images (exclude seedream versions)
+  // Filtrar APENAS produtos Travis Scott seedream (versões melhoradas para homepage)
   const travisProducts = productsData.products
-    .filter(product => product.category === 'travis-scott' && !product.seedreamVersion)
+    .filter(product => product.category === 'travis-scott' && product.seedreamVersion === true)
 
   const [emblaRef, emblaApi] = useEmblaCarousel(
     {
@@ -77,7 +77,7 @@ const TravisScottSection = () => {
                     key={product.id}
                     className="flex-[0_0_calc(50%-8px)] md:flex-[0_0_calc(33.333%-11px)] lg:flex-[0_0_calc(20%-13px)] min-w-0"
                   >
-                    <Link href={`https://www.snkhouse.com/product/${product.slug}/`} className="block group">
+                    <Link href={`/product/${product.slug}`} className="block group">
                       <div className="bg-black rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-brand-yellow/20">
                         {/* Image Container */}
                         <div className="relative aspect-[4/3] bg-black">
@@ -159,7 +159,7 @@ const TravisScottSection = () => {
           className="text-center mt-12"
         >
           <Link
-            href="https://snkhouse.com/categoria/travis-scott"
+            href="/collection/travis-scott"
             className="inline-flex items-center gap-3 px-10 py-5 bg-gradient-to-r from-brand-yellow to-yellow-500 text-black font-black text-lg rounded-full hover:shadow-lg hover:shadow-brand-yellow/50 transition-all duration-300 group"
           >
             <span className="font-black">Ver Toda la Colección</span>

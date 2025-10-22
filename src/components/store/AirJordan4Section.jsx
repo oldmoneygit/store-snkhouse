@@ -15,7 +15,7 @@ const AirJordan4Section = () => {
       titleImage="/images/banners/air-jordan-4-banner.webp"
       subtitle="Performance y estilo en uno de los diseños más versátiles de Jordan Brand"
       products={jordan4Products}
-      categoryUrl="https://www.snkhouse.com/product-category/air-jordan-4/"
+      categoryUrl="/collection/air-jordan-4"
       emoji="⚡"
       badge="CLÁSICO"
     />

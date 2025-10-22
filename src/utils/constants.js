@@ -184,9 +184,9 @@ export const OPENING_DATE = new Date('2026-02-01T00:00:00')
 
 // SEO Data
 export const SEO_DATA = {
-  title: "SNKHOUSE Showroom | Palermo, Buenos Aires | Opening Feb 2026",
-  description: "El primer showroom premium de sneakers en Palermo, Buenos Aires. 180m² de experiencia exclusiva. Drops limitados, modelos únicos, autenticidad garantizada. Inauguración Febrero 2026.",
+  title: "SNKHOUSE - Sneakers Exclusivos",
+  description: "Sneakers premium importados 1:1. Nike, Jordan, Yeezy y más. Envío gratis a toda Argentina. Calidad garantizada.",
   keywords: "sneakers, zapatillas, showroom, Buenos Aires, Palermo, Nike, Jordan, streetwear, Argentina, SNKHOUSE",
-  url: "https://snkhouse.com",
+  url: process.env.NEXT_PUBLIC_SITE_URL || "https://showroom-snkhouse.vercel.app",
   ogImage: IMAGES.hero
 }

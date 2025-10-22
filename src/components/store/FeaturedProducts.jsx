@@ -47,7 +47,7 @@ const FeaturedProducts = () => {
           className="text-center mt-16"
         >
           <a
-            href="https://snkhouse.com/loja"
+            href="/#bestsellers"
             className="inline-block px-8 py-4 bg-transparent border-2 border-brand-yellow text-brand-yellow font-bold uppercase tracking-wide rounded-full transition-all duration-300 hover:bg-brand-yellow hover:text-black hover:scale-105"
           >
             Ver Todos los Productos

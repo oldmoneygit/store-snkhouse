@@ -69,6 +69,16 @@
     @apply bg-white/5 backdrop-blur-xl border border-white/10;
   }
 
+  /* Hide scrollbar */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
   .glass-yellow {
     @apply bg-brand-yellow/5 backdrop-blur-xl border border-brand-yellow/20;
   }

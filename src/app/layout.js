@@ -3,6 +3,7 @@ import './globals.css'
 import { SEO_DATA } from '@/utils/constants'
 import MetaPixelScript from '@/components/MetaPixelScript'
 import MetaPixel from '@/components/MetaPixel'
+import ClientProviders from '@/components/ClientProviders'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -76,18 +77,28 @@ export default function RootLayout({ children }) {
     <html lang="es" className={`${inter.variable} ${jetbrainsMono.variable}`}>
       <head>
         <link rel="canonical" href={SEO_DATA.url} />
-        {/* Preconnect to external domains for faster loading */}
-        <link rel="preconnect" href="https://www.snkhouse.com" />
-        <link rel="dns-prefetch" href="https://www.snkhouse.com" />
+
+        {/* Performance Optimization: Preconnect to external domains */}
         <link rel="preconnect" href="https://connect.facebook.net" />
         <link rel="dns-prefetch" href="https://connect.facebook.net" />
-        {/* Preload critical images */}
+
+        {/* Performance Optimization: Preload critical resources */}
         <link rel="preload" as="image" href="/images/hero/interior-symmetric-fisheye.jpg" />
+        <link rel="preload" as="image" href="/images/logo/snkhouse-logo-white.png" />
+
+        {/* Mobile Optimization */}
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+        {/* Performance Hints */}
+        <meta httpEquiv="x-dns-prefetch-control" content="on" />
       </head>
       <body className="font-sans antialiased">
         {metaPixelId && <MetaPixelScript pixelId={metaPixelId} />}
         {metaPixelId && <MetaPixel />}
-        {children}
+        <ClientProviders>{children}</ClientProviders>
       </body>
     </html>
   )

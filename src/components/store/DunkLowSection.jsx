@@ -15,7 +15,7 @@ const DunkLowSection = () => {
       titleImage="/images/banners/dunk-low-banner.webp"
       subtitle="El estilo retro que nunca pasa de moda, desde las canchas a las calles"
       products={dunkLowProducts}
-      categoryUrl="https://www.snkhouse.com/?s=dunk+low&post_type=product"
+      categoryUrl="/collection/dunk-low"
       emoji="🔥"
       badge="RETRO"
     />

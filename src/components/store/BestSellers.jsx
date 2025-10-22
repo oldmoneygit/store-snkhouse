@@ -69,7 +69,7 @@ const BestSellers = () => {
                   key={product.id}
                   className="flex-[0_0_calc(50%-12px)] min-w-0 md:flex-[0_0_48%] lg:flex-[0_0_31%] xl:flex-[0_0_23%]"
                 >
-                  <Link href={`https://www.snkhouse.com/product/${product.slug}/`} className="block h-full group">
+                  <Link href={`/product/${product.slug}`} className="block h-full group">
                     <div className="bg-gradient-to-br from-zinc-900 to-black rounded-2xl overflow-hidden border border-zinc-800 hover:border-brand-yellow/50 transition-all duration-300 h-full cursor-pointer">
                       {/* Product Image */}
                       <div className="relative aspect-square bg-white p-6">

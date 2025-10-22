@@ -13,7 +13,7 @@ export default function BackToStoreBar() {
     >
       <div className="container mx-auto px-4">
         <Link
-          href="https://snkhouse.com"
+          href="/"
           className="flex items-center gap-2 py-3 text-brand-yellow hover:text-brand-yellow/80 transition-colors duration-300 w-fit group"
         >
           <ArrowLeft className="w-5 h-5 transition-transform duration-300 group-hover:-translate-x-1" />

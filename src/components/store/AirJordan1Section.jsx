@@ -15,7 +15,7 @@ const AirJordan1Section = () => {
       titleImage="/images/banners/air-jordan-1-banner.webp"
       subtitle="El icónico modelo que revolucionó el mundo del sneaker"
       products={jordan1Products}
-      categoryUrl="https://www.snkhouse.com/?s=AIR+JORDAN+1&post_type=product"
+      categoryUrl="/collection/air-jordan-1"
       emoji="👑"
       badge="ICONO"
     />
