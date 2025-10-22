@@ -18,20 +18,22 @@ export default {
 
   // Shopify
   shopify: {
-    domain: process.env.NEXT_PUBLIC_AR_SHOPIFY_DOMAIN || '9wurf1-73.myshopify.com',
-    storefrontToken: process.env.NEXT_PUBLIC_AR_SHOPIFY_TOKEN || '7b53ccc78ba348565e335d6cb129f610',
-    apiVersion: '2024-10',
+    // Com 2 projetos separados, usa variáveis sem prefixo
+    domain: process.env.NEXT_PUBLIC_SHOPIFY_DOMAIN || '9wurf1-73.myshopify.com',
+    storefrontToken: process.env.NEXT_PUBLIC_SHOPIFY_TOKEN || '7b53ccc78ba348565e335d6cb129f610',
+    apiVersion: process.env.NEXT_PUBLIC_SHOPIFY_API_VERSION || '2024-10',
   },
 
   // Meta Pixel
   metaPixel: {
-    id: process.env.NEXT_PUBLIC_AR_META_PIXEL_ID || '1503220410800125',
-    conversionsToken: process.env.AR_META_CONVERSIONS_TOKEN || 'EAAROK9divmABP5fu1EfmxAZBpanynzTDm1eOwNW8QzWtym2zrcCV5e32IbHU728h4y',
+    // Com 2 projetos separados, usa variáveis sem prefixo
+    id: process.env.NEXT_PUBLIC_META_PIXEL_ID || '1503220410800125',
+    conversionsToken: process.env.META_CONVERSIONS_TOKEN || 'EAAROK9divmABP5fu1EfmxAZBpanynzTDm1eOwNW8QzWtym2zrcCV5e32IbHU728h4y',
   },
 
   // Webhook
   webhook: {
-    secret: process.env.AR_SHOPIFY_WEBHOOK_SECRET || '383771b77aa992cee86c81f5a8182650621b8e2229eccba92b3485c1520fe844',
+    secret: process.env.SHOPIFY_WEBHOOK_SECRET || '383771b77aa992cee86c81f5a8182650621b8e2229eccba92b3485c1520fe844',
   },
 
   // i18n - Tradução e linguagem

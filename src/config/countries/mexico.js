@@ -18,20 +18,22 @@ export default {
 
   // Shopify
   shopify: {
-    domain: process.env.NEXT_PUBLIC_MX_SHOPIFY_DOMAIN || 'snkhouse-mx.myshopify.com',
-    storefrontToken: process.env.NEXT_PUBLIC_MX_SHOPIFY_TOKEN || '',
-    apiVersion: '2024-10',
+    // Com 2 projetos separados, usa variáveis sem prefixo
+    domain: process.env.NEXT_PUBLIC_SHOPIFY_DOMAIN || 'pago-snkhouse-mexico.myshopify.com',
+    storefrontToken: process.env.NEXT_PUBLIC_SHOPIFY_TOKEN || '',
+    apiVersion: process.env.NEXT_PUBLIC_SHOPIFY_API_VERSION || '2024-10',
   },
 
   // Meta Pixel
   metaPixel: {
-    id: process.env.NEXT_PUBLIC_MX_META_PIXEL_ID || '',
-    conversionsToken: process.env.MX_META_CONVERSIONS_TOKEN || '',
+    // Com 2 projetos separados, usa variáveis sem prefixo
+    id: process.env.NEXT_PUBLIC_META_PIXEL_ID || '',
+    conversionsToken: process.env.META_CONVERSIONS_TOKEN || '',
   },
 
   // Webhook
   webhook: {
-    secret: process.env.MX_SHOPIFY_WEBHOOK_SECRET || '',
+    secret: process.env.SHOPIFY_WEBHOOK_SECRET || '',
   },
 
   // i18n - Tradução e linguagem
