@@ -9,8 +9,13 @@ import Autoplay from 'embla-carousel-autoplay'
 import { ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react'
 import productsData from '../../../data/products.json'
 import { getImageConfig } from '@/utils/performance'
+import { useCountry } from '@/hooks/useCountry'
+import { convertPrice, formatCurrency } from '@/utils/currency'
 
 const TravisScottSection = () => {
+  // Hook para detectar país e moeda
+  const country = useCountry()
+
   // Filtrar APENAS produtos Travis Scott seedream (versões melhoradas para homepage)
   const travisProducts = productsData.products
     .filter(product => product.category === 'travis-scott' && product.seedreamVersion === true)
@@ -107,16 +112,33 @@ const TravisScottSection = () => {
 
                           <div className="space-y-1.5">
                             {/* Regular Price (riscado) */}
-                            {product.regularPrice && product.regularPrice > product.price && (
-                              <p className="text-gray-400 text-sm line-through">
-                                {product.currency === 'USD' ? '$' : 'AR$'} {product.regularPrice.toLocaleString()}
-                              </p>
-                            )}
+                            {(() => {
+                              const priceARS = product.price
+                              const regularPriceARS = product.regularPrice
 
-                            {/* Sale Price */}
-                            <p className="text-brand-yellow font-bold text-sm md:text-lg whitespace-nowrap">
-                              {product.currency === 'USD' ? '$' : 'AR$'} {product.price.toLocaleString()}
-                            </p>
+                              // Converter preços para moeda do país
+                              const price = convertPrice(priceARS, country.currency.code)
+                              const regularPrice = regularPriceARS ? convertPrice(regularPriceARS, country.currency.code) : null
+
+                              // Formatar preços com locale correto
+                              const formattedPrice = formatCurrency(price, country.currency)
+                              const formattedRegularPrice = regularPrice ? formatCurrency(regularPrice, country.currency) : null
+
+                              return (
+                                <>
+                                  {formattedRegularPrice && regularPrice > price && (
+                                    <p className="text-gray-400 text-sm line-through">
+                                      {formattedRegularPrice}
+                                    </p>
+                                  )}
+
+                                  {/* Sale Price */}
+                                  <p className="text-brand-yellow font-bold text-sm md:text-lg whitespace-nowrap">
+                                    {formattedPrice}
+                                  </p>
+                                </>
+                              )
+                            })()}
 
                             {product.stock === 'available' && (
                               <div className="inline-flex items-center gap-1 px-2 py-1 md:px-3 md:py-1.5 bg-gradient-to-r from-brand-yellow to-yellow-500 rounded-full">

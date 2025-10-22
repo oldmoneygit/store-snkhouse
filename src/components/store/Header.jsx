@@ -9,10 +9,13 @@ import PromotionalBanner from './PromotionalBanner'
 import productsData from '../../../data/products.json'
 import { useCart } from '@/context/CartContext'
 import { useWishlist } from '@/context/WishlistContext'
+import { useCountry } from '@/hooks/useCountry'
+import { convertPrice, formatCurrency } from '@/utils/currency'
 
 const Header = () => {
   const { getItemCount } = useCart()
   const { getItemCount: getWishlistCount } = useWishlist()
+  const country = useCountry()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [airJordanOpen, setAirJordanOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
@@ -172,7 +175,7 @@ const Header = () => {
                           <div className="flex-1 min-w-0">
                             <p className="text-white text-sm font-semibold truncate">{product.name}</p>
                             <p className="text-brand-yellow text-sm font-bold">
-                              {product.currency === 'USD' ? '$' : 'AR$'} {product.price.toLocaleString()}
+                              {formatCurrency(convertPrice(product.price, country.currency.code), country.currency)}
                             </p>
                           </div>
                         </Link>
@@ -382,7 +385,7 @@ const Header = () => {
                       <div className="flex-1 min-w-0">
                         <p className="text-white text-sm font-semibold truncate">{product.name}</p>
                         <p className="text-brand-yellow text-sm font-bold">
-                          {product.currency === 'USD' ? '$' : 'AR$'} {product.price.toLocaleString()}
+                          {formatCurrency(convertPrice(product.price, country.currency.code), country.currency)}
                         </p>
                       </div>
                     </Link>
