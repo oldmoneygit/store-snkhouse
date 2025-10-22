@@ -142,18 +142,34 @@ export async function prepareUserData(userData = {}) {
 }
 
 /**
+ * Gera um event_id único para deduplicação entre Pixel e Conversions API
+ * @param {string} eventName - Nome do evento
+ * @returns {string} - Event ID único
+ */
+export function generateEventId(eventName) {
+  // Formato: eventName_timestamp_random
+  const timestamp = Date.now()
+  const random = Math.random().toString(36).substring(2, 15)
+  return `${eventName}_${timestamp}_${random}`
+}
+
+/**
  * Envia evento customizado para o Meta Pixel com parâmetros avançados
  * @param {string} eventName - Nome do evento (ex: 'ViewContent', 'AddToCart')
  * @param {Object} eventData - Dados do evento
  * @param {Object} userData - Dados do usuário (opcional)
+ * @returns {string} - Event ID usado (para deduplicação)
  */
 export async function trackPixelEvent(eventName, eventData = {}, userData = {}) {
   if (typeof window === 'undefined' || !window.fbq) {
     console.warn('Meta Pixel not loaded')
-    return
+    return null
   }
 
   try {
+    // Gerar event_id único para deduplicação
+    const eventId = generateEventId(eventName)
+
     // Capturar parâmetros do Facebook
     const fbc = getFacebookClickId()
     const fbp = getFacebookBrowserId()
@@ -172,16 +188,59 @@ export async function trackPixelEvent(eventName, eventData = {}, userData = {}) 
     // Enviar evento com Advanced Matching se houver dados de usuário
     if (Object.keys(hashedUserData).length > 0) {
       window.fbq('track', eventName, fullEventData, {
-        eventID: `${eventName}_${Date.now()}`, // ID único do evento
+        eventID: eventId,
         ...hashedUserData,
       })
     } else {
-      window.fbq('track', eventName, fullEventData)
+      window.fbq('track', eventName, fullEventData, {
+        eventID: eventId,
+      })
     }
 
-    console.log(`Meta Pixel - ${eventName} tracked:`, fullEventData)
+    console.log(`Meta Pixel - ${eventName} tracked:`, {
+      eventId,
+      ...fullEventData,
+    })
+
+    // Enviar também para Conversions API (server-side) para deduplicação
+    await sendToConversionsAPI(eventName, fullEventData, eventId, { fbc, fbp })
+
+    return eventId
   } catch (error) {
     console.error(`Error tracking ${eventName}:`, error)
+    return null
+  }
+}
+
+/**
+ * Envia evento para Conversions API (server-side)
+ * @param {string} eventName - Nome do evento
+ * @param {Object} eventData - Dados do evento
+ * @param {string} eventId - Event ID para deduplicação
+ * @param {Object} fbParams - Parâmetros do Facebook (fbc, fbp)
+ */
+async function sendToConversionsAPI(eventName, eventData, eventId, fbParams) {
+  try {
+    // Enviar para nossa API route que fará o envio server-side
+    await fetch('/api/meta-conversions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        eventName,
+        eventData,
+        eventId,
+        fbc: fbParams.fbc,
+        fbp: fbParams.fbp,
+        eventTime: Math.floor(Date.now() / 1000), // Unix timestamp em segundos
+        sourceUrl: window.location.href,
+        userAgent: navigator.userAgent,
+      }),
+    })
+  } catch (error) {
+    // Não bloquear se Conversions API falhar
+    console.warn('Conversions API error (não crítico):', error)
   }
 }
 
