@@ -21,6 +21,9 @@ export default function CartPage() {
 
   const subtotal = getSubtotal()
 
+  // Calcular quantidade TOTAL de produtos (soma de todas as quantities)
+  const totalQuantity = cartItems.reduce((total, item) => total + item.quantity, 0)
+
   return (
     <>
       <Header />
@@ -45,9 +48,9 @@ export default function CartPage() {
               Carrito de Compras
             </h1>
             <p className="text-white/60 text-sm md:text-base">
-              {cartItems.length === 0
+              {totalQuantity === 0
                 ? 'Tu carrito está vacío'
-                : `${cartItems.length} ${cartItems.length === 1 ? 'producto' : 'productos'} en tu carrito`}
+                : `${totalQuantity} ${totalQuantity === 1 ? 'producto' : 'productos'} en tu carrito`}
             </p>
           </div>
 
@@ -94,8 +97,8 @@ export default function CartPage() {
             </div>
           )}
 
-          {/* Promotional Banner - Compra 1 Lleva 2 - APENAS com 2+ produtos */}
-          {cartItems.length >= 2 ? (
+          {/* Promotional Banner - Compra 1 Lleva 2 - APENAS com 2+ produtos (quantidade total) */}
+          {totalQuantity >= 2 ? (
             <div className="mt-8 md:mt-12 bg-gradient-to-r from-green-500/10 to-green-500/5 border-2 border-green-500/30 rounded-xl p-6 md:p-8">
               <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6">
                 <div className="flex-shrink-0">
@@ -113,7 +116,7 @@ export default function CartPage() {
                 </div>
               </div>
             </div>
-          ) : cartItems.length === 1 ? (
+          ) : totalQuantity === 1 ? (
             <div className="mt-8 md:mt-12 bg-gradient-to-r from-brand-yellow/10 to-brand-yellow/5 border-2 border-brand-yellow/30 rounded-xl p-6 md:p-8">
               <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6">
                 <div className="flex-shrink-0">

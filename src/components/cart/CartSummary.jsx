@@ -18,12 +18,17 @@ const CartSummary = ({ subtotal, itemsCount, cartItems }) => {
     }
   }
 
-  // Cálculo da promoção 2x1 (produto de menor valor GRÁTIS) - APENAS com 2+ produtos
+  // Calcular quantidade TOTAL de produtos (soma de todas as quantities)
+  const totalQuantity = cartItems && cartItems.length > 0
+    ? cartItems.reduce((total, item) => total + item.quantity, 0)
+    : 0
+
+  // Cálculo da promoção 2x1 (produto de menor valor GRÁTIS) - APENAS com 2+ produtos (quantidade total)
   let discount = 0
   let cheapestProduct = null
 
-  if (itemsCount >= 2 && cartItems && cartItems.length >= 2) {
-    // Encontrar o produto de menor valor
+  if (totalQuantity >= 2 && cartItems && cartItems.length > 0) {
+    // Encontrar o produto de menor valor (preço unitário)
     cheapestProduct = cartItems.reduce((min, item) => {
       return item.price < min.price ? item : min
     }, cartItems[0])
@@ -35,8 +40,8 @@ const CartSummary = ({ subtotal, itemsCount, cartItems }) => {
   const shipping = 0 // Envío gratis
   const total = subtotal - discount + shipping
 
-  // Verificar se promoção está ativa
-  const hasPromotion = itemsCount >= 2
+  // Verificar se promoção está ativa (baseado na quantidade total)
+  const hasPromotion = totalQuantity >= 2
 
   return (
     <div className="sticky top-24">
@@ -51,7 +56,7 @@ const CartSummary = ({ subtotal, itemsCount, cartItems }) => {
         <div className="space-y-4">
           {/* Subtotal */}
           <div className="flex items-center justify-between">
-            <span className="text-white/60 text-sm">Subtotal ({itemsCount} {itemsCount === 1 ? 'producto' : 'productos'})</span>
+            <span className="text-white/60 text-sm">Subtotal ({totalQuantity} {totalQuantity === 1 ? 'producto' : 'productos'})</span>
             <span className="text-white font-semibold">
               ${subtotal.toLocaleString()}
             </span>
@@ -78,7 +83,10 @@ const CartSummary = ({ subtotal, itemsCount, cartItems }) => {
               <Tag className="w-5 h-5 text-brand-yellow flex-shrink-0 mt-0.5" />
               <div className="flex-1 min-w-0">
                 <p className="text-brand-yellow text-xs font-semibold">
-                  ¡Agrega 1 producto más para activar la promo 2x1!
+                  {totalQuantity === 0
+                    ? '¡Agrega productos para activar la promo 2x1!'
+                    : `¡Agrega ${2 - totalQuantity} producto${2 - totalQuantity > 1 ? 's' : ''} más para activar la promo 2x1!`
+                  }
                 </p>
               </div>
             </div>
