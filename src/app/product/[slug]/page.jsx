@@ -6,6 +6,7 @@ import ProductGallery from '@/components/product/ProductGallery'
 import ProductInfo from '@/components/product/ProductInfo'
 import ProductDescription from '@/components/product/ProductDescription'
 import RelatedProducts from '@/components/product/RelatedProducts'
+import { ViewContent } from '@/components/MetaPixelEvents'
 import Link from 'next/link'
 import { ChevronLeft } from 'lucide-react'
 
@@ -71,6 +72,9 @@ export default function ProductPage({ params }) {
 
   return (
     <>
+      {/* Meta Pixel - ViewContent Event */}
+      <ViewContent product={product} />
+
       <Header />
       <main className="min-h-screen bg-black">
         {/* Back Button */}

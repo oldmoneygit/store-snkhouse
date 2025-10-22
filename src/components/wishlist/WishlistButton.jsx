@@ -4,6 +4,7 @@ import { Heart } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useWishlist } from '@/context/WishlistContext'
 import { useState } from 'react'
+import { triggerAddToWishlist } from '@/components/MetaPixelEvents'
 
 /**
  * WishlistButton - Botão de favoritos com animação
@@ -33,6 +34,11 @@ const WishlistButton = ({
 
     // Toggle wishlist
     const added = toggleWishlist(product)
+
+    // Track Meta Pixel AddToWishlist event only when adding
+    if (added) {
+      triggerAddToWishlist(product)
+    }
 
     // Optional: Show toast notification
     if (typeof window !== 'undefined' && window.showToast) {

@@ -10,6 +10,7 @@ import QuantitySelector from './QuantitySelector'
 import WishlistButton from '@/components/wishlist/WishlistButton'
 import { ShoppingCart, Package, Shield, Truck, Check } from 'lucide-react'
 import { useCart } from '@/context/CartContext'
+import { triggerAddToCart } from '@/components/MetaPixelEvents'
 
 const ProductInfo = ({ product }) => {
   const router = useRouter()
@@ -44,6 +45,9 @@ const ProductInfo = ({ product }) => {
 
     // Add product to cart
     addToCart(product, selectedSize, quantity)
+
+    // Track Meta Pixel AddToCart event
+    triggerAddToCart(product, quantity)
 
     // Show success feedback - button turns green
     setAddedToCart(true)

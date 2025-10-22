@@ -3,6 +3,7 @@
 import { ShoppingCart, Truck, Tag, CreditCard } from 'lucide-react'
 import { useCart } from '@/context/CartContext'
 import { useState } from 'react'
+import { triggerInitiateCheckout } from '@/components/MetaPixelEvents'
 
 const CartSummary = ({ subtotal, itemsCount, cartItems }) => {
   const { proceedToCheckout } = useCart()
@@ -11,6 +12,9 @@ const CartSummary = ({ subtotal, itemsCount, cartItems }) => {
   const handleCheckout = async () => {
     setIsProcessing(true)
     try {
+      // Track Meta Pixel InitiateCheckout event
+      triggerInitiateCheckout(cartItems)
+
       await proceedToCheckout()
     } catch (error) {
       console.error('Checkout error:', error)
