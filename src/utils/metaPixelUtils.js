@@ -203,7 +203,10 @@ export async function trackPixelEvent(eventName, eventData = {}, userData = {}) 
     })
 
     // Enviar também para Conversions API (server-side) para deduplicação
-    await sendToConversionsAPI(eventName, fullEventData, eventId, { fbc, fbp })
+    // Não aguardar resposta (fire-and-forget) para não bloquear
+    sendToConversionsAPI(eventName, fullEventData, eventId, { fbc, fbp }).catch(err => {
+      console.warn('Conversions API failed (non-blocking):', err)
+    })
 
     return eventId
   } catch (error) {

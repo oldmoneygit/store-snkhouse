@@ -16,8 +16,17 @@ export function ViewContent({ product }) {
   useEffect(() => {
     if (!product) return
 
-    const eventData = formatProductData(product)
-    trackPixelEvent('ViewContent', eventData)
+    // Garantir que dispara apenas UMA vez por produto
+    const productId = product.id || product.slug
+    const tracked = sessionStorage.getItem(`viewcontent_${productId}`)
+
+    if (!tracked) {
+      const eventData = formatProductData(product)
+      trackPixelEvent('ViewContent', eventData)
+
+      // Marcar como rastreado nesta sessão
+      sessionStorage.setItem(`viewcontent_${productId}`, Date.now().toString())
+    }
   }, [product])
 
   return null
