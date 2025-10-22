@@ -4,10 +4,13 @@ import { ShoppingCart, Truck, Tag, CreditCard } from 'lucide-react'
 import { useCart } from '@/context/CartContext'
 import { useState } from 'react'
 import { triggerInitiateCheckout } from '@/components/MetaPixelEvents'
+import { useCountry } from '@/hooks/useCountry'
+import { convertPrice, formatCurrency } from '@/utils/currency'
 
 const CartSummary = ({ subtotal, itemsCount, cartItems }) => {
   const { proceedToCheckout } = useCart()
   const [isProcessing, setIsProcessing] = useState(false)
+  const country = useCountry()
 
   const handleCheckout = async () => {
     setIsProcessing(true)
@@ -27,22 +30,32 @@ const CartSummary = ({ subtotal, itemsCount, cartItems }) => {
     ? cartItems.reduce((total, item) => total + item.quantity, 0)
     : 0
 
+  // Convert subtotal to country currency
+  const subtotalConverted = convertPrice(subtotal, country.currency.code)
+
   // Cálculo da promoção 2x1 (produto de menor valor GRÁTIS) - APENAS com 2+ produtos (quantidade total)
   let discount = 0
   let cheapestProduct = null
 
   if (totalQuantity >= 2 && cartItems && cartItems.length > 0) {
-    // Encontrar o produto de menor valor (preço unitário)
+    // Encontrar o produto de menor valor (preço unitário) - converter cada preço
     cheapestProduct = cartItems.reduce((min, item) => {
-      return item.price < min.price ? item : min
+      const itemPriceConverted = convertPrice(item.price, country.currency.code)
+      const minPriceConverted = convertPrice(min.price, country.currency.code)
+      return itemPriceConverted < minPriceConverted ? item : min
     }, cartItems[0])
 
-    // Desconto é o valor do produto mais barato (fica grátis)
-    discount = cheapestProduct.price
+    // Desconto é o valor do produto mais barato (fica grátis) - CONVERTIDO
+    discount = convertPrice(cheapestProduct.price, country.currency.code)
   }
 
   const shipping = 0 // Envío gratis
-  const total = subtotal - discount + shipping
+  const total = subtotalConverted - discount + shipping
+
+  // Format values
+  const formattedSubtotal = formatCurrency(subtotalConverted, country.currency)
+  const formattedDiscount = formatCurrency(discount, country.currency)
+  const formattedTotal = formatCurrency(total, country.currency)
 
   // Verificar se promoção está ativa (baseado na quantidade total)
   const hasPromotion = totalQuantity >= 2
@@ -62,7 +75,7 @@ const CartSummary = ({ subtotal, itemsCount, cartItems }) => {
           <div className="flex items-center justify-between">
             <span className="text-white/60 text-sm">Subtotal ({totalQuantity} {totalQuantity === 1 ? 'producto' : 'productos'})</span>
             <span className="text-white font-semibold">
-              ${subtotal.toLocaleString()}
+              {formattedSubtotal}
             </span>
           </div>
 
@@ -74,7 +87,7 @@ const CartSummary = ({ subtotal, itemsCount, cartItems }) => {
                 <div className="flex items-center justify-between mb-1">
                   <span className="text-green-500 text-sm font-bold">Promo 2x1</span>
                   <span className="text-green-500 font-bold">
-                    -${discount.toLocaleString()}
+                    -{formattedDiscount}
                   </span>
                 </div>
                 <p className="text-green-500/80 text-xs">
@@ -111,12 +124,12 @@ const CartSummary = ({ subtotal, itemsCount, cartItems }) => {
             <div className="flex items-center justify-between mb-1">
               <span className="text-white text-lg font-bold">Total</span>
               <span className="text-brand-yellow text-2xl font-black">
-                ${total.toLocaleString()}
+                {formattedTotal}
               </span>
             </div>
             {hasPromotion && (
               <p className="text-green-500 text-xs text-right font-semibold">
-                ¡Ahorraste ${discount.toLocaleString()}!
+                ¡Ahorraste {formattedDiscount}!
               </p>
             )}
           </div>

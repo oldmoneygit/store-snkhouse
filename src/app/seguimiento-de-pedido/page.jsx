@@ -6,8 +6,10 @@ import StoreFooter from '@/components/store/StoreFooter'
 import { Package, Search, AlertCircle, CheckCircle2, Truck, MapPin } from 'lucide-react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import { useTranslation } from '@/hooks/useCountry'
 
 export default function SeguimientoPedidoPage() {
+  const t = useTranslation()
   const [orderNumber, setOrderNumber] = useState('')
   const [email, setEmail] = useState('')
   const [tracking, setTracking] = useState(null)
@@ -69,11 +71,11 @@ export default function SeguimientoPedidoPage() {
             <div className="flex items-center gap-3 mb-4">
               <Package className="w-8 h-8 md:w-10 md:h-10 text-brand-yellow" />
               <h1 className="text-3xl md:text-5xl font-black text-white">
-                Seguimiento de Pedido
+                {t.orderTrackingTitle}
               </h1>
             </div>
             <p className="text-white/60 text-base md:text-lg">
-              Rastrea tu pedido en tiempo real ingresando tu número de orden
+              {t.trackYourOrder}
             </p>
           </motion.div>
 
@@ -86,13 +88,13 @@ export default function SeguimientoPedidoPage() {
             >
               <div className="bg-gradient-to-br from-white/5 to-white/0 backdrop-blur-sm rounded-xl p-6 md:p-8 border border-white/10">
                 <h2 className="text-2xl font-bold text-white mb-6">
-                  Ingresa tus datos
+                  {t.enterYourData}
                 </h2>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
                     <label className="block text-white text-sm font-bold mb-2">
-                      Número de Pedido *
+                      {t.orderNumberLabel} *
                     </label>
                     <input
                       type="text"
@@ -133,12 +135,12 @@ export default function SeguimientoPedidoPage() {
                     {loading ? (
                       <>
                         <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-black"></div>
-                        Buscando...
+                        {t.searching}
                       </>
                     ) : (
                       <>
                         <Search className="w-5 h-5" />
-                        Rastrear Pedido
+                        {t.trackOrderButton}
                       </>
                     )}
                   </button>
@@ -147,7 +149,7 @@ export default function SeguimientoPedidoPage() {
                 {/* Info adicional */}
                 <div className="mt-8 p-4 bg-brand-yellow/10 border border-brand-yellow/30 rounded-lg">
                   <p className="text-white/80 text-sm">
-                    💡 <strong>Tip:</strong> Encontrarás tu número de pedido en el email de confirmación que te enviamos al realizar la compra.
+                    {t.orderNumberTip}
                   </p>
                 </div>
               </div>
@@ -163,7 +165,7 @@ export default function SeguimientoPedidoPage() {
                 <div className="bg-gradient-to-br from-white/5 to-white/0 backdrop-blur-sm rounded-xl p-6 md:p-8 border border-white/10">
                   <div className="flex items-center justify-between mb-6">
                     <h2 className="text-2xl font-bold text-white">
-                      Estado del Pedido
+                      {t.orderStatus}
                     </h2>
                     {getStatusIcon(tracking.status)}
                   </div>
@@ -172,11 +174,11 @@ export default function SeguimientoPedidoPage() {
                   <div className="mb-6 pb-6 border-b border-white/10">
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <p className="text-white/60 text-sm mb-1">Pedido</p>
+                        <p className="text-white/60 text-sm mb-1">{t.order}</p>
                         <p className="text-white font-bold">{tracking.orderNumber}</p>
                       </div>
                       <div>
-                        <p className="text-white/60 text-sm mb-1">Entrega estimada</p>
+                        <p className="text-white/60 text-sm mb-1">{t.estimatedDelivery}</p>
                         <p className="text-brand-yellow font-bold">{tracking.estimatedDelivery}</p>
                       </div>
                     </div>
@@ -187,7 +189,7 @@ export default function SeguimientoPedidoPage() {
                     <div className="flex items-start gap-3">
                       <MapPin className="w-5 h-5 text-brand-yellow flex-shrink-0 mt-0.5" />
                       <div>
-                        <p className="text-white/60 text-sm mb-1">Ubicación actual</p>
+                        <p className="text-white/60 text-sm mb-1">{t.currentLocation}</p>
                         <p className="text-white font-bold">{tracking.currentLocation}</p>
                       </div>
                     </div>
@@ -195,7 +197,7 @@ export default function SeguimientoPedidoPage() {
 
                   {/* Tracking History */}
                   <div>
-                    <h3 className="text-white font-bold mb-4">Historial de rastreo</h3>
+                    <h3 className="text-white font-bold mb-4">{t.trackingHistory}</h3>
                     <div className="space-y-4">
                       {tracking.history.map((item, index) => (
                         <div key={index} className="flex gap-4">
@@ -219,10 +221,10 @@ export default function SeguimientoPedidoPage() {
                 <div className="bg-gradient-to-br from-white/5 to-white/0 backdrop-blur-sm rounded-xl p-6 md:p-8 border border-white/10 flex flex-col items-center justify-center min-h-[400px]">
                   <Package className="w-20 h-20 text-white/20 mb-4" />
                   <h3 className="text-xl font-bold text-white mb-2">
-                    Ingresa tu número de pedido
+                    {t.enterOrderNumber}
                   </h3>
                   <p className="text-white/60 text-center">
-                    Completa el formulario para ver el estado de tu pedido
+                    {t.completeFormToTrack}
                   </p>
                 </div>
               )}
@@ -236,22 +238,22 @@ export default function SeguimientoPedidoPage() {
             transition={{ delay: 0.3 }}
             className="mt-12 bg-gradient-to-r from-brand-yellow/10 to-yellow-500/10 border border-brand-yellow/30 rounded-xl p-6 md:p-8"
           >
-            <h3 className="text-2xl font-bold text-white mb-4">¿Necesitas ayuda?</h3>
+            <h3 className="text-2xl font-bold text-white mb-4">{t.needHelp}</h3>
             <p className="text-white/80 mb-6">
-              Si tienes algún problema con tu pedido o el seguimiento, nuestro equipo está listo para ayudarte.
+              {t.needHelpDescription}
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link
                 href="/contactanos"
                 className="inline-flex items-center justify-center gap-2 bg-brand-yellow text-black font-bold px-6 py-3 rounded-lg hover:bg-yellow-500 transition-colors"
               >
-                Contactar Soporte
+                {t.contactSupport}
               </Link>
               <Link
                 href="/preguntas-frecuentes"
                 className="inline-flex items-center justify-center gap-2 bg-white/10 text-white font-bold px-6 py-3 rounded-lg hover:bg-white/20 transition-colors"
               >
-                Ver Preguntas Frecuentes
+                {t.viewFaqs}
               </Link>
             </div>
           </motion.div>

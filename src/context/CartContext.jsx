@@ -2,6 +2,8 @@
 
 import { createContext, useContext, useState, useEffect } from 'react'
 import { getCheckoutUrl } from '@/lib/shopify'
+import { getShopifyVariantId } from '@/utils/getShopifyVariantId'
+import { useCountry } from '@/hooks/useCountry'
 
 const CartContext = createContext()
 
@@ -16,6 +18,7 @@ export function useCart() {
 export function CartProvider({ children }) {
   const [cartItems, setCartItems] = useState([])
   const [isLoaded, setIsLoaded] = useState(false)
+  const country = useCountry()
 
   // Load cart from localStorage on mount
   useEffect(() => {
@@ -61,7 +64,11 @@ export function CartProvider({ children }) {
           )
 
           if (sizeObj && typeof sizeObj === 'object') {
-            shopifyVariantId = sizeObj.shopifyVariantId
+            // Get the correct variant ID for current country
+            shopifyVariantId = getShopifyVariantId(
+              sizeObj.shopifyVariantId,
+              country.code
+            )
           }
         }
 

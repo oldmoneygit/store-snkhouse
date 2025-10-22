@@ -2,8 +2,10 @@
 
 import { motion } from 'framer-motion'
 import Image from '@/components/OptimizedImage'
+import { useTranslation } from '@/hooks/useCountry'
 
 const SeedreamGallery = () => {
+  const t = useTranslation()
   const galleryImages = [
     {
       src: '/images/gallery/product-jordan1-blacktoe.jpg',
@@ -43,10 +45,10 @@ const SeedreamGallery = () => {
           className="text-center mb-16"
         >
           <span className="text-brand-yellow uppercase tracking-widest text-sm font-bold mb-4 block">
-            Nuestra Tienda
+            {t.ourStore}
           </span>
           <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">
-            Experiencia <span className="text-brand-yellow text-3xl md:text-5xl font-bold">Premium</span>
+            {t.experiencePremium}
           </h2>
         </motion.div>
 

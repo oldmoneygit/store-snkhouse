@@ -1,10 +1,26 @@
 /**
- * Shopify Storefront API Integration
+ * Shopify Storefront API Integration - Multi-Country
  *
  * This library handles all interactions with Shopify Storefront API
  * for creating checkouts and managing products.
+ * Supports multiple countries with separate Shopify stores.
  */
 
+import { getCountryConfig } from '@/config/countries'
+
+/**
+ * Get Shopify credentials for current country
+ */
+function getShopifyConfig() {
+  const country = getCountryConfig()
+  return {
+    domain: country.shopify.domain,
+    storefrontAccessToken: country.shopify.storefrontToken,
+    apiVersion: country.shopify.apiVersion || '2024-10',
+  }
+}
+
+// Legacy support - fallback para variáveis antigas
 const domain = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN
 const storefrontAccessToken = process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN
 const apiVersion = process.env.NEXT_PUBLIC_SHOPIFY_API_VERSION || '2024-10'
@@ -16,20 +32,31 @@ const apiVersion = process.env.NEXT_PUBLIC_SHOPIFY_API_VERSION || '2024-10'
  * @returns {Promise<object>} - API response
  */
 async function shopifyFetch(query, variables = {}) {
-  if (!domain || !storefrontAccessToken) {
+  // Tentar pegar config do país atual
+  let config
+  try {
+    config = getShopifyConfig()
+  } catch (e) {
+    // Fallback para variáveis antigas se não conseguir detectar país
+    config = { domain, storefrontAccessToken, apiVersion }
+  }
+
+  const { domain: shopifyDomain, storefrontAccessToken: token, apiVersion: version } = config
+
+  if (!shopifyDomain || !token) {
     throw new Error(
-      'Shopify credentials not configured. Please set NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN and NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN'
+      'Shopify credentials not configured. Please set country-specific Shopify environment variables.'
     )
   }
 
-  const url = `https://${domain}/api/${apiVersion}/graphql.json`
+  const url = `https://${shopifyDomain}/api/${version}/graphql.json`
 
   try {
     const response = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-Shopify-Storefront-Access-Token': storefrontAccessToken,
+        'X-Shopify-Storefront-Access-Token': token,
       },
       body: JSON.stringify({ query, variables }),
     })

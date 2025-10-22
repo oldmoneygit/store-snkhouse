@@ -4,8 +4,10 @@ import Header from '@/components/store/Header'
 import StoreFooter from '@/components/store/StoreFooter'
 import { RefreshCw, CheckCircle, XCircle, AlertTriangle, Clock, Package } from 'lucide-react'
 import { motion } from 'framer-motion'
+import { useTranslation } from '@/hooks/useCountry'
 
 export default function PoliticaCambiosPage() {
+  const t = useTranslation()
   return (
     <>
       <Header />
@@ -20,11 +22,11 @@ export default function PoliticaCambiosPage() {
             <div className="flex items-center gap-3 mb-4">
               <RefreshCw className="w-8 h-8 md:w-10 md:h-10 text-brand-yellow" />
               <h1 className="text-3xl md:text-5xl font-black text-white">
-                Política de Cambios y Devoluciones
+                {t.returnPolicyTitle}
               </h1>
             </div>
             <p className="text-white/60 text-base md:text-lg">
-              Tu satisfacción es nuestra prioridad. Conoce nuestras políticas de cambio y devolución
+              {t.returnPolicySubtitle}
             </p>
           </motion.div>
 

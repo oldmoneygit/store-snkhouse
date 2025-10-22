@@ -5,23 +5,35 @@ import Link from 'next/link'
 import { ShoppingCart, Eye } from 'lucide-react'
 import { getImageConfig } from '@/utils/performance'
 import WishlistButton from '@/components/wishlist/WishlistButton'
+import { useCountry, useTranslation } from '@/hooks/useCountry'
+import { convertPrice, formatCurrency } from '@/utils/currency'
 
 const ProductCard = ({ product, index = 0 }) => {
+  const country = useCountry()
+  const t = useTranslation()
+
   const {
     name,
     slug,
-    price,
-    regularPrice,
-    currency = 'USD',
+    price: priceARS, // Preço base em ARS
+    regularPrice: regularPriceARS,
     image,
     stock = 'available',
     tags = [],
   } = product
 
+  // Converter preços para moeda do país
+  const price = convertPrice(priceARS, country.currency.code)
+  const regularPrice = regularPriceARS ? convertPrice(regularPriceARS, country.currency.code) : null
+
+  // Formatar preços com locale correto
+  const formattedPrice = formatCurrency(price, country.currency)
+  const formattedRegularPrice = regularPrice ? formatCurrency(regularPrice, country.currency) : null
+
   const stockBadge = {
-    available: { text: 'Disponible', color: 'bg-green-500' },
+    available: { text: t.inStock, color: 'bg-green-500' },
     limited: { text: 'Stock Limitado', color: 'bg-orange-500' },
-    soldout: { text: 'Agotado', color: 'bg-red-500' },
+    soldout: { text: t.outOfStock, color: 'bg-red-500' },
   }
 
   const productUrl = `/product/${slug}`
@@ -82,15 +94,15 @@ const ProductCard = ({ product, index = 0 }) => {
               {/* Price and Stock */}
               <div className="space-y-1.5">
                 {/* Regular Price (riscado) */}
-                {regularPrice && regularPrice > price && (
+                {formattedRegularPrice && regularPrice > price && (
                   <p className="text-gray-400 text-sm line-through">
-                    {currency === 'USD' ? '$' : 'AR$'} {regularPrice.toLocaleString()}
+                    {formattedRegularPrice}
                   </p>
                 )}
 
                 {/* Sale Price */}
                 <p className="text-brand-yellow font-bold text-lg">
-                  {currency === 'USD' ? '$' : 'AR$'} {price.toLocaleString()}
+                  {formattedPrice}
                 </p>
 
                 {stock === 'available' && (

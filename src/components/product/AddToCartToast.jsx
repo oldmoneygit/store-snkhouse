@@ -5,8 +5,12 @@ import { Check, ShoppingCart, X, ArrowRight } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect } from 'react'
+import { useCountry, useTranslation } from '@/hooks/useCountry'
+import { convertPrice, formatCurrency } from '@/utils/currency'
 
 const AddToCartToast = ({ isOpen, onClose, product, size, quantity }) => {
+  const country = useCountry()
+  const t = useTranslation()
   // Auto close after 5 seconds
   useEffect(() => {
     if (isOpen) {
@@ -19,6 +23,10 @@ const AddToCartToast = ({ isOpen, onClose, product, size, quantity }) => {
   }, [isOpen, onClose])
 
   if (!product) return null
+
+  // Convert and format price
+  const priceConverted = convertPrice(product.price, country.currency.code)
+  const formattedPrice = formatCurrency(priceConverted, country.currency)
 
   return (
     <AnimatePresence>
@@ -41,7 +49,7 @@ const AddToCartToast = ({ isOpen, onClose, product, size, quantity }) => {
                       <Check className="w-4 h-4 md:w-5 md:h-5 text-green-600" strokeWidth={3} />
                     </div>
                     <h3 className="text-white font-bold text-sm md:text-base">
-                      ¡Agregado al Carrito!
+                      {t.addedToCart}
                     </h3>
                   </div>
                   <button
@@ -73,12 +81,12 @@ const AddToCartToast = ({ isOpen, onClose, product, size, quantity }) => {
                         {product.name}
                       </h4>
                       <div className="flex items-center gap-2 md:gap-3 text-xs md:text-sm text-white/70 mb-2">
-                        <span>Talla: <span className="text-brand-yellow font-semibold">{size}</span></span>
+                        <span>{t.size}: <span className="text-brand-yellow font-semibold">{size}</span></span>
                         <span>•</span>
                         <span>Cantidad: <span className="text-brand-yellow font-semibold">{quantity}</span></span>
                       </div>
                       <p className="text-brand-yellow font-bold text-base md:text-lg">
-                        {product.currency === 'USD' ? '$' : 'AR$'} {product.price.toLocaleString()}
+                        {formattedPrice}
                       </p>
                     </div>
                   </div>
@@ -89,14 +97,14 @@ const AddToCartToast = ({ isOpen, onClose, product, size, quantity }) => {
                       onClick={onClose}
                       className="flex-1 px-4 py-2.5 bg-white/10 hover:bg-white/20 text-white text-sm font-semibold rounded-lg transition-colors duration-200"
                     >
-                      Seguir Comprando
+                      {t.continueShopping}
                     </button>
                     <Link
                       href="/carrito"
                       className="flex-1 px-4 py-2.5 bg-brand-yellow hover:bg-yellow-400 text-black text-sm font-bold rounded-lg transition-all duration-200 flex items-center justify-center gap-1.5 group"
                     >
                       <ShoppingCart className="w-4 h-4" />
-                      <span>Ver Carrito</span>
+                      <span>{t.cart}</span>
                       <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
                     </Link>
                   </div>

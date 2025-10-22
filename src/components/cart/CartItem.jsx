@@ -4,9 +4,20 @@ import { useState } from 'react'
 import Image from '@/components/OptimizedImage'
 import Link from 'next/link'
 import { Minus, Plus, X } from 'lucide-react'
+import { useCountry, useTranslation } from '@/hooks/useCountry'
+import { convertPrice, formatCurrency } from '@/utils/currency'
 
 const CartItem = ({ item, onUpdateQuantity, onRemove }) => {
-  const { id, name, slug, image, price, currency, size, quantity } = item
+  const country = useCountry()
+  const t = useTranslation()
+  const { id, name, slug, image, price: priceARS, currency, size, quantity } = item
+
+  // Convert price to country currency
+  const price = convertPrice(priceARS, country.currency.code)
+  const itemTotal = price * quantity
+
+  const formattedPrice = formatCurrency(price, country.currency)
+  const formattedItemTotal = formatCurrency(itemTotal, country.currency)
 
   const handleDecrease = () => {
     if (quantity > 1) {
@@ -19,8 +30,6 @@ const CartItem = ({ item, onUpdateQuantity, onRemove }) => {
       onUpdateQuantity(id, size, quantity + 1)
     }
   }
-
-  const itemTotal = price * quantity
 
   return (
     <div className="bg-white/5 border border-white/10 rounded-xl p-4 md:p-6 hover:border-brand-yellow/30 transition-all duration-300">
@@ -56,12 +65,12 @@ const CartItem = ({ item, onUpdateQuantity, onRemove }) => {
 
             {/* Size */}
             <p className="text-white/60 text-sm mb-3">
-              Talla: <span className="text-white font-semibold">{size}</span>
+              {t.size}: <span className="text-white font-semibold">{size}</span>
             </p>
 
             {/* Price */}
             <p className="text-brand-yellow text-xl md:text-2xl font-bold">
-              {currency === 'USD' ? '$' : 'AR$'} {price.toLocaleString()}
+              {formattedPrice}
             </p>
           </div>
 
@@ -92,7 +101,7 @@ const CartItem = ({ item, onUpdateQuantity, onRemove }) => {
             <div className="hidden md:block text-right">
               <p className="text-white/60 text-xs mb-1">Total</p>
               <p className="text-white text-lg font-bold">
-                {currency === 'USD' ? '$' : 'AR$'} {itemTotal.toLocaleString()}
+                {formattedItemTotal}
               </p>
             </div>
 
@@ -111,7 +120,7 @@ const CartItem = ({ item, onUpdateQuantity, onRemove }) => {
             <div className="flex items-center justify-between">
               <span className="text-white/60 text-sm">Total del producto:</span>
               <span className="text-white text-lg font-bold">
-                {currency === 'USD' ? '$' : 'AR$'} {itemTotal.toLocaleString()}
+                {formattedItemTotal}
               </span>
             </div>
           </div>

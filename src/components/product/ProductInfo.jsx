@@ -11,10 +11,14 @@ import WishlistButton from '@/components/wishlist/WishlistButton'
 import { ShoppingCart, Package, Shield, Truck, Check } from 'lucide-react'
 import { useCart } from '@/context/CartContext'
 import { triggerAddToCart } from '@/components/MetaPixelEvents'
+import { useCountry, useTranslation } from '@/hooks/useCountry'
+import { convertPrice, formatCurrency } from '@/utils/currency'
 
 const ProductInfo = ({ product }) => {
   const router = useRouter()
   const { addToCart } = useCart()
+  const country = useCountry()
+  const t = useTranslation()
   const [selectedSize, setSelectedSize] = useState(null)
   const [quantity, setQuantity] = useState(1)
   const [addedToCart, setAddedToCart] = useState(false)
@@ -24,13 +28,21 @@ const ProductInfo = ({ product }) => {
   const {
     name,
     slug,
-    price,
-    regularPrice,
+    price: priceARS,
+    regularPrice: regularPriceARS,
     currency = 'USD',
     sizes = [],
     stock = 'available',
     tags = [],
   } = product
+
+  // Convert prices to country currency
+  const price = convertPrice(priceARS, country.currency.code)
+  const regularPrice = regularPriceARS ? convertPrice(regularPriceARS, country.currency.code) : null
+
+  // Format prices
+  const formattedPrice = formatCurrency(price, country.currency)
+  const formattedRegularPrice = regularPrice ? formatCurrency(regularPrice, country.currency) : null
 
   const hasDiscount = regularPrice && regularPrice > price
   const discountPercentage = hasDiscount
@@ -39,7 +51,7 @@ const ProductInfo = ({ product }) => {
 
   const handleAddToCart = () => {
     if (!selectedSize) {
-      alert('Por favor selecciona una talla')
+      alert(t.selectSize)
       return
     }
 
@@ -100,12 +112,12 @@ const ProductInfo = ({ product }) => {
       <div className="space-y-2 border-t border-b border-white/10 py-3 md:py-4">
         <div className="flex items-baseline gap-2 md:gap-3">
           <p className="text-2xl md:text-4xl font-bold text-brand-yellow flex-shrink-0">
-            {currency === 'USD' ? '$' : 'AR$'} {price.toLocaleString()}
+            {formattedPrice}
           </p>
           {hasDiscount && (
             <>
               <p className="text-base md:text-xl text-white/40 line-through flex-shrink-0">
-                {currency === 'USD' ? '$' : 'AR$'} {regularPrice.toLocaleString()}
+                {formattedRegularPrice}
               </p>
               <span className="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded flex-shrink-0">
                 -{discountPercentage}%
@@ -159,12 +171,12 @@ const ProductInfo = ({ product }) => {
           {addedToCart ? (
             <>
               <Check className="w-5 h-5 md:w-6 md:h-6" />
-              ¡Agregado!
+              {t.added}
             </>
           ) : (
             <>
               <ShoppingCart className="w-5 h-5 md:w-6 md:h-6" />
-              {stock === 'soldout' ? 'Agotado' : 'Agregar al Carrito'}
+              {stock === 'soldout' ? t.soldOut : t.addToCart}
             </>
           )}
         </button>
@@ -180,22 +192,22 @@ const ProductInfo = ({ product }) => {
         <div className="flex items-start gap-3">
           <Package className="w-5 h-5 text-brand-yellow flex-shrink-0 mt-0.5" />
           <div>
-            <p className="text-white font-semibold text-sm">Calidad Premium 1:1</p>
-            <p className="text-white/60 text-xs">Máxima calidad garantizada</p>
+            <p className="text-white font-semibold text-sm">{t.premiumQuality}</p>
+            <p className="text-white/60 text-xs">{t.premiumQualityDesc}</p>
           </div>
         </div>
         <div className="flex items-start gap-3">
           <Truck className="w-5 h-5 text-brand-yellow flex-shrink-0 mt-0.5" />
           <div>
-            <p className="text-white font-semibold text-sm">Envío Rápido</p>
-            <p className="text-white/60 text-xs">Recibe en 3-5 días hábiles</p>
+            <p className="text-white font-semibold text-sm">{t.fastShipping}</p>
+            <p className="text-white/60 text-xs">{t.fastShippingDesc}</p>
           </div>
         </div>
         <div className="flex items-start gap-3">
           <Shield className="w-5 h-5 text-brand-yellow flex-shrink-0 mt-0.5" />
           <div>
-            <p className="text-white font-semibold text-sm">Compra Segura</p>
-            <p className="text-white/60 text-xs">Protección al comprador</p>
+            <p className="text-white font-semibold text-sm">{t.securePurchase}</p>
+            <p className="text-white/60 text-xs">{t.securePurchaseDesc}</p>
           </div>
         </div>
       </div>

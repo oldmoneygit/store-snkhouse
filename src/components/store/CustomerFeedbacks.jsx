@@ -5,9 +5,11 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Image from '@/components/OptimizedImage'
 import { ChevronLeft, ChevronRight, Star, MessageCircle, Instagram, ArrowRight } from 'lucide-react'
 import { SOCIAL_LINKS } from '@/utils/constants'
+import { useTranslation } from '@/hooks/useCountry'
 
 const CustomerFeedbacks = () => {
   const [currentIndex, setCurrentIndex] = useState(0)
+  const t = useTranslation()
 
   const feedbacks = [
     {
@@ -82,17 +84,17 @@ const CustomerFeedbacks = () => {
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-brand-yellow/10 border border-brand-yellow/20 rounded-full mb-8">
             <MessageCircle className="w-5 h-5 text-brand-yellow" />
             <span className="text-sm font-bold tracking-widest text-brand-yellow uppercase">
-              +1 Cliente Satisfecho
+              {t.satisfiedCustomer}
             </span>
           </div>
 
           <div className="max-w-6xl mx-auto px-4">
             <h2 className="text-2xl md:text-5xl lg:text-6xl font-bold leading-tight md:leading-relaxed mb-8">
-              <span className="text-white">Más de </span>
-              <span className="text-brand-yellow font-black" style={{ filter: 'drop-shadow(0 0 30px rgba(250, 184, 0, 0.8))' }}>3492 clientes satisfechos</span>
-              <span className="text-white"> y </span>
-              <span className="text-brand-yellow font-black" style={{ filter: 'drop-shadow(0 0 30px rgba(250, 184, 0, 0.8))' }}>+4000 pedidos enviados</span>
-              <span className="text-white"> a toda Argentina con sneakers de calidad premium!</span>
+              <span className="text-white">{t.moreThan} </span>
+              <span className="text-brand-yellow font-black" style={{ filter: 'drop-shadow(0 0 30px rgba(250, 184, 0, 0.8))' }}>3492 {t.satisfiedCustomers}</span>
+              <span className="text-white"> {t.and} </span>
+              <span className="text-brand-yellow font-black" style={{ filter: 'drop-shadow(0 0 30px rgba(250, 184, 0, 0.8))' }}>+4000 {t.ordersSent}</span>
+              <span className="text-white"> {t.toAllCountry} {t.withPremiumQuality}</span>
             </h2>
           </div>
         </motion.div>
@@ -127,14 +129,11 @@ const CustomerFeedbacks = () => {
 
                         {/* Text */}
                         <h3 className="text-3xl md:text-4xl font-black text-white mb-4 leading-tight">
-                          ¡Y mucho más en<br />
-                          <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-yellow to-yellow-500">
-                            nuestro Instagram!
-                          </span>
+                          {t.andMoreOnInstagram}
                         </h3>
 
                         <p className="text-gray-400 text-sm mb-8 max-w-xs">
-                          Miles de feedbacks reales, drops exclusivos y toda la acción del showroom
+                          {t.thousandsOfRealFeedbacks}
                         </p>
 
                         {/* CTA Button */}
@@ -195,7 +194,7 @@ const CustomerFeedbacks = () => {
           <button
             onClick={prevSlide}
             className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 md:-translate-x-12 bg-brand-yellow hover:bg-yellow-500 text-black p-3 md:p-4 rounded-full transition-all duration-300 hover:scale-110 shadow-lg z-10"
-            aria-label="Anterior"
+            aria-label={t.previous}
           >
             <ChevronLeft className="w-6 h-6" />
           </button>
@@ -203,7 +202,7 @@ const CustomerFeedbacks = () => {
           <button
             onClick={nextSlide}
             className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 md:translate-x-12 bg-brand-yellow hover:bg-yellow-500 text-black p-3 md:p-4 rounded-full transition-all duration-300 hover:scale-110 shadow-lg z-10"
-            aria-label="Siguiente"
+            aria-label={t.next}
           >
             <ChevronRight className="w-6 h-6" />
           </button>
@@ -240,22 +239,22 @@ const CustomerFeedbacks = () => {
               ))}
             </div>
             <p className="text-3xl font-black text-white mb-2">4.8</p>
-            <p className="text-gray-400 text-sm">Calificación promedio</p>
+            <p className="text-gray-400 text-sm">{t.averageRating}</p>
           </div>
 
           <div className="bg-gradient-to-br from-zinc-900 to-black border border-brand-yellow/20 rounded-2xl p-6 text-center">
             <p className="text-3xl font-black text-brand-yellow mb-2">+3492</p>
-            <p className="text-gray-400 text-sm">Clientes satisfechos</p>
+            <p className="text-gray-400 text-sm">{t.satisfiedCustomers}</p>
           </div>
 
           <div className="bg-gradient-to-br from-zinc-900 to-black border border-brand-yellow/20 rounded-2xl p-6 text-center">
             <p className="text-3xl font-black text-brand-yellow mb-2">+4000</p>
-            <p className="text-gray-400 text-sm">Pedidos enviados a toda Argentina</p>
+            <p className="text-gray-400 text-sm">{t.ordersSentToCountry}</p>
           </div>
 
           <div className="bg-gradient-to-br from-zinc-900 to-black border border-brand-yellow/20 rounded-2xl p-6 text-center">
             <p className="text-3xl font-black text-brand-yellow mb-2">98%</p>
-            <p className="text-gray-400 text-sm">Tasa de recomendación</p>
+            <p className="text-gray-400 text-sm">{t.recommendationRate}</p>
           </div>
         </motion.div>
       </div>

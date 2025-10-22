@@ -4,8 +4,10 @@ import Header from '@/components/store/Header'
 import StoreFooter from '@/components/store/StoreFooter'
 import { Shield, Lock, Eye, UserCheck, Database, CreditCard, FileText, AlertCircle } from 'lucide-react'
 import { motion } from 'framer-motion'
+import { useTranslation } from '@/hooks/useCountry'
 
 export default function PoliticaSeguridadPage() {
+  const t = useTranslation()
   return (
     <>
       <Header />
@@ -20,11 +22,11 @@ export default function PoliticaSeguridadPage() {
             <div className="flex items-center gap-3 mb-4">
               <Shield className="w-8 h-8 md:w-10 md:h-10 text-brand-yellow" />
               <h1 className="text-3xl md:text-5xl font-black text-white">
-                Política de Seguridad y Privacidad
+                {t.privacyPolicyTitle}
               </h1>
             </div>
             <p className="text-white/60 text-base md:text-lg">
-              Tu privacidad y seguridad son nuestra prioridad
+              {t.privacyPolicySubtitle}
             </p>
             <p className="text-white/40 text-sm mt-2">
               Última actualización: Octubre 2025

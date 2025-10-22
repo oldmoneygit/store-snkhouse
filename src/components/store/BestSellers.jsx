@@ -8,6 +8,8 @@ import Link from 'next/link'
 import productsData from '../../../data/products.json'
 import SectionTitle from './SectionTitle'
 import { getImageConfig } from '@/utils/performance'
+import { useCountry } from '@/hooks/useCountry'
+import { convertPrice, formatCurrency } from '@/utils/currency'
 
 // Get products by their IDs
 const getProductsByIds = (ids) => {
@@ -20,6 +22,7 @@ const getProductsByIds = (ids) => {
 const bestSellerIds = [53, 58, 54, 61, 62, 63, 64, 55, 69, 70, 71, 72, 76, 77, 56, 21, 57, 23, 59, 60, 29, 30, 31, 65, 33, 66, 67, 68, 73, 74, 75, 41]
 
 const BestSellers = () => {
+  const country = useCountry()
   const bestSellersProducts = getProductsByIds(bestSellerIds)
 
   const [emblaRef, emblaApi] = useEmblaCarousel(
@@ -43,11 +46,10 @@ const BestSellers = () => {
     if (emblaApi) emblaApi.scrollNext()
   }, [emblaApi])
 
-  const formatPrice = (price, currency = 'ARS') => {
-    if (currency === 'USD') {
-      return `$${price.toLocaleString()}`
-    }
-    return `AR$ ${price.toLocaleString()}`
+  // Função para converter e formatar preço
+  const formatProductPrice = (priceARS) => {
+    const converted = convertPrice(priceARS, country.currency.code)
+    return formatCurrency(converted, country.currency)
   }
 
   return (
@@ -96,13 +98,13 @@ const BestSellers = () => {
                           {/* Regular Price (riscado) */}
                           {product.regularPrice && product.regularPrice > product.price && (
                             <p className="text-gray-400 text-sm line-through mb-1">
-                              {formatPrice(product.regularPrice, product.currency)}
+                              {formatProductPrice(product.regularPrice)}
                             </p>
                           )}
 
                           {/* Sale Price */}
                           <p className="text-brand-yellow font-bold text-base md:text-xl whitespace-nowrap">
-                            {formatPrice(product.price, product.currency)}
+                            {formatProductPrice(product.price)}
                           </p>
                         </div>
 

@@ -4,31 +4,14 @@ import Header from '@/components/store/Header'
 import StoreFooter from '@/components/store/StoreFooter'
 import { Truck, Clock, MapPin, Package, CheckCircle, Info } from 'lucide-react'
 import { motion } from 'framer-motion'
+import { useCountry, useTranslation } from '@/hooks/useCountry'
 
 export default function PlazoEntregaPage() {
-  const deliveryTimes = [
-    {
-      region: 'CABA y GBA',
-      icon: '🏙️',
-      days: '2-4 días hábiles',
-      color: 'from-green-500/20 to-green-500/0 border-green-500/30',
-      iconColor: 'text-green-500',
-    },
-    {
-      region: 'Provincia de Buenos Aires',
-      icon: '🌆',
-      days: '4-7 días hábiles',
-      color: 'from-blue-500/20 to-blue-500/0 border-blue-500/30',
-      iconColor: 'text-blue-500',
-    },
-    {
-      region: 'Interior del país',
-      icon: '🗺️',
-      days: '5-10 días hábiles',
-      color: 'from-orange-500/20 to-orange-500/0 border-orange-500/30',
-      iconColor: 'text-orange-500',
-    },
-  ]
+  const country = useCountry()
+  const t = useTranslation()
+
+  // Get delivery regions from country config
+  const deliveryTimes = country.delivery.regions
 
   return (
     <>
@@ -44,11 +27,11 @@ export default function PlazoEntregaPage() {
             <div className="flex items-center gap-3 mb-4">
               <Truck className="w-8 h-8 md:w-10 md:h-10 text-brand-yellow" />
               <h1 className="text-3xl md:text-5xl font-black text-white">
-                Plazo de Entrega
+                {t.deliveryTimeTitle}
               </h1>
             </div>
             <p className="text-white/60 text-base md:text-lg">
-              Conoce los tiempos de entrega según tu ubicación
+              {t.knowDeliveryTimes}
             </p>
           </motion.div>
 
@@ -65,10 +48,10 @@ export default function PlazoEntregaPage() {
               </div>
               <div>
                 <h2 className="text-2xl md:text-3xl font-black text-white mb-2">
-                  ¡Envío GRATIS a todo Argentina!
+                  {t.freeShippingCountry}
                 </h2>
                 <p className="text-white/80">
-                  Sin mínimo de compra • Sin costos ocultos • Rastreo incluido
+                  {t.freeShippingBanner}
                 </p>
               </div>
             </div>
@@ -82,7 +65,7 @@ export default function PlazoEntregaPage() {
             className="mb-12"
           >
             <h2 className="text-2xl font-bold text-white mb-6">
-              Tiempos de entrega por región
+              {t.deliveryTimesByRegion}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {deliveryTimes.map((item, index) => (
@@ -109,39 +92,39 @@ export default function PlazoEntregaPage() {
             className="mb-12"
           >
             <h2 className="text-2xl font-bold text-white mb-6">
-              ¿Cómo funciona el proceso de envío?
+              {t.howShippingWorks}
             </h2>
             <div className="bg-gradient-to-br from-white/5 to-white/0 backdrop-blur-sm rounded-xl p-6 md:p-8 border border-white/10">
               <div className="space-y-6">
                 {[
                   {
                     step: '1',
-                    title: 'Confirmación de pedido',
-                    desc: 'Recibes un email confirmando tu compra con todos los detalles',
-                    time: 'Inmediato',
+                    title: t.orderConfirmation,
+                    desc: t.orderConfirmationDesc,
+                    time: t.immediate,
                   },
                   {
                     step: '2',
-                    title: 'Preparación del pedido',
-                    desc: 'Verificamos stock y empacamos tu producto con cuidado',
-                    time: '24-48 horas',
+                    title: t.orderPreparation,
+                    desc: t.orderPreparationDesc,
+                    time: t.hours24to48,
                   },
                   {
                     step: '3',
-                    title: 'Despacho',
-                    desc: 'Tu pedido sale de nuestro centro de distribución',
-                    time: '2-3 días hábiles',
+                    title: t.dispatch,
+                    desc: t.dispatchDesc,
+                    time: t.days2to3,
                   },
                   {
                     step: '4',
-                    title: 'En tránsito',
-                    desc: 'Puedes rastrear tu envío en tiempo real con el número de seguimiento',
-                    time: 'Según tu ubicación',
+                    title: t.inTransit,
+                    desc: t.inTransitDesc,
+                    time: t.accordingToLocation,
                   },
                   {
                     step: '5',
-                    title: '¡Entregado!',
-                    desc: 'Recibes tu pedido en la puerta de tu casa',
+                    title: t.delivered,
+                    desc: t.deliveredDesc,
                     time: '🎉',
                   },
                 ].map((item, index) => (
@@ -177,29 +160,29 @@ export default function PlazoEntregaPage() {
             className="mb-12"
           >
             <h2 className="text-2xl font-bold text-white mb-6">
-              Información importante sobre entregas
+              {t.importantDeliveryInfo}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {[
                 {
                   icon: <Clock className="w-6 h-6 text-brand-yellow" />,
-                  title: 'Días hábiles',
-                  desc: 'Los tiempos de entrega se cuentan en días hábiles (lunes a viernes), excluyendo fines de semana y feriados.',
+                  title: t.businessDaysTitle,
+                  desc: t.businessDaysDesc,
                 },
                 {
                   icon: <Package className="w-6 h-6 text-brand-yellow" />,
-                  title: 'Empaque seguro',
-                  desc: 'Todos nuestros productos son embalados con materiales de calidad para garantizar que lleguen en perfecto estado.',
+                  title: t.securePackaging,
+                  desc: t.securePackagingDesc,
                 },
                 {
                   icon: <MapPin className="w-6 h-6 text-brand-yellow" />,
-                  title: 'Dirección correcta',
-                  desc: 'Asegúrate de proporcionar una dirección completa y correcta. Incluye referencias si es necesario.',
+                  title: t.correctAddress,
+                  desc: t.correctAddressDesc,
                 },
                 {
                   icon: <CheckCircle className="w-6 h-6 text-brand-yellow" />,
-                  title: 'Rastreo incluido',
-                  desc: 'Todos los envíos incluyen número de seguimiento para que puedas rastrear tu pedido en tiempo real.',
+                  title: t.trackingIncluded,
+                  desc: t.trackingIncludedDesc,
                 },
               ].map((item, index) => (
                 <div
@@ -227,31 +210,31 @@ export default function PlazoEntregaPage() {
               <Info className="w-8 h-8 text-orange-500 flex-shrink-0" />
               <div>
                 <h3 className="text-2xl font-bold text-white mb-3">
-                  ¿Qué pasa si hay demoras?
+                  {t.whatIfDelays}
                 </h3>
                 <p className="text-white/80 mb-4">
-                  Aunque trabajamos con las mejores empresas de logística, ocasionalmente pueden ocurrir demoras por:
+                  {t.delaysIntro}
                 </p>
                 <ul className="space-y-2 text-white/80 text-sm mb-4">
                   <li className="flex gap-2">
                     <span className="text-orange-500">•</span>
-                    <span>Condiciones climáticas adversas</span>
+                    <span>{t.weatherConditions}</span>
                   </li>
                   <li className="flex gap-2">
                     <span className="text-orange-500">•</span>
-                    <span>Feriados nacionales o locales</span>
+                    <span>{t.holidays}</span>
                   </li>
                   <li className="flex gap-2">
                     <span className="text-orange-500">•</span>
-                    <span>Alta demanda en temporada de ventas</span>
+                    <span>{t.highDemand}</span>
                   </li>
                   <li className="flex gap-2">
                     <span className="text-orange-500">•</span>
-                    <span>Problemas con la dirección de entrega</span>
+                    <span>{t.addressProblems}</span>
                   </li>
                 </ul>
                 <p className="text-white/80">
-                  Si tu pedido se demora más de lo esperado, <strong className="text-brand-yellow">contáctanos inmediatamente</strong> y lo solucionaremos.
+                  {t.delaysContact} <strong className="text-brand-yellow">{t.contactUsImmediately}</strong> {t.andWeWillSolve}
                 </p>
               </div>
             </div>
@@ -265,10 +248,10 @@ export default function PlazoEntregaPage() {
             className="bg-gradient-to-r from-brand-yellow/10 to-yellow-500/10 border border-brand-yellow/30 rounded-xl p-6 md:p-8"
           >
             <h3 className="text-2xl font-bold text-white mb-4">
-              ¿Tienes preguntas sobre tu envío?
+              {t.questionsAboutShipping}
             </h3>
             <p className="text-white/80 mb-6">
-              Nuestro equipo de soporte está disponible para ayudarte con cualquier consulta sobre entregas.
+              {t.supportAvailable}
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <a
@@ -276,13 +259,13 @@ export default function PlazoEntregaPage() {
                 className="inline-flex items-center justify-center gap-2 bg-brand-yellow text-black font-bold px-6 py-3 rounded-lg hover:bg-yellow-500 transition-colors"
               >
                 <Package className="w-5 h-5" />
-                Rastrear mi pedido
+                {t.trackMyOrder}
               </a>
               <a
                 href="/contactanos"
                 className="inline-flex items-center justify-center gap-2 bg-white/10 text-white font-bold px-6 py-3 rounded-lg hover:bg-white/20 transition-colors"
               >
-                Contactar Soporte
+                {t.contactSupport}
               </a>
             </div>
           </motion.div>

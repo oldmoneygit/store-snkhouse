@@ -394,6 +394,7 @@ const Header = () => {
             <div className="flex items-center gap-6 pt-4">
               <Link
                 href="/favoritos"
+                onClick={() => setMobileMenuOpen(false)}
                 className="relative p-3 text-white hover:text-red-500 transition-colors duration-200"
                 aria-label="Favoritos"
               >
@@ -406,6 +407,7 @@ const Header = () => {
               </Link>
               <Link
                 href="/carrito"
+                onClick={() => setMobileMenuOpen(false)}
                 className="relative p-3 text-white hover:text-brand-yellow transition-colors duration-200"
                 aria-label="Shopping Cart"
               >

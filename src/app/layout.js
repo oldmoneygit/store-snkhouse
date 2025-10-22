@@ -72,8 +72,13 @@ export const metadata = {
   },
 }
 
+// IMPORTANTE: Este layout é server component e não pode usar hooks client-side
+// O Pixel ID será detectado dinamicamente pelo MetaPixelScript no client-side
+
 export default function RootLayout({ children }) {
-  const metaPixelId = process.env.NEXT_PUBLIC_META_PIXEL_ID
+  // Fallback: tentar pegar o Pixel Argentina das variáveis antigas (legacy support)
+  const fallbackPixelId = process.env.NEXT_PUBLIC_AR_META_PIXEL_ID ||
+                         process.env.NEXT_PUBLIC_META_PIXEL_ID
 
   return (
     <html lang="es" className={`${inter.variable} ${jetbrainsMono.variable}`}>
@@ -100,8 +105,9 @@ export default function RootLayout({ children }) {
         <meta httpEquiv="x-dns-prefetch-control" content="on" />
       </head>
       <body className="font-sans antialiased">
-        {metaPixelId && <MetaPixelScript pixelId={metaPixelId} />}
-        {metaPixelId && <MetaPixel />}
+        {/* Meta Pixel - detectará país automaticamente no client-side */}
+        {fallbackPixelId && <MetaPixelScript pixelId={fallbackPixelId} />}
+        {fallbackPixelId && <MetaPixel />}
         <ClientProviders>
           {children}
           {/* Widget de Chat com IA */}

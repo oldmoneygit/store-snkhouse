@@ -8,6 +8,8 @@ import useEmblaCarousel from 'embla-carousel-react'
 import Autoplay from 'embla-carousel-autoplay'
 import { ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react'
 import { getImageConfig } from '@/utils/performance'
+import { useCountry } from '@/hooks/useCountry'
+import { convertPrice, formatCurrency } from '@/utils/currency'
 
 const CollectionCarousel = ({
   title,
@@ -18,6 +20,8 @@ const CollectionCarousel = ({
   emoji = '👟',
   badge = 'COLECCIÓN'
 }) => {
+  const country = useCountry()
+
   const [emblaRef, emblaApi] = useEmblaCarousel(
     {
       loop: true,
@@ -35,6 +39,12 @@ const CollectionCarousel = ({
   const scrollNext = useCallback(() => {
     if (emblaApi) emblaApi.scrollNext()
   }, [emblaApi])
+
+  // Função para converter e formatar preço
+  const formatProductPrice = (priceARS) => {
+    const converted = convertPrice(priceARS, country.currency.code)
+    return formatCurrency(converted, country.currency)
+  }
 
   if (!products || products.length === 0) return null
 
@@ -131,13 +141,13 @@ const CollectionCarousel = ({
                               {/* Regular Price (riscado) */}
                               {product.regularPrice && product.regularPrice > product.price && (
                                 <p className="text-gray-400 text-sm line-through mb-1">
-                                  {product.currency === 'USD' ? '$' : 'AR$'} {product.regularPrice.toLocaleString()}
+                                  {formatProductPrice(product.regularPrice)}
                                 </p>
                               )}
 
                               {/* Sale Price */}
                               <p className="text-brand-yellow font-bold text-base md:text-xl whitespace-nowrap">
-                                {product.currency === 'USD' ? '$' : 'AR$'} {product.price.toLocaleString()}
+                                {formatProductPrice(product.price)}
                               </p>
                             </div>
 
@@ -176,13 +186,13 @@ const CollectionCarousel = ({
                               {/* Regular Price (riscado) */}
                               {product.regularPrice && product.regularPrice > product.price && (
                                 <p className="text-gray-400 text-sm line-through mb-1">
-                                  {product.currency === 'USD' ? '$' : 'AR$'} {product.regularPrice.toLocaleString()}
+                                  {formatProductPrice(product.regularPrice)}
                                 </p>
                               )}
 
                               {/* Sale Price */}
                               <p className="text-brand-yellow font-bold text-base md:text-xl whitespace-nowrap">
-                                {product.currency === 'USD' ? '$' : 'AR$'} {product.price.toLocaleString()}
+                                {formatProductPrice(product.price)}
                               </p>
                             </div>
 

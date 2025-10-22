@@ -5,8 +5,10 @@ import Header from '@/components/store/Header'
 import StoreFooter from '@/components/store/StoreFooter'
 import { MessageCircle, Mail, Clock, MapPin, Send, Phone } from 'lucide-react'
 import { motion } from 'framer-motion'
+import { useTranslation } from '@/hooks/useCountry'
 
 export default function ContactanosPage() {
+  const t = useTranslation()
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -59,11 +61,11 @@ export default function ContactanosPage() {
             <div className="flex items-center gap-3 mb-4">
               <MessageCircle className="w-8 h-8 md:w-10 md:h-10 text-brand-yellow" />
               <h1 className="text-3xl md:text-5xl font-black text-white">
-                Contáctanos
+                {t.contactUsTitle}
               </h1>
             </div>
             <p className="text-white/60 text-base md:text-lg">
-              Estamos aquí para ayudarte. Elige el canal que prefieras para comunicarte con nosotros
+              {t.contactSubtitle}
             </p>
           </motion.div>
 
@@ -72,7 +74,7 @@ export default function ContactanosPage() {
             <div className="space-y-6">
               {/* WhatsApp */}
               <motion.a
-                href="https://wa.me/5519319937944?text=Hola!%20Tengo%20una%20consulta"
+                href="https://wa.me/551931993794?text=Hola!%20Tengo%20una%20consulta"
                 target="_blank"
                 rel="noopener noreferrer"
                 initial={{ opacity: 0, x: -20 }}
@@ -88,9 +90,9 @@ export default function ContactanosPage() {
                   </div>
                   <div className="flex-1">
                     <h3 className="text-white font-bold text-lg mb-1">WhatsApp</h3>
-                    <p className="text-white/60 text-sm mb-2">La forma más rápida de contactarnos</p>
+                    <p className="text-white/60 text-sm mb-2">{t.fastestWayToContact}</p>
                     <p className="text-green-400 font-bold">+55 19 3199-3794</p>
-                    <p className="text-white/40 text-xs mt-2">Respuesta inmediata • 9:00 - 21:00hs</p>
+                    <p className="text-white/40 text-xs mt-2">{t.immediateResponse} • 9:00 - 21:00hs</p>
                   </div>
                 </div>
               </motion.a>
@@ -109,9 +111,9 @@ export default function ContactanosPage() {
                   </div>
                   <div className="flex-1">
                     <h3 className="text-white font-bold text-lg mb-1">Email</h3>
-                    <p className="text-white/60 text-sm mb-2">Para consultas detalladas</p>
+                    <p className="text-white/60 text-sm mb-2">{t.forDetailedQuestions}</p>
                     <p className="text-brand-yellow font-bold">contacto@snkhouse.com</p>
-                    <p className="text-white/40 text-xs mt-2">Respuesta en 24-48 horas</p>
+                    <p className="text-white/40 text-xs mt-2">{t.responseIn24to48}</p>
                   </div>
                 </div>
               </motion.a>
@@ -134,9 +136,9 @@ export default function ContactanosPage() {
                   </div>
                   <div className="flex-1">
                     <h3 className="text-white font-bold text-lg mb-1">Instagram</h3>
-                    <p className="text-white/60 text-sm mb-2">Síguenos para ofertas exclusivas</p>
+                    <p className="text-white/60 text-sm mb-2">{t.followUsForOffers}</p>
                     <p className="text-pink-400 font-bold">@snkhouse.ar</p>
-                    <p className="text-white/40 text-xs mt-2">Novedades diarias</p>
+                    <p className="text-white/40 text-xs mt-2">{t.dailyNews}</p>
                   </div>
                 </div>
               </motion.a>
@@ -153,18 +155,18 @@ export default function ContactanosPage() {
                     <Clock className="w-6 h-6 text-brand-yellow" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-white font-bold text-lg mb-3">Horarios de atención</h3>
+                    <h3 className="text-white font-bold text-lg mb-3">{t.serviceHours}</h3>
                     <div className="space-y-2 text-sm">
                       <div className="flex justify-between">
-                        <span className="text-white/60">Lunes a Viernes</span>
+                        <span className="text-white/60">{t.mondayToFriday}</span>
                         <span className="text-white font-bold">9:00 - 21:00hs</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-white/60">Sábados</span>
+                        <span className="text-white/60">{t.saturdays}</span>
                         <span className="text-white font-bold">10:00 - 18:00hs</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-white/60">Domingos</span>
+                        <span className="text-white/60">{t.sundays}</span>
                         <span className="text-white font-bold">10:00 - 14:00hs</span>
                       </div>
                     </div>
@@ -184,10 +186,10 @@ export default function ContactanosPage() {
                     <MapPin className="w-6 h-6 text-brand-yellow" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-white font-bold text-lg mb-2">Ubicación</h3>
+                    <h3 className="text-white font-bold text-lg mb-2">{t.location}</h3>
                     <p className="text-white/60 text-sm">
-                      Tienda 100% online<br />
-                      Envíos a todo Argentina
+                      {t.onlineStore}<br />
+                      {t.shippingToCountry}
                     </p>
                   </div>
                 </div>
@@ -202,14 +204,14 @@ export default function ContactanosPage() {
             >
               <div className="bg-gradient-to-br from-white/5 to-white/0 backdrop-blur-sm rounded-xl p-6 md:p-8 border border-white/10 sticky top-8">
                 <h2 className="text-2xl font-bold text-white mb-6">
-                  Envíanos un mensaje
+                  {t.sendUsMessage}
                 </h2>
 
                 {sent && (
                   <div className="mb-6 bg-green-500/10 border border-green-500/50 rounded-lg p-4 flex items-start gap-3">
                     <MessageCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
                     <p className="text-green-400 text-sm">
-                      ¡Mensaje enviado con éxito! Te responderemos pronto.
+                      {t.messageSentSuccess}
                     </p>
                   </div>
                 )}
@@ -217,14 +219,14 @@ export default function ContactanosPage() {
                 <form onSubmit={handleSubmit} className="space-y-5">
                   <div>
                     <label className="block text-white text-sm font-bold mb-2">
-                      Nombre completo *
+                      {t.fullName} *
                     </label>
                     <input
                       type="text"
                       name="name"
                       value={formData.name}
                       onChange={handleChange}
-                      placeholder="Tu nombre"
+                      placeholder={t.yourName}
                       required
                       className="w-full bg-black/50 border border-white/20 rounded-lg px-4 py-3 text-white placeholder:text-white/40 focus:border-brand-yellow focus:outline-none transition-colors"
                     />
@@ -232,7 +234,7 @@ export default function ContactanosPage() {
 
                   <div>
                     <label className="block text-white text-sm font-bold mb-2">
-                      Email *
+                      {t.email} *
                     </label>
                     <input
                       type="email"
@@ -247,7 +249,7 @@ export default function ContactanosPage() {
 
                   <div>
                     <label className="block text-white text-sm font-bold mb-2">
-                      Teléfono
+                      {t.phone}
                     </label>
                     <input
                       type="tel"
@@ -261,7 +263,7 @@ export default function ContactanosPage() {
 
                   <div>
                     <label className="block text-white text-sm font-bold mb-2">
-                      Asunto *
+                      {t.subject} *
                     </label>
                     <select
                       name="subject"
@@ -270,25 +272,25 @@ export default function ContactanosPage() {
                       required
                       className="w-full bg-black/50 border border-white/20 rounded-lg px-4 py-3 text-white focus:border-brand-yellow focus:outline-none transition-colors"
                     >
-                      <option value="">Selecciona un asunto</option>
-                      <option value="consulta">Consulta sobre productos</option>
-                      <option value="pedido">Estado de mi pedido</option>
-                      <option value="cambio">Cambio o devolución</option>
-                      <option value="tallas">Consulta de tallas</option>
-                      <option value="mayoreo">Compra al por mayor</option>
-                      <option value="otro">Otro</option>
+                      <option value="">{t.selectSubject}</option>
+                      <option value="consulta">{t.productQuery}</option>
+                      <option value="pedido">{t.orderStatus}</option>
+                      <option value="cambio">{t.returnOrExchange}</option>
+                      <option value="tallas">{t.sizeQuery}</option>
+                      <option value="mayoreo">{t.wholesale}</option>
+                      <option value="otro">{t.other}</option>
                     </select>
                   </div>
 
                   <div>
                     <label className="block text-white text-sm font-bold mb-2">
-                      Mensaje *
+                      {t.messageLabel} *
                     </label>
                     <textarea
                       name="message"
                       value={formData.message}
                       onChange={handleChange}
-                      placeholder="Escribe tu mensaje aquí..."
+                      placeholder={t.writeYourMessage}
                       rows="5"
                       required
                       className="w-full bg-black/50 border border-white/20 rounded-lg px-4 py-3 text-white placeholder:text-white/40 focus:border-brand-yellow focus:outline-none transition-colors resize-none"
@@ -303,12 +305,12 @@ export default function ContactanosPage() {
                     {sending ? (
                       <>
                         <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-black"></div>
-                        Enviando...
+                        {t.sending}
                       </>
                     ) : (
                       <>
                         <Send className="w-5 h-5" />
-                        Enviar Mensaje
+                        {t.sendMessage}
                       </>
                     )}
                   </button>

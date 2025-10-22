@@ -8,11 +8,14 @@ import StoreFooter from '@/components/store/StoreFooter'
 import Image from '@/components/OptimizedImage'
 import { useWishlist } from '@/context/WishlistContext'
 import { useCart } from '@/context/CartContext'
+import { useCountry } from '@/hooks/useCountry'
+import { convertPrice, formatCurrency } from '@/utils/currency'
 import { useState } from 'react'
 
 export default function FavoritosPage() {
   const { wishlistItems, removeFromWishlist, clearWishlist } = useWishlist()
   const { addToCart } = useCart()
+  const country = useCountry()
   const [removingId, setRemovingId] = useState(null)
 
   const handleRemove = (productId) => {
@@ -179,7 +182,7 @@ export default function FavoritosPage() {
                           {/* Price */}
                           <div className="flex items-baseline gap-2">
                             <span className="text-brand-yellow text-xl md:text-2xl font-black">
-                              {product.currency === 'USD' ? '$' : 'AR$'} {product.price.toLocaleString()}
+                              {formatCurrency(convertPrice(product.price, country.currency.code), country.currency)}
                             </span>
                           </div>
 

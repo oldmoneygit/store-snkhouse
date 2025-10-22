@@ -5,12 +5,16 @@ import Header from '@/components/store/Header'
 import StoreFooter from '@/components/store/StoreFooter'
 import { HelpCircle, ChevronDown, Search } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useCountry, useTranslation } from '@/hooks/useCountry'
 
 export default function PreguntasFrecuentesPage() {
+  const country = useCountry()
+  const t = useTranslation()
   const [openIndex, setOpenIndex] = useState(null)
   const [searchQuery, setSearchQuery] = useState('')
 
-  const faqs = [
+  // Get FAQs from country config
+  const faqs = country.faqs || [
     {
       category: 'Productos',
       questions: [
@@ -155,11 +159,11 @@ export default function PreguntasFrecuentesPage() {
             <div className="flex items-center gap-3 mb-4">
               <HelpCircle className="w-8 h-8 md:w-10 md:h-10 text-brand-yellow" />
               <h1 className="text-3xl md:text-5xl font-black text-white">
-                Preguntas Frecuentes
+                {t.frequentQuestions}
               </h1>
             </div>
             <p className="text-white/60 text-base md:text-lg">
-              Encuentra respuestas rápidas a las preguntas más comunes
+              {t.findAnswers}
             </p>
           </motion.div>
 
@@ -176,7 +180,7 @@ export default function PreguntasFrecuentesPage() {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Buscar pregunta..."
+                placeholder={t.searchQuestion}
                 className="w-full bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl pl-12 pr-4 py-4 text-white placeholder:text-white/40 focus:border-brand-yellow focus:outline-none transition-colors"
               />
             </div>
@@ -249,16 +253,16 @@ export default function PreguntasFrecuentesPage() {
             >
               <HelpCircle className="w-20 h-20 text-white/20 mx-auto mb-4" />
               <h3 className="text-2xl font-bold text-white mb-2">
-                No encontramos resultados
+                {t.noResultsFound}
               </h3>
               <p className="text-white/60 mb-6">
-                Intenta con otros términos de búsqueda
+                {t.tryOtherTerms}
               </p>
               <button
                 onClick={() => setSearchQuery('')}
                 className="bg-brand-yellow text-black px-6 py-3 rounded-lg font-bold hover:bg-yellow-500 transition-colors"
               >
-                Ver todas las preguntas
+                {t.viewAllQuestions}
               </button>
             </motion.div>
           )}
@@ -271,10 +275,10 @@ export default function PreguntasFrecuentesPage() {
             className="mt-12 bg-gradient-to-r from-brand-yellow/10 to-yellow-500/10 border border-brand-yellow/30 rounded-xl p-6 md:p-8"
           >
             <h3 className="text-2xl font-bold text-white mb-4">
-              ¿No encontraste lo que buscabas?
+              {t.didntFindWhatYouLookingFor}
             </h3>
             <p className="text-white/80 mb-6">
-              Nuestro equipo de soporte está disponible para ayudarte. Contáctanos y te responderemos a la brevedad.
+              {t.supportTeamAvailable}
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <a

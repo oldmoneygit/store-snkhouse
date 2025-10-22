@@ -5,9 +5,11 @@ import Image from '@/components/OptimizedImage'
 import Link from 'next/link'
 import { ChevronDown } from 'lucide-react'
 import { useReducedMotion } from '@/hooks/useReducedMotion'
+import { useTranslation } from '@/hooks/useCountry'
 
 const StoreHero = () => {
   const shouldReduceMotion = useReducedMotion()
+  const t = useTranslation()
 
   return (
     <section className="relative h-[70vh] md:h-[85vh] lg:h-screen w-full overflow-hidden" id="hero">
@@ -35,7 +37,7 @@ const StoreHero = () => {
             transition={shouldReduceMotion ? {} : { duration: 0.6, delay: 0.2 }}
             className="inline-block text-brand-yellow text-xs md:text-sm font-bold uppercase tracking-wider mb-3 md:mb-4"
           >
-            Sneakers Exclusivos
+            {t.exclusiveSneakers}
           </motion.span>
 
           {/* Main CTA */}
@@ -48,7 +50,7 @@ const StoreHero = () => {
               href="#products"
               className="inline-block px-6 py-3 md:px-8 md:py-4 bg-brand-yellow text-black font-bold uppercase tracking-wide text-xs md:text-sm rounded-full hover:bg-yellow-400 transition-colors duration-200 active:scale-95"
             >
-              Explorar Colección
+              {t.exploreCollection}
             </Link>
           </motion.div>
         </div>

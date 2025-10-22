@@ -7,8 +7,7 @@ import ProductInfo from '@/components/product/ProductInfo'
 import ProductDescription from '@/components/product/ProductDescription'
 import RelatedProducts from '@/components/product/RelatedProducts'
 import { ViewContent } from '@/components/MetaPixelEvents'
-import Link from 'next/link'
-import { ChevronLeft } from 'lucide-react'
+import BackButton from '@/components/product/BackButton'
 
 // Generate static params for all products (SSG)
 export async function generateStaticParams() {
@@ -79,13 +78,7 @@ export default function ProductPage({ params }) {
       <main className="min-h-screen bg-black">
         {/* Back Button */}
         <div className="container mx-auto px-4 pt-6 md:pt-8 pb-4 md:pb-6">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-2 text-white/60 hover:text-brand-yellow transition-colors text-sm md:text-base"
-          >
-            <ChevronLeft className="w-4 h-4" />
-            Volver a la tienda
-          </Link>
+          <BackButton />
         </div>
 
         {/* Product Section */}
