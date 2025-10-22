@@ -258,7 +258,7 @@ export function formatProductData(product) {
     content_name: product.name,
     content_type: 'product',
     value: product.price,
-    currency: product.currency || 'USD',
+    currency: product.currency || 'ARS', // Moeda padrão: Peso Argentino
   }
 }
 
@@ -282,7 +282,7 @@ export function formatCartData(cartItems) {
     })),
     num_items: numItems,
     value: value,
-    currency: 'USD',
+    currency: 'ARS', // Moeda: Peso Argentino
   }
 }
 
