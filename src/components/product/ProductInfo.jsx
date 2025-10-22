@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import Image from '@/components/OptimizedImage'
 import SizeSelector from './SizeSelector'
 import SizeGuideModal from './SizeGuideModal'
+import AddToCartToast from './AddToCartToast'
 import QuantitySelector from './QuantitySelector'
 import { ShoppingCart, Package, Shield, Truck, Check } from 'lucide-react'
 import { useCart } from '@/context/CartContext'
@@ -16,6 +17,7 @@ const ProductInfo = ({ product }) => {
   const [quantity, setQuantity] = useState(1)
   const [addedToCart, setAddedToCart] = useState(false)
   const [sizeGuideOpen, setSizeGuideOpen] = useState(false)
+  const [toastOpen, setToastOpen] = useState(false)
 
   const {
     name,
@@ -42,10 +44,13 @@ const ProductInfo = ({ product }) => {
     // Add product to cart
     addToCart(product, selectedSize, quantity)
 
-    // Show success feedback
+    // Show success feedback - button turns green
     setAddedToCart(true)
 
-    // Reset after 2 seconds
+    // Show toast notification
+    setToastOpen(true)
+
+    // Reset button after 2 seconds
     setTimeout(() => {
       setAddedToCart(false)
     }, 2000)
@@ -181,6 +186,15 @@ const ProductInfo = ({ product }) => {
           </div>
         </div>
       </div>
+
+      {/* Add to Cart Toast Notification */}
+      <AddToCartToast
+        isOpen={toastOpen}
+        onClose={() => setToastOpen(false)}
+        product={product}
+        size={selectedSize}
+        quantity={quantity}
+      />
     </div>
   )
 }
