@@ -3,37 +3,43 @@
 import { motion } from 'framer-motion'
 import Image from '@/components/OptimizedImage'
 
-const CollectionHeader = ({ name, image, productsCount }) => {
+const CollectionHeader = ({ name, image, productsCount, slug }) => {
+  // Apenas as 6 coleções principais mostram imagem
+  const mainCollectionSlugs = ['travis-scott', 'jordan-low', 'jordan-high', 'air-force', 'dunk-sb', 'yeezy']
+  const showImage = mainCollectionSlugs.includes(slug)
+
   return (
     <section className="relative py-12 md:py-16">
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
-            {/* Left - Collection Image */}
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              className="order-2 md:order-1"
-            >
-              <div className="relative aspect-[4/5] rounded-2xl overflow-hidden bg-white/5">
-                <Image
-                  src={image}
-                  alt={name}
-                  fill
-                  className="object-contain"
-                  priority
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                />
-              </div>
-            </motion.div>
+          <div className={`grid grid-cols-1 ${showImage ? 'md:grid-cols-2' : ''} gap-8 md:gap-12 items-center`}>
+            {/* Left - Collection Image - Apenas para coleções principais */}
+            {showImage && (
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6 }}
+                className="order-2 md:order-1"
+              >
+                <div className="relative aspect-[4/5] rounded-2xl overflow-hidden bg-white/5">
+                  <Image
+                    src={image}
+                    alt={name}
+                    fill
+                    className="object-contain"
+                    priority
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                  />
+                </div>
+              </motion.div>
+            )}
 
             {/* Right - Collection Info */}
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="order-1 md:order-2 space-y-6"
+              className={`${showImage ? 'order-1 md:order-2' : ''} space-y-6 ${!showImage ? 'text-center' : ''}`}
             >
               {/* Collection Name */}
               <div className="space-y-3">

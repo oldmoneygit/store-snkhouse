@@ -89,7 +89,7 @@ export default function CartPage() {
 
               {/* Right Column - Summary */}
               <div className="lg:col-span-1">
-                <CartSummary subtotal={subtotal} itemsCount={cartItems.length} />
+                <CartSummary subtotal={subtotal} itemsCount={cartItems.length} cartItems={cartItems} />
               </div>
             </div>
           )}
@@ -108,7 +108,7 @@ export default function CartPage() {
                     ¡Promoción 2x1 Activada! 🎉
                   </h3>
                   <p className="text-white/80 text-sm md:text-base">
-                    Descuento del 50% aplicado automáticamente. ¡Estás ahorrando!
+                    ¡El producto de menor valor es GRATIS! Descuento aplicado automáticamente.
                   </p>
                 </div>
               </div>
@@ -126,7 +126,7 @@ export default function CartPage() {
                     ¡Agrega 1 Producto Más!
                   </h3>
                   <p className="text-white/80 text-sm md:text-base">
-                    Activa la promoción 2x1 agregando otro producto al carrito. ¡50% de descuento!
+                    Activa la promoción 2x1 y el producto de menor valor será GRATIS!
                   </p>
                 </div>
               </div>

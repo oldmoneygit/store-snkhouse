@@ -72,6 +72,7 @@ export default function CollectionPage({ params }) {
           name={collection.name}
           image={collection.image}
           productsCount={products.length}
+          slug={params.slug}
         />
 
         {/* Products Grid */}

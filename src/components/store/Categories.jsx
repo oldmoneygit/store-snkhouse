@@ -7,7 +7,11 @@ import productsData from '../../../data/products.json'
 import SectionTitle from './SectionTitle'
 
 const Categories = () => {
-  const categories = productsData.categories
+  // Apenas as 6 coleções principais para a página inicial
+  const mainCollectionSlugs = ['travis-scott', 'jordan-low', 'jordan-high', 'air-force', 'dunk-sb', 'yeezy']
+  const categories = productsData.categories.filter(cat =>
+    mainCollectionSlugs.includes(cat.slug || cat.id)
+  )
 
   return (
     <section className="relative py-20 bg-black" id="categories">

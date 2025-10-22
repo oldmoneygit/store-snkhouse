@@ -4,7 +4,7 @@ import { ShoppingCart, Truck, Tag, CreditCard } from 'lucide-react'
 import { useCart } from '@/context/CartContext'
 import { useState } from 'react'
 
-const CartSummary = ({ subtotal, itemsCount }) => {
+const CartSummary = ({ subtotal, itemsCount, cartItems }) => {
   const { proceedToCheckout } = useCart()
   const [isProcessing, setIsProcessing] = useState(false)
 
@@ -17,8 +17,21 @@ const CartSummary = ({ subtotal, itemsCount }) => {
       setIsProcessing(false)
     }
   }
-  // Cálculo da promoção 2x1 (50% de desconto) - APENAS com 2+ produtos
-  const discount = itemsCount >= 2 ? subtotal * 0.5 : 0
+
+  // Cálculo da promoção 2x1 (produto de menor valor GRÁTIS) - APENAS com 2+ produtos
+  let discount = 0
+  let cheapestProduct = null
+
+  if (itemsCount >= 2 && cartItems && cartItems.length >= 2) {
+    // Encontrar o produto de menor valor
+    cheapestProduct = cartItems.reduce((min, item) => {
+      return item.price < min.price ? item : min
+    }, cartItems[0])
+
+    // Desconto é o valor do produto mais barato (fica grátis)
+    discount = cheapestProduct.price
+  }
+
   const shipping = 0 // Envío gratis
   const total = subtotal - discount + shipping
 
@@ -56,7 +69,7 @@ const CartSummary = ({ subtotal, itemsCount }) => {
                   </span>
                 </div>
                 <p className="text-green-500/80 text-xs">
-                  ¡Compra 1, Lleva 2! Descuento aplicado
+                  ¡Producto de menor valor GRATIS!
                 </p>
               </div>
             </div>
