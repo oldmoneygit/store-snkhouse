@@ -23,12 +23,12 @@ const ProductCard = ({ product, index = 0 }) => {
     soldout: { text: 'Agotado', color: 'bg-red-500' },
   }
 
-  const woocommerceUrl = `https://www.snkhouse.com/product/${slug}/`
+  const productUrl = `/product/${slug}`
   const imageConfig = getImageConfig(index, 20) // Assume 20 total products max
 
   return (
     <div className="hover:-translate-y-2 transition-all duration-300">
-      <Link href={woocommerceUrl} className="block group">
+      <Link href={productUrl} className="block group">
         <div className="bg-black rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-brand-yellow/20">
           {/* Image Container */}
           <div className="relative aspect-[4/3] bg-black">
@@ -58,7 +58,7 @@ const ProductCard = ({ product, index = 0 }) => {
                 {tags.slice(0, 2).map((tag) => (
                   <span
                     key={tag}
-                    className="text-[10px] text-brand-yellow/80 bg-brand-yellow/10 px-1.5 py-0.5 rounded"
+                    className="text-[11px] text-brand-yellow/80 bg-brand-yellow/10 px-1.5 py-0.5 rounded"
                   >
                     #{tag}
                   </span>
@@ -87,7 +87,7 @@ const ProductCard = ({ product, index = 0 }) => {
 
               {stock === 'available' && (
                 <div className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-brand-yellow to-yellow-500 rounded-full">
-                  <span className="text-black text-[9px] md:text-[10px] font-black uppercase tracking-tight md:tracking-wide whitespace-nowrap overflow-hidden text-ellipsis">COMPRA 1 LLEVA 2</span>
+                  <span className="text-black text-[10px] md:text-xs font-black uppercase tracking-tight md:tracking-wide whitespace-nowrap overflow-hidden text-ellipsis">COMPRA 1 LLEVA 2</span>
                 </div>
               )}
             </div>
