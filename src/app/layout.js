@@ -4,6 +4,7 @@ import { SEO_DATA } from '@/utils/constants'
 import MetaPixelScript from '@/components/MetaPixelScript'
 import MetaPixel from '@/components/MetaPixel'
 import ClientProviders from '@/components/ClientProviders'
+import ChatWidget from '@/components/ChatWidget'
 import { Analytics } from '@vercel/analytics/next'
 
 const inter = Inter({
@@ -82,6 +83,8 @@ export default function RootLayout({ children }) {
         {/* Performance Optimization: Preconnect to external domains */}
         <link rel="preconnect" href="https://connect.facebook.net" />
         <link rel="dns-prefetch" href="https://connect.facebook.net" />
+        <link rel="preconnect" href="https://snkhouse-bot-widget.vercel.app" />
+        <link rel="dns-prefetch" href="https://snkhouse-bot-widget.vercel.app" />
 
         {/* Performance Optimization: Preload critical resources */}
         <link rel="preload" as="image" href="/images/hero/interior-symmetric-fisheye.jpg" />
@@ -99,7 +102,11 @@ export default function RootLayout({ children }) {
       <body className="font-sans antialiased">
         {metaPixelId && <MetaPixelScript pixelId={metaPixelId} />}
         {metaPixelId && <MetaPixel />}
-        <ClientProviders>{children}</ClientProviders>
+        <ClientProviders>
+          {children}
+          {/* Widget de Chat com IA */}
+          <ChatWidget />
+        </ClientProviders>
         <Analytics />
       </body>
     </html>
