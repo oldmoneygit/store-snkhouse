@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Header from '@/components/store/Header'
 import StoreFooter from '@/components/store/StoreFooter'
@@ -9,7 +9,8 @@ import { Search, Filter } from 'lucide-react'
 import { motion } from 'framer-motion'
 import productsData from '../../../data/products.json'
 
-export default function SearchPage() {
+// Componente de busca que usa searchParams
+function SearchResults() {
   const searchParams = useSearchParams()
   const query = searchParams.get('q') || ''
   const [results, setResults] = useState([])
@@ -86,7 +87,7 @@ export default function SearchPage() {
 
             {query && (
               <p className="text-white/60 text-lg">
-                Buscando por: <span className="text-brand-yellow font-bold">"{query}"</span>
+                Buscando por: <span className="text-brand-yellow font-bold">&ldquo;{query}&rdquo;</span>
               </p>
             )}
           </motion.div>
@@ -205,5 +206,18 @@ export default function SearchPage() {
       </main>
       <StoreFooter />
     </>
+  )
+}
+
+// Wrapper com Suspense para evitar erro de prerender
+export default function SearchPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="text-white text-xl">Cargando búsqueda...</div>
+      </div>
+    }>
+      <SearchResults />
+    </Suspense>
   )
 }
