@@ -32,3 +32,16 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# temporary and archive folders
+/temp
+/docs/archived
+/scripts/legacy
+
+# large CSV files
+*.csv
+!data/**/*.csv
+
+# python cache
+__pycache__
+*.pyc
