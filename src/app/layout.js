@@ -4,6 +4,7 @@ import { SEO_DATA } from '@/utils/constants'
 import MetaPixelScript from '@/components/MetaPixelScript'
 import MetaPixel from '@/components/MetaPixel'
 import ClientProviders from '@/components/ClientProviders'
+import { Analytics } from '@vercel/analytics/next'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -99,6 +100,7 @@ export default function RootLayout({ children }) {
         {metaPixelId && <MetaPixelScript pixelId={metaPixelId} />}
         {metaPixelId && <MetaPixel />}
         <ClientProviders>{children}</ClientProviders>
+        <Analytics />
       </body>
     </html>
   )

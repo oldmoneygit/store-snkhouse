@@ -1,0 +1,80 @@
+{
+  "products": [
+    {
+      "id": 53,
+      "name": "Nike Air Jordan 1 Retro High x Travis Scott",
+      "slug": "nike-air-jordan-1-retro-high-x-travis-scott",
+      "price": 82713.38,
+      "currency": "ARS",
+      "image": "/images/products/seedream-Nike Air Jordan 1 Retro High x Travis Scott.jpg",
+      "category": "travis-scott",
+      "tags": [
+        "jordan-1",
+        "travis-scott",
+        "collab",
+        "high"
+      ],
+      "featured": true,
+      "bestSeller": true,
+      "stock": "limited",
+      "seedreamVersion": true,
+      "permalink": "https://www.snkhouse.com/product/nike-air-jordan-1-retro-high-x-travis-scott/",
+      "woocommerceId": "26087",
+      "regularPrice": 115798.73,
+      "gallery": [
+        "https://www.snkhouse.com/wp-content/uploads/2025/07/26882576187426_30820066492573_42379463065915_f865702b-1.jpg",
+        "https://www.snkhouse.com/wp-content/uploads/2025/07/26882576220194_30820066525341_42379463098683_f62746a1-1.jpg",
+        "https://www.snkhouse.com/wp-content/uploads/2025/07/26882576252962_30820066558109_42379463131451_5f5d732a-1.jpg"
+      ],
+      "description": "Nike Air Jordan 1 Retro High x Travis Scott - Edição limitada em colaboração com o rapper Travis Scott.",
+      "sizes": [
+        {
+          "size": 35,
+          "shopifyVariantId": "gid://shopify/ProductVariant/45678901234"
+        },
+        {
+          "size": 36,
+          "shopifyVariantId": "gid://shopify/ProductVariant/45678901235"
+        },
+        {
+          "size": 37,
+          "shopifyVariantId": "gid://shopify/ProductVariant/45678901236"
+        },
+        {
+          "size": 38,
+          "shopifyVariantId": "gid://shopify/ProductVariant/45678901237"
+        },
+        {
+          "size": 39,
+          "shopifyVariantId": "gid://shopify/ProductVariant/45678901238"
+        },
+        {
+          "size": 40,
+          "shopifyVariantId": "gid://shopify/ProductVariant/45678901239"
+        },
+        {
+          "size": 41,
+          "shopifyVariantId": "gid://shopify/ProductVariant/45678901240"
+        },
+        {
+          "size": 42,
+          "shopifyVariantId": "gid://shopify/ProductVariant/45678901241"
+        },
+        {
+          "size": 43,
+          "shopifyVariantId": "gid://shopify/ProductVariant/45678901242"
+        },
+        {
+          "size": 44,
+          "shopifyVariantId": "gid://shopify/ProductVariant/45678901243"
+        },
+        {
+          "size": 45,
+          "shopifyVariantId": "gid://shopify/ProductVariant/45678901244"
+        }
+      ],
+      "shopifyProductId": "gid://shopify/Product/8765432109876",
+      "shopifyHandle": "nike-air-jordan-1-retro-high-x-travis-scott"
+    }
+  ]
+}
