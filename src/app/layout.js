@@ -1,8 +1,7 @@
 import { Inter, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
 import { SEO_DATA } from '@/utils/constants'
-import MetaPixelScript from '@/components/MetaPixelScript'
-import MetaPixel from '@/components/MetaPixel'
+import MetaPixelLoader from '@/components/MetaPixelLoader'
 import ClientProviders from '@/components/ClientProviders'
 import ChatWidget from '@/components/ChatWidget'
 import { Analytics } from '@vercel/analytics/next'
@@ -72,14 +71,15 @@ export const metadata = {
   },
 }
 
-// IMPORTANTE: Este layout é server component e não pode usar hooks client-side
-// O Pixel ID será detectado dinamicamente pelo MetaPixelScript no client-side
+/**
+ * ESTRATÉGIA DE 2 PROJETOS VERCEL:
+ * - Projeto Argentina: tem suas próprias env vars (NEXT_PUBLIC_COUNTRY=AR)
+ * - Projeto México: tem suas próprias env vars (NEXT_PUBLIC_COUNTRY=MX)
+ * - Cada projeto é completamente isolado
+ * - Meta Pixel carrega automaticamente o ID correto do país
+ */
 
 export default function RootLayout({ children }) {
-  // Fallback: tentar pegar o Pixel Argentina das variáveis antigas (legacy support)
-  const fallbackPixelId = process.env.NEXT_PUBLIC_AR_META_PIXEL_ID ||
-                         process.env.NEXT_PUBLIC_META_PIXEL_ID
-
   return (
     <html lang="es" className={`${inter.variable} ${jetbrainsMono.variable}`}>
       <head>
@@ -105,9 +105,8 @@ export default function RootLayout({ children }) {
         <meta httpEquiv="x-dns-prefetch-control" content="on" />
       </head>
       <body className="font-sans antialiased">
-        {/* Meta Pixel - detectará país automaticamente no client-side */}
-        {fallbackPixelId && <MetaPixelScript pixelId={fallbackPixelId} />}
-        {fallbackPixelId && <MetaPixel />}
+        {/* Meta Pixel - carrega o pixel correto baseado na config do país */}
+        <MetaPixelLoader />
         <ClientProviders>
           {children}
           {/* Widget de Chat com IA */}
