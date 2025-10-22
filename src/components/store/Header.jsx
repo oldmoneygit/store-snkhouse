@@ -25,7 +25,7 @@ const Header = () => {
 
   const airJordanSubMenu = [
     { name: 'Air Jordan 1 Low', href: '/collection/jordan-low' },
-    { name: 'Air Jordan 1 Mid', href: '/collection/jordan-high' },
+    { name: 'Air Jordan 1 Mid', href: '/collection/jordan-mid' },
     { name: 'Air Jordan 1 High', href: '/collection/jordan-high' },
     { name: 'Air Jordan 3', href: '/collection/air-jordan-3' },
     { name: 'Air Jordan 4', href: '/collection/air-jordan-4' },
