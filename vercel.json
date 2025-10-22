@@ -1,58 +1,22 @@
 {
-  "buildCommand": "npm run build",
-  "outputDirectory": ".next",
-  "devCommand": "npm run dev",
-  "installCommand": "npm install",
-  "framework": "nextjs",
-  "regions": ["gru1"],
-  "rewrites": [
+  "version": 2,
+  "name": "snkhouse-store",
+  "env": {
+    "NEXT_PUBLIC_META_PIXEL_ID": "1724528428093370",
+    "NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN": "SEU_DOMINIO.myshopify.com",
+    "NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN": "7b53ccc78ba348565e335d6cb129f610",
+    "NEXT_PUBLIC_SHOPIFY_API_VERSION": "2024-10",
+    "NEXT_PUBLIC_SITE_URL": "https://store.snkhouse.com"
+  },
+  "headers": [
     {
-      "source": "/wp-admin/:path*",
-      "destination": "https://www.snkhouse.com/wp-admin/:path*"
-    },
-    {
-      "source": "/wp-content/:path*",
-      "destination": "https://www.snkhouse.com/wp-content/:path*"
-    },
-    {
-      "source": "/wp-includes/:path*",
-      "destination": "https://www.snkhouse.com/wp-includes/:path*"
-    },
-    {
-      "source": "/wp-json/:path*",
-      "destination": "https://www.snkhouse.com/wp-json/:path*"
-    },
-    {
-      "source": "/product/:path*",
-      "destination": "https://www.snkhouse.com/product/:path*"
-    },
-    {
-      "source": "/product-category/:path*",
-      "destination": "https://www.snkhouse.com/product-category/:path*"
-    },
-    {
-      "source": "/cart/:path*",
-      "destination": "https://www.snkhouse.com/cart/:path*"
-    },
-    {
-      "source": "/checkout/:path*",
-      "destination": "https://www.snkhouse.com/checkout/:path*"
-    },
-    {
-      "source": "/my-account/:path*",
-      "destination": "https://www.snkhouse.com/my-account/:path*"
-    },
-    {
-      "source": "/showroom/:path*",
-      "destination": "https://www.snkhouse.com/showroom/:path*"
-    },
-    {
-      "source": "/seguimiento-de-pedido/:path*",
-      "destination": "https://www.snkhouse.com/seguimiento-de-pedido/:path*"
-    },
-    {
-      "source": "/promociones/:path*",
-      "destination": "https://www.snkhouse.com/promociones/:path*"
+      "source": "/images/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
     }
   ]
 }
