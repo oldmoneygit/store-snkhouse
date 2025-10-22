@@ -37,11 +37,24 @@ export function ViewContent({ product }) {
  * (Este deve ser chamado no momento da ação, não como componente)
  */
 export function triggerAddToCart(product, quantity = 1) {
-  const eventData = {
-    ...formatProductData(product),
-    quantity,
+  console.log('[DEBUG] triggerAddToCart called with:', { product: product?.name, quantity })
+
+  if (!product) {
+    console.error('[ERROR] triggerAddToCart: product is undefined or null')
+    return
   }
-  trackPixelEvent('AddToCart', eventData)
+
+  try {
+    const eventData = {
+      ...formatProductData(product),
+      quantity,
+    }
+
+    console.log('[DEBUG] AddToCart eventData:', eventData)
+    trackPixelEvent('AddToCart', eventData)
+  } catch (error) {
+    console.error('[ERROR] triggerAddToCart exception:', error)
+  }
 }
 
 /**
@@ -49,8 +62,20 @@ export function triggerAddToCart(product, quantity = 1) {
  * @param {Array} cartItems - Items do carrinho
  */
 export function triggerInitiateCheckout(cartItems) {
-  const eventData = formatCartData(cartItems)
-  trackPixelEvent('InitiateCheckout', eventData)
+  console.log('[DEBUG] triggerInitiateCheckout called with:', { itemCount: cartItems?.length })
+
+  if (!cartItems || cartItems.length === 0) {
+    console.error('[ERROR] triggerInitiateCheckout: cartItems is empty or undefined')
+    return
+  }
+
+  try {
+    const eventData = formatCartData(cartItems)
+    console.log('[DEBUG] InitiateCheckout eventData:', eventData)
+    trackPixelEvent('InitiateCheckout', eventData)
+  } catch (error) {
+    console.error('[ERROR] triggerInitiateCheckout exception:', error)
+  }
 }
 
 /**

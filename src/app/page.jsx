@@ -14,7 +14,6 @@ import YeezySection from '@/components/store/YeezySection'
 import CustomerFeedbacks from '@/components/store/CustomerFeedbacks'
 import NeedHelpSection from '@/components/store/NeedHelpSection'
 import StoreFooter from '@/components/store/StoreFooter'
-import HomePageTracking from '@/components/HomePageTracking'
 
 export const metadata = {
   title: 'SNKHOUSE - Sneakers Exclusivos',
@@ -32,9 +31,6 @@ export const metadata = {
 export default function HomePage() {
   return (
     <main className="min-h-screen bg-black text-white">
-      {/* Meta Pixel Tracking */}
-      <HomePageTracking />
-
       {/* Header */}
       <Header />
 
