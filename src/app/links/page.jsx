@@ -1,7 +1,10 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Store, MessageCircle, Mail, Instagram, ExternalLink, Sparkles } from 'lucide-react'
+import { MessageCircle, Mail, Instagram, ExternalLink, Sparkles } from 'lucide-react'
+import Image from 'next/image'
+import FlagArgentina from '@/components/icons/FlagArgentina'
+import FlagMexico from '@/components/icons/FlagMexico'
 
 export default function LinksPage() {
   const links = [
@@ -10,7 +13,7 @@ export default function LinksPage() {
       title: 'SNKHOUSE Argentina',
       description: 'Tienda online - Envíos a toda Argentina',
       url: 'https://snkhouseargentina.com',
-      flag: '🇦🇷',
+      flagComponent: FlagArgentina,
       color: 'from-blue-500/20 to-blue-500/0 border-blue-500/30',
       iconColor: 'text-blue-400',
     },
@@ -19,7 +22,7 @@ export default function LinksPage() {
       title: 'SNKHOUSE México',
       description: 'Tienda online - Envíos a todo México',
       url: 'https://snkhousemexico.com',
-      flag: '🇲🇽',
+      flagComponent: FlagMexico,
       color: 'from-green-500/20 to-green-500/0 border-green-500/30',
       iconColor: 'text-green-400',
     },
@@ -91,12 +94,23 @@ export default function LinksPage() {
             <Sparkles className="w-4 h-4 text-black" />
           </motion.div>
 
-          {/* Logo/Title */}
-          <div className="mb-6">
-            <h1 className="text-5xl md:text-7xl font-black mb-3">
-              <span className="text-white">SNK</span>
-              <span className="text-brand-yellow">HOUSE</span>
-            </h1>
+          {/* Logo */}
+          <div className="mb-6 flex flex-col items-center">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="mb-4"
+            >
+              <Image
+                src="/images/logo-snkhouse-white.png"
+                alt="SNKHOUSE"
+                width={280}
+                height={80}
+                className="w-auto h-16 md:h-20"
+                priority
+              />
+            </motion.div>
             <div className="flex items-center justify-center gap-2 text-brand-yellow">
               <div className="h-px w-12 bg-brand-yellow/50" />
               <span className="text-sm font-bold tracking-widest">LINKS</span>
@@ -114,7 +128,7 @@ export default function LinksPage() {
         <div className="max-w-2xl mx-auto space-y-4">
           {links.map((link, index) => {
             const Icon = link.icon
-            const hasFlag = !!link.flag
+            const FlagComponent = link.flagComponent
             return (
               <motion.a
                 key={link.id}
@@ -141,13 +155,13 @@ export default function LinksPage() {
                   {/* Icon or Flag */}
                   <div
                     className={`
-                    w-14 h-14 rounded-xl flex items-center justify-center
+                    w-16 h-16 rounded-xl flex items-center justify-center
                     bg-black/40 group-hover:bg-black/60 transition-colors
-                    flex-shrink-0
+                    flex-shrink-0 p-2
                   `}
                   >
-                    {hasFlag ? (
-                      <span className="text-3xl">{link.flag}</span>
+                    {FlagComponent ? (
+                      <FlagComponent className="w-full h-auto" />
                     ) : (
                       <Icon className={`w-7 h-7 ${link.iconColor}`} />
                     )}
