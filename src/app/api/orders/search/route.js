@@ -314,6 +314,9 @@ function formatOrderData(order) {
       name: item.name,
       quantity: item.quantity,
       price: parseFloat(item.price),
+      image: item.image?.src || null,
+      productId: item.product_id,
+      variantId: item.variant_id,
     })) || [],
   }
 }
@@ -446,6 +449,8 @@ export async function POST(request) {
     console.log('✅ Order found:', {
       orderNumber: formattedOrder.orderNumber,
       status: formattedOrder.status,
+      shippingAddress: formattedOrder.shippingAddress,
+      lineItems: formattedOrder.lineItems.length,
     })
 
     return NextResponse.json({

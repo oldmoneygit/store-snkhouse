@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Header from '@/components/store/Header'
 import StoreFooter from '@/components/store/StoreFooter'
-import { Package, Search, AlertCircle, CheckCircle2, Truck, MapPin } from 'lucide-react'
+import { Package, Search, AlertCircle, CheckCircle2, Truck, MapPin, ShoppingBag, DollarSign, Home } from 'lucide-react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useTranslation } from '@/hooks/useCountry'
@@ -22,9 +22,21 @@ export default function SeguimientoPedidoPage() {
     setLoading(true)
 
     try {
+      // Normalizar número do pedido (remover espaços e caracteres especiais, exceto #)
+      const normalizedOrderNumber = orderNumber.trim().replace(/\s+/g, '')
+
       // Validação básica
-      if (!orderNumber || orderNumber.trim().length < 3) {
-        setError('Por favor ingresa un número de pedido válido')
+      if (!normalizedOrderNumber || normalizedOrderNumber.length < 3) {
+        setError('Por favor ingresa un número de pedido válido (mínimo 3 caracteres)')
+        setTracking(null)
+        setLoading(false)
+        return
+      }
+
+      // Validar que contenha apenas números e opcionalmente #
+      const validOrderPattern = /^#?\d+$/
+      if (!validOrderPattern.test(normalizedOrderNumber)) {
+        setError('El número de pedido debe contener solo números (puede incluir # al inicio)')
         setTracking(null)
         setLoading(false)
         return
@@ -45,7 +57,7 @@ export default function SeguimientoPedidoPage() {
         },
         body: JSON.stringify({
           email: email.trim(),
-          orderNumber: orderNumber.trim(),
+          orderNumber: normalizedOrderNumber,
         }),
       })
 
@@ -59,6 +71,9 @@ export default function SeguimientoPedidoPage() {
       }
 
       // Formatear dados do pedido para exibição
+      console.log('📦 Order data received:', data.order)
+      console.log('📍 Shipping address:', data.order.shippingAddress)
+
       setTracking({
         orderNumber: data.order.orderNumber,
         orderId: data.order.orderId,
@@ -71,6 +86,7 @@ export default function SeguimientoPedidoPage() {
         total: data.order.total,
         currency: data.order.currency,
         lineItems: data.order.lineItems || [],
+        shippingAddress: data.order.shippingAddress || null,
       })
 
       setError('')
@@ -118,7 +134,7 @@ export default function SeguimientoPedidoPage() {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 gap-8">
             {/* Form */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
@@ -139,10 +155,13 @@ export default function SeguimientoPedidoPage() {
                       type="text"
                       value={orderNumber}
                       onChange={(e) => setOrderNumber(e.target.value)}
-                      placeholder="Ej: #1234567"
+                      placeholder="1234567 o #1234567"
                       className="w-full bg-black/50 border border-white/20 rounded-lg px-4 py-3 text-white placeholder:text-white/40 focus:border-brand-yellow focus:outline-none transition-colors"
                       required
                     />
+                    <p className="mt-2 text-white/50 text-xs">
+                      💡 Puedes ingresar el número con o sin el símbolo #
+                    </p>
                   </div>
 
                   <div>
@@ -157,6 +176,9 @@ export default function SeguimientoPedidoPage() {
                       className="w-full bg-black/50 border border-white/20 rounded-lg px-4 py-3 text-white placeholder:text-white/40 focus:border-brand-yellow focus:outline-none transition-colors"
                       required
                     />
+                    <p className="mt-2 text-white/50 text-xs">
+                      💡 El email que usaste al realizar la compra
+                    </p>
                   </div>
 
                   {error && (
@@ -186,21 +208,24 @@ export default function SeguimientoPedidoPage() {
                 </form>
 
                 {/* Info adicional */}
-                <div className="mt-8 p-4 bg-brand-yellow/10 border border-brand-yellow/30 rounded-lg">
+                <div className="mt-8 p-4 bg-brand-yellow/10 border border-brand-yellow/30 rounded-lg space-y-2">
                   <p className="text-white/80 text-sm">
                     {t.orderNumberTip}
+                  </p>
+                  <p className="text-white/60 text-xs">
+                    Puedes buscar con el número completo (ej: <span className="text-brand-yellow font-mono">33511001</span>) o con el símbolo # (ej: <span className="text-brand-yellow font-mono">#33511001</span>)
                   </p>
                 </div>
               </div>
             </motion.div>
 
             {/* Tracking Results */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.2 }}
-            >
-              {tracking ? (
+            {tracking && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+              >
                 <div className="bg-gradient-to-br from-white/5 to-white/0 backdrop-blur-sm rounded-xl p-6 md:p-8 border border-white/10">
                   <div className="flex items-center justify-between mb-6">
                     <div>
@@ -238,6 +263,144 @@ export default function SeguimientoPedidoPage() {
                       </div>
                     </div>
                   </div>
+
+                  {/* Order Items */}
+                  {tracking.lineItems && tracking.lineItems.length > 0 && (
+                    <div className="mb-6 space-y-3">
+                      <div className="flex items-center gap-2 mb-3">
+                        <ShoppingBag className="w-5 h-5 text-brand-yellow" />
+                        <h3 className="text-white font-bold">Productos del Pedido</h3>
+                      </div>
+                      <div className="space-y-3">
+                        {tracking.lineItems.map((item, index) => (
+                          <div
+                            key={index}
+                            className="p-4 bg-white/5 border border-white/10 rounded-lg"
+                          >
+                            <div className="flex gap-4 items-start">
+                              {/* Product Image */}
+                              {item.image && (
+                                <div className="flex-shrink-0">
+                                  <img
+                                    src={item.image}
+                                    alt={item.name}
+                                    className="w-20 h-20 object-cover rounded-lg border border-white/10"
+                                  />
+                                </div>
+                              )}
+
+                              {/* Product Info */}
+                              <div className="flex-1 flex justify-between items-start">
+                                <div>
+                                  <p className="text-white font-semibold mb-1">{item.name}</p>
+                                  <p className="text-white/60 text-sm">Cantidad: {item.quantity}</p>
+                                </div>
+                                <div className="text-right ml-4">
+                                  <p className="text-brand-yellow font-bold">
+                                    {tracking.currency === 'ARS' ? 'AR$' : tracking.currency === 'MXN' ? 'MXN $' : '$'}
+                                    {item.price.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                                  </p>
+                                  <p className="text-white/40 text-xs">por unidad</p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Order Summary */}
+                  {tracking.total && (
+                    <div className="mb-6">
+                      <div className="flex items-center gap-2 mb-3">
+                        <DollarSign className="w-5 h-5 text-brand-yellow" />
+                        <h3 className="text-white font-bold">Resumen del Pedido</h3>
+                      </div>
+                      <div className="p-4 bg-white/5 border border-white/10 rounded-lg space-y-3">
+                        <div className="flex justify-between items-center">
+                          <p className="text-white/60 text-sm">Subtotal</p>
+                          <p className="text-white font-semibold">
+                            {tracking.currency === 'ARS' ? 'AR$' : tracking.currency === 'MXN' ? 'MXN $' : '$'}
+                            {tracking.total.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                          </p>
+                        </div>
+                        <div className="flex justify-between items-center">
+                          <p className="text-white/60 text-sm">Envío</p>
+                          <p className="text-green-500 font-semibold">GRATIS</p>
+                        </div>
+                        <div className="pt-3 border-t border-white/10">
+                          <div className="flex justify-between items-center">
+                            <p className="text-white font-bold text-lg">Total</p>
+                            <p className="text-brand-yellow font-bold text-xl">
+                              {tracking.currency === 'ARS' ? 'AR$' : tracking.currency === 'MXN' ? 'MXN $' : '$'}
+                              {tracking.total.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Shipping Address */}
+                  {tracking.shippingAddress && (
+                    <div className="mb-6">
+                      <div className="flex items-center gap-2 mb-3">
+                        <Home className="w-5 h-5 text-brand-yellow" />
+                        <h3 className="text-white font-bold">Dirección de Entrega</h3>
+                      </div>
+                      <div className="p-4 bg-white/5 border border-white/10 rounded-lg space-y-2">
+                        {/* Name */}
+                        {(tracking.shippingAddress.first_name || tracking.shippingAddress.last_name) && (
+                          <p className="text-white font-semibold">
+                            {tracking.shippingAddress.first_name || ''} {tracking.shippingAddress.last_name || ''}
+                          </p>
+                        )}
+
+                        {/* Address Line 1 */}
+                        {tracking.shippingAddress.address1 && (
+                          <p className="text-white/80 text-sm">
+                            {tracking.shippingAddress.address1}
+                          </p>
+                        )}
+
+                        {/* Address Line 2 */}
+                        {tracking.shippingAddress.address2 && (
+                          <p className="text-white/80 text-sm">
+                            {tracking.shippingAddress.address2}
+                          </p>
+                        )}
+
+                        {/* City and Province */}
+                        {(tracking.shippingAddress.city || tracking.shippingAddress.province) && (
+                          <p className="text-white/80 text-sm">
+                            {tracking.shippingAddress.city || ''}{tracking.shippingAddress.city && tracking.shippingAddress.province ? ', ' : ''}{tracking.shippingAddress.province || ''}
+                          </p>
+                        )}
+
+                        {/* Zip Code */}
+                        {tracking.shippingAddress.zip && (
+                          <p className="text-white/80 text-sm">
+                            {tracking.shippingAddress.zip}
+                          </p>
+                        )}
+
+                        {/* Country */}
+                        {tracking.shippingAddress.country && (
+                          <p className="text-white/60 text-sm">
+                            {tracking.shippingAddress.country}
+                          </p>
+                        )}
+
+                        {/* Phone */}
+                        {tracking.shippingAddress.phone && (
+                          <p className="text-brand-yellow text-sm mt-2">
+                            📞 {tracking.shippingAddress.phone}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  )}
 
                   {/* Tracking Information */}
                   {tracking.trackingInfo && tracking.trackingInfo.length > 0 && (
@@ -296,18 +459,8 @@ export default function SeguimientoPedidoPage() {
                     </div>
                   </div>
                 </div>
-              ) : (
-                <div className="bg-gradient-to-br from-white/5 to-white/0 backdrop-blur-sm rounded-xl p-6 md:p-8 border border-white/10 flex flex-col items-center justify-center min-h-[400px]">
-                  <Package className="w-20 h-20 text-white/20 mb-4" />
-                  <h3 className="text-xl font-bold text-white mb-2">
-                    {t.enterOrderNumber}
-                  </h3>
-                  <p className="text-white/60 text-center">
-                    {t.completeFormToTrack}
-                  </p>
-                </div>
-              )}
-            </motion.div>
+              </motion.div>
+            )}
           </div>
 
           {/* Ayuda adicional */}
