@@ -42,15 +42,27 @@ export function convertPrice(priceARS, targetCurrency = 'ARS', round = true) {
 /**
  * Formata valor em moeda com locale correto
  * @param {number} amount - Valor a formatar
- * @param {Object} currencyConfig - Config da moeda { code, locale, symbol }
- * @returns {string} Valor formatado (ex: "$1.234,56" ou "$1,234.56")
+ * @param {Object} currencyConfig - Config da moeda { code, locale, symbol, symbolDisplay }
+ * @returns {string} Valor formatado (ex: "$1.234,56" ou "MXN $993")
  */
 export function formatCurrency(amount, currencyConfig) {
   if (!amount && amount !== 0) return '-'
 
-  const { code, locale, decimals = 2 } = currencyConfig
+  const { code, locale, decimals = 2, symbolDisplay } = currencyConfig
 
   try {
+    // Formatar o número com locale correto
+    const formattedNumber = new Intl.NumberFormat(locale, {
+      minimumFractionDigits: decimals,
+      maximumFractionDigits: decimals,
+    }).format(amount)
+
+    // Se tem symbolDisplay customizado (ex: "MXN $"), usar ele
+    if (symbolDisplay) {
+      return `${symbolDisplay}${formattedNumber}`
+    }
+
+    // Caso contrário, usar formatação padrão de moeda
     return new Intl.NumberFormat(locale, {
       style: 'currency',
       currency: code,
@@ -60,7 +72,8 @@ export function formatCurrency(amount, currencyConfig) {
   } catch (error) {
     console.error('Erro ao formatar moeda:', error)
     // Fallback simples
-    return `${currencyConfig.symbol}${amount.toLocaleString(locale)}`
+    const symbol = symbolDisplay || currencyConfig.symbol
+    return `${symbol}${amount.toLocaleString(locale)}`
   }
 }
 

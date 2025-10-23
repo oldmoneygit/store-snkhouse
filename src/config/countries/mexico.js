@@ -11,9 +11,10 @@ export default {
   // Moeda
   currency: {
     code: 'MXN',
-    symbol: '$',
+    symbol: '$', // Símbolo do peso mexicano
+    symbolDisplay: 'MXN $', // Exibição com código da moeda
     locale: 'es-MX',
-    decimals: 2,
+    decimals: 0, // Sem centavos para preços inteiros
   },
 
   // Shopify
