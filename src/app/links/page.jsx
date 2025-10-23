@@ -11,20 +11,24 @@ export default function LinksPage() {
     {
       id: 1,
       title: 'SNKHOUSE Argentina',
+      titleGradient: 'from-[#74ACDF] via-[#F6B40E] to-[#74ACDF]', // Azul celeste + Sol dorado
       description: 'Tienda online - Envíos a toda Argentina',
       url: 'https://snkhouseargentina.com',
       flagComponent: FlagArgentina,
       color: 'from-blue-500/20 to-blue-500/0 border-blue-500/30',
       iconColor: 'text-blue-400',
+      isStore: true,
     },
     {
       id: 2,
       title: 'SNKHOUSE México',
+      titleGradient: 'from-[#006847] via-[#CE1126] to-[#006847]', // Verde + Vermelho
       description: 'Tienda online - Envíos a todo México',
       url: 'https://snkhousemexico.com',
       flagComponent: FlagMexico,
       color: 'from-green-500/20 to-green-500/0 border-green-500/30',
       iconColor: 'text-green-400',
+      isStore: true,
     },
     {
       id: 3,
@@ -169,9 +173,21 @@ export default function LinksPage() {
 
                   {/* Text Content */}
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-white text-lg md:text-xl font-bold mb-1 group-hover:text-brand-yellow transition-colors">
-                      {link.title}
-                    </h3>
+                    {link.isStore ? (
+                      <h3 className={`
+                        text-lg md:text-xl font-black mb-1
+                        bg-gradient-to-r ${link.titleGradient}
+                        bg-clip-text text-transparent
+                        group-hover:scale-105 transition-transform
+                        inline-block
+                      `}>
+                        {link.title}
+                      </h3>
+                    ) : (
+                      <h3 className="text-white text-lg md:text-xl font-bold mb-1 group-hover:text-brand-yellow transition-colors">
+                        {link.title}
+                      </h3>
+                    )}
                     <p className="text-gray-400 text-sm truncate">{link.description}</p>
                   </div>
 
