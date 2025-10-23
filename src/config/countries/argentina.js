@@ -12,9 +12,9 @@ export default {
   currency: {
     code: 'ARS',
     symbol: '$', // Símbolo do peso argentino
-    symbolDisplay: 'AR$', // Exibição com código da moeda
+    symbolDisplay: 'AR$', // Exibição com código da moeda (ex: AR$82.713,00)
     locale: 'es-AR',
-    decimals: 0, // Sem centavos para preços inteiros
+    decimals: 2, // Com centavos (ex: ,00)
   },
 
   // Shopify

@@ -21,10 +21,10 @@ const EXCHANGE_RATES = {
  * Converte preço de ARS (base) para outra moeda
  * @param {number} priceARS - Preço em ARS (Peso Argentino)
  * @param {string} targetCurrency - Moeda destino (MXN, BRL, etc)
- * @param {boolean} round - Arredondar para inteiro (default: true)
+ * @param {boolean} round - Arredondar para inteiro (default: false)
  * @returns {number} Preço convertido
  */
-export function convertPrice(priceARS, targetCurrency = 'ARS', round = true) {
+export function convertPrice(priceARS, targetCurrency = 'ARS', round = false) {
   if (!priceARS || priceARS <= 0) return 0
 
   const rate = EXCHANGE_RATES[targetCurrency]
@@ -35,7 +35,7 @@ export function convertPrice(priceARS, targetCurrency = 'ARS', round = true) {
 
   const convertedPrice = priceARS * rate
 
-  // Arredondar para evitar centavos quebrados
+  // Arredondar apenas se explicitamente solicitado
   return round ? Math.round(convertedPrice) : convertedPrice
 }
 

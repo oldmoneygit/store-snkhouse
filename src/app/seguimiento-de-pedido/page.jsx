@@ -21,27 +21,66 @@ export default function SeguimientoPedidoPage() {
     setError('')
     setLoading(true)
 
-    // Simulación de búsqueda (aquí conectarías con tu API real)
-    setTimeout(() => {
-      if (orderNumber.length < 5) {
+    try {
+      // Validação básica
+      if (!orderNumber || orderNumber.trim().length < 3) {
         setError('Por favor ingresa un número de pedido válido')
         setTracking(null)
-      } else {
-        // Datos de ejemplo - en producción esto vendría de tu API
-        setTracking({
-          orderNumber: orderNumber,
-          status: 'in_transit',
-          estimatedDelivery: '3-5 días hábiles',
-          currentLocation: 'Centro de distribución - Buenos Aires',
-          history: [
-            { date: '2025-10-20 14:30', status: 'En tránsito', location: 'Buenos Aires' },
-            { date: '2025-10-19 09:15', status: 'Procesando', location: 'Centro de distribución' },
-            { date: '2025-10-18 16:45', status: 'Pedido confirmado', location: 'SNKHOUSE' },
-          ]
-        })
+        setLoading(false)
+        return
       }
+
+      if (!email || !email.includes('@')) {
+        setError('Por favor ingresa un email válido')
+        setTracking(null)
+        setLoading(false)
+        return
+      }
+
+      // Buscar pedido na API
+      const response = await fetch('/api/orders/search', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email.trim(),
+          orderNumber: orderNumber.trim(),
+        }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        setError(data.error || 'No se encontró el pedido con los datos proporcionados')
+        setTracking(null)
+        setLoading(false)
+        return
+      }
+
+      // Formatear dados do pedido para exibição
+      setTracking({
+        orderNumber: data.order.orderNumber,
+        orderId: data.order.orderId,
+        status: data.order.status,
+        statusText: data.order.statusText,
+        estimatedDelivery: data.order.estimatedDelivery,
+        currentLocation: data.order.currentLocation,
+        trackingInfo: data.order.trackingInfo || [],
+        history: data.order.history || [],
+        total: data.order.total,
+        currency: data.order.currency,
+        lineItems: data.order.lineItems || [],
+      })
+
+      setError('')
+    } catch (err) {
+      console.error('Error searching order:', err)
+      setError('Ocurrió un error al buscar el pedido. Por favor, intenta nuevamente.')
+      setTracking(null)
+    } finally {
       setLoading(false)
-    }, 1500)
+    }
   }
 
   const getStatusIcon = (status) => {
@@ -164,9 +203,14 @@ export default function SeguimientoPedidoPage() {
               {tracking ? (
                 <div className="bg-gradient-to-br from-white/5 to-white/0 backdrop-blur-sm rounded-xl p-6 md:p-8 border border-white/10">
                   <div className="flex items-center justify-between mb-6">
-                    <h2 className="text-2xl font-bold text-white">
-                      {t.orderStatus}
-                    </h2>
+                    <div>
+                      <h2 className="text-2xl font-bold text-white mb-1">
+                        {t.orderStatus}
+                      </h2>
+                      <p className="text-brand-yellow font-semibold">
+                        {tracking.statusText || 'Procesando'}
+                      </p>
+                    </div>
                     {getStatusIcon(tracking.status)}
                   </div>
 
@@ -188,12 +232,47 @@ export default function SeguimientoPedidoPage() {
                   <div className="mb-6 p-4 bg-brand-yellow/10 border border-brand-yellow/30 rounded-lg">
                     <div className="flex items-start gap-3">
                       <MapPin className="w-5 h-5 text-brand-yellow flex-shrink-0 mt-0.5" />
-                      <div>
+                      <div className="flex-1">
                         <p className="text-white/60 text-sm mb-1">{t.currentLocation}</p>
                         <p className="text-white font-bold">{tracking.currentLocation}</p>
                       </div>
                     </div>
                   </div>
+
+                  {/* Tracking Information */}
+                  {tracking.trackingInfo && tracking.trackingInfo.length > 0 && (
+                    <div className="mb-6 space-y-3">
+                      <h3 className="text-white font-bold mb-3">Información de Rastreo</h3>
+                      {tracking.trackingInfo.map((info, index) => (
+                        <div
+                          key={index}
+                          className="p-4 bg-white/5 border border-white/10 rounded-lg"
+                        >
+                          <div className="flex items-center justify-between mb-2">
+                            <p className="text-white/60 text-sm">Transportadora</p>
+                            <p className="text-white font-bold">{info.company}</p>
+                          </div>
+                          <div className="flex items-center justify-between mb-2">
+                            <p className="text-white/60 text-sm">Número de Rastreo</p>
+                            <p className="text-brand-yellow font-mono text-sm">
+                              {info.number}
+                            </p>
+                          </div>
+                          {info.url && (
+                            <a
+                              href={info.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-2 text-brand-yellow hover:text-yellow-400 text-sm font-semibold mt-2 transition-colors"
+                            >
+                              <Truck className="w-4 h-4" />
+                              Rastrear en {info.company}
+                            </a>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  )}
 
                   {/* Tracking History */}
                   <div>

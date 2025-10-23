@@ -181,9 +181,16 @@ const ProductInfo = ({ product }) => {
           )}
         </button>
 
-        {/* Wishlist Button - Smaller */}
+        {/* Wishlist Button - Icon only on mobile, full on desktop */}
         <div className="flex-shrink-0">
-          <WishlistButton product={product} variant="full" size="lg" className="h-full px-4" />
+          {/* Mobile: Icon only */}
+          <div className="md:hidden">
+            <WishlistButton product={product} variant="icon" size="lg" className="h-full" />
+          </div>
+          {/* Desktop: Icon + Text */}
+          <div className="hidden md:block">
+            <WishlistButton product={product} variant="full" size="lg" className="h-full px-4" />
+          </div>
         </div>
       </div>
 
