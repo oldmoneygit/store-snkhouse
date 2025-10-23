@@ -105,9 +105,9 @@ export default function LinksPage() {
               <Image
                 src="/images/logo-snkhouse-white.png"
                 alt="SNKHOUSE"
-                width={280}
-                height={80}
-                className="w-auto h-16 md:h-20"
+                width={200}
+                height={60}
+                className="w-auto h-10 md:h-12"
                 priority
               />
             </motion.div>
