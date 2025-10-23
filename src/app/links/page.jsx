@@ -7,19 +7,19 @@ export default function LinksPage() {
   const links = [
     {
       id: 1,
-      title: '🇦🇷 SNKHOUSE Argentina',
+      title: 'SNKHOUSE Argentina',
       description: 'Tienda online - Envíos a toda Argentina',
       url: 'https://snkhouseargentina.com',
-      icon: Store,
+      flag: '🇦🇷',
       color: 'from-blue-500/20 to-blue-500/0 border-blue-500/30',
       iconColor: 'text-blue-400',
     },
     {
       id: 2,
-      title: '🇲🇽 SNKHOUSE México',
+      title: 'SNKHOUSE México',
       description: 'Tienda online - Envíos a todo México',
       url: 'https://snkhousemexico.com',
-      icon: Store,
+      flag: '🇲🇽',
       color: 'from-green-500/20 to-green-500/0 border-green-500/30',
       iconColor: 'text-green-400',
     },
@@ -114,6 +114,7 @@ export default function LinksPage() {
         <div className="max-w-2xl mx-auto space-y-4">
           {links.map((link, index) => {
             const Icon = link.icon
+            const hasFlag = !!link.flag
             return (
               <motion.a
                 key={link.id}
@@ -137,7 +138,7 @@ export default function LinksPage() {
                 <div className="absolute inset-0 bg-gradient-to-r from-brand-yellow/0 via-brand-yellow/5 to-brand-yellow/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
                 <div className="relative flex items-center gap-4">
-                  {/* Icon */}
+                  {/* Icon or Flag */}
                   <div
                     className={`
                     w-14 h-14 rounded-xl flex items-center justify-center
@@ -145,7 +146,11 @@ export default function LinksPage() {
                     flex-shrink-0
                   `}
                   >
-                    <Icon className={`w-7 h-7 ${link.iconColor}`} />
+                    {hasFlag ? (
+                      <span className="text-3xl">{link.flag}</span>
+                    ) : (
+                      <Icon className={`w-7 h-7 ${link.iconColor}`} />
+                    )}
                   </div>
 
                   {/* Text Content */}
