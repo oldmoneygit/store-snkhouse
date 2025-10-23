@@ -1,10 +1,11 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { MessageCircle, Mail, Instagram, ExternalLink, Sparkles } from 'lucide-react'
+import { Mail, Instagram, ExternalLink, Sparkles } from 'lucide-react'
 import Image from 'next/image'
 import FlagArgentina from '@/components/icons/FlagArgentina'
 import FlagMexico from '@/components/icons/FlagMexico'
+import WhatsAppIcon from '@/components/icons/WhatsAppIcon'
 
 export default function LinksPage() {
   const links = [
@@ -35,9 +36,10 @@ export default function LinksPage() {
       title: 'WhatsApp',
       description: 'Chatea con nosotros - Respuesta inmediata',
       url: 'https://wa.me/551931993794',
-      icon: MessageCircle,
-      color: 'from-brand-yellow/20 to-brand-yellow/0 border-brand-yellow/30',
-      iconColor: 'text-brand-yellow',
+      icon: WhatsAppIcon,
+      color: 'from-green-500/20 to-green-500/0 border-green-500/30',
+      iconColor: 'text-green-500',
+      customIcon: true, // Flag para não aplicar className de cor
     },
     {
       id: 4,
@@ -160,12 +162,15 @@ export default function LinksPage() {
                   <div
                     className={`
                     w-16 h-16 rounded-xl flex items-center justify-center
-                    bg-black/40 group-hover:bg-black/60 transition-colors
+                    ${link.customIcon ? 'bg-transparent' : 'bg-black/40 group-hover:bg-black/60'}
+                    transition-colors
                     flex-shrink-0 p-2
                   `}
                   >
                     {FlagComponent ? (
                       <FlagComponent className="w-full h-auto" />
+                    ) : link.customIcon ? (
+                      <Icon className="w-10 h-10" />
                     ) : (
                       <Icon className={`w-7 h-7 ${link.iconColor}`} />
                     )}
