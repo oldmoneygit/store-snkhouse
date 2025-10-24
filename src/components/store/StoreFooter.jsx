@@ -22,7 +22,7 @@ const StoreFooter = () => {
       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-brand-yellow to-transparent" />
 
       <div className="container mx-auto px-4 py-12 md:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-8">
           {/* Column 1 - Brand Info */}
           <div className="text-center md:text-left flex flex-col items-center md:items-start">
             <Link href="/" className="block relative w-48 h-12 mb-6 group">
@@ -76,28 +76,6 @@ const StoreFooter = () => {
                 </li>
               ))}
             </ul>
-          </div>
-
-          {/* Column 3 - Legal Info */}
-          <div>
-            <h3 className="text-white font-bold uppercase tracking-wide mb-6">INFORMACIÓN LEGAL</h3>
-            <div className="space-y-3 text-sm">
-              <p className="text-white/70">
-                <span className="text-brand-yellow font-semibold">Empresa:</span> JLJ ECOM LLC
-              </p>
-              <p className="text-white/70">
-                <span className="text-brand-yellow font-semibold">Tipo:</span> Sociedad de responsabilidad limitada (LLC)
-              </p>
-              <p className="text-white/70">
-                <span className="text-brand-yellow font-semibold">EIN:</span> 35-2880148
-              </p>
-              <p className="text-white/70">
-                <span className="text-brand-yellow font-semibold">Dirección:</span> 127 N Higgins Ave, Suite 307D 1238, Missoula, MT 59802, EUA.
-              </p>
-              <p className="text-white/70">
-                <span className="text-brand-yellow font-semibold">Registro:</span> Registrada en el estado de Montana, EE. UU.
-              </p>
-            </div>
           </div>
         </div>
 
